@@ -1607,6 +1607,25 @@ public class DBRevisiones extends SQLiteOpenHelper {
         return resultado;
     }
 
+    public boolean equiposFinalizados(String revision) {
+        boolean finalizados = false;
+        String instruccion = "SELECT NombreEquipo FROM " + TABLA_EQUIPOS + " WHERE NombreRevision = '" +
+                revision + "' AND Estado != '" + Aplicacion.ESTADO_FINALIZADA + "'";
+
+        try {
+            SQLiteDatabase db = getReadableDatabase();
+            Cursor cursor = db.rawQuery(instruccion,  null);
+            if (!(cursor.getCount() > 0)) {
+                finalizados = true;
+            }
+            cursor.close();
+        } catch (Exception e) {
+            Log.e(Aplicacion.TAG, "Error al comprobar los equipos finalizados " + e.toString());
+        } finally {
+            return finalizados;
+        }
+    }
+
     /**
      * Borrar un registro de la tabla de defectos
      * @param nombreRevision

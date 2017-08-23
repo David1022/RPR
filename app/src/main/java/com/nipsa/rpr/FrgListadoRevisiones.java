@@ -10,6 +10,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -129,13 +130,15 @@ public class FrgListadoRevisiones extends Fragment {
                 finalizarRevision (rev);
                 break;
             case R.id.eliminar:
+                lanzarDialogoConfirmacionEliminar(rev);
+/*
                 eliminarRevision (rev);
                 if (Aplicacion.revisionActual != null) {
                     if (Aplicacion.revisionActual.equals(rev.getNombre())) {
                         Aplicacion.revisionActual = "";
-                        //refrescarFrgDetalleRevisiones();
                     }
                 }
+*/
                 break;
             default:
                 break;
@@ -144,38 +147,45 @@ public class FrgListadoRevisiones extends Fragment {
         return super.onContextItemSelected(item);
     }
 
-    public void refrescarFrgDetalleRevisiones () {
-        boolean hayDetalle =
-                (getFragmentManager().findFragmentById(R.id.contenedorFragmentDetalleRevision) != null);
-        FrgDetalleRevision fdr = new FrgDetalleRevision();
-        if (!hayDetalle) {
-            getFragmentManager().beginTransaction().add(R.id.contenedorFragmentDetalleRevision, fdr).commit();
-        } else {
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            transaction.replace(R.id.contenedorFragmentDetalleRevision, fdr);
-            transaction.commit();
-        }
-
-    }
-
-    public void abrirSelectorArchivos () {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("*/*");
-        getActivity().startActivityForResult(Intent.createChooser(intent, "Choose File"), ABRIR_ARCHIVO);
-    }
-
     public void finalizarRevision (Revision revision) {
-        Aplicacion.backup(revision.getNombre());
-        // Se actualiza el estado de la revisión
-        dbRevisiones.actualizarItemRevision(revision.getNombre(), "Estado", Aplicacion.ESTADO_FINALIZADA);
+        if (dbRevisiones.equiposFinalizados(revision.getNombre())){
+            Aplicacion.backup(revision.getNombre());
+            // Se actualiza el estado de la revisión
+            dbRevisiones.actualizarItemRevision(revision.getNombre(), "Estado", Aplicacion.ESTADO_FINALIZADA);
 
-        //Se actualiza el listview
-        listaAMostrar.clear();
-        listaAMostrar.addAll(dbRevisiones.solicitarListaRevisiones());
-        mAdapter.notifyDataSetChanged();
+            //Se actualiza el listview
+            listaAMostrar.clear();
+            listaAMostrar.addAll(dbRevisiones.solicitarListaRevisiones());
+            mAdapter.notifyDataSetChanged();
 
-        // Se mueven las fotos al directorio de salida
-        Aplicacion.moverFotos(revision);
+            // Se mueven las fotos al directorio de salida
+            Aplicacion.moverFotos(revision);
+        } else {
+            Aplicacion.print("Comprueba que hayas revisado todos los equipos");
+        }
+    }
+
+    public void lanzarDialogoConfirmacionEliminar(final Revision revision) {
+        LayoutInflater li = LayoutInflater.from(getContext());
+        View vista = li.inflate(R.layout.dialogo_confirmacion_eliminar, null);
+
+        AlertDialog.Builder dialogo = new AlertDialog.Builder(getContext());
+        dialogo.setView(vista);
+        dialogo.setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                eliminarRevision(revision);
+            }
+        });
+        dialogo.setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        dialogo.setCancelable(false);
+        dialogo.show();
+
     }
 
     public void eliminarRevision (Revision revision) {

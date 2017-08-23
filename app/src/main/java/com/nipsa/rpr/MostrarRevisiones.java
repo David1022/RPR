@@ -50,6 +50,7 @@ public class MostrarRevisiones extends AppCompatActivity implements FrgListadoRe
     public static Vector<Revision> listaRevisiones;
     public static DBRevisiones dbRevisiones;
     public static String nombreRevision = "";
+    public static String nombreArchivo;
     private FrgListadoRevisiones frgListado;
     private final int ABRIR_ARCHIVO = 1;
 
@@ -77,25 +78,7 @@ public class MostrarRevisiones extends AppCompatActivity implements FrgListadoRe
                 (Environment.DIRECTORY_DOWNLOADS) + DIRECTORIO_ENTRADA;
         direccionMemInternaApp = Environment.getExternalStorageDirectory() + DIRECTORIO_INTERNO_APP;
 
-        // Se listan los archivos en el directorio de "entrada" y se incluyen en la nueva revision leida en la BDD.
         try{
-/*
-            Vector<File> lista = listarArchivosDirEntrada(direccionArchivosEntrada);
-            // Se leen todos los archivos del directorio de entrada, se incluyen en la tabla de inspecciones
-            if(lista.size() > 0) {
-                for(int i=0; i<lista.size(); i++) {
-                    File elemento = lista.get(i);
-                    if (dbRevisiones.existeRevision(elemento.getName())) {
-                    } else {
-                        nombreRevision = elemento.getName();
-                        nombreRevision = nombreRevision.substring(0, nombreRevision.lastIndexOf("."));
-                        dbRevisiones.incluirRevision(nombreRevision, Aplicacion.ESTADO_PENDIENTE);
-                        leerArchivoXML(elemento);
-                        leerArchivoCoord(elemento);
-                    }
-                }
-            }
-*/
             listaRevisiones = dbRevisiones.solicitarListaRevisiones();
         } catch (Exception e){
             Log.e("ErrorRPR: ", e.toString());
@@ -147,7 +130,22 @@ public class MostrarRevisiones extends AppCompatActivity implements FrgListadoRe
 
     @Override
     public void onDismiss(DialogInterface dialog) {
-        onResume();
+        if (nombreArchivo.contains(".")) {
+            String nombreRevision = nombreArchivo.substring(0, nombreArchivo.lastIndexOf("."));
+            File archivo = Aplicacion.recuperarArchivo(direccionArchivosEntrada, nombreArchivo);
+
+            dbRevisiones.incluirRevision(nombreRevision, Aplicacion.ESTADO_PENDIENTE);
+
+            // Se lee el archivo XML
+            HiloLeerArchivoXML hilo = new HiloLeerArchivoXML();
+            hilo.execute(archivo);
+            //Se lee el archivo KML
+            //leerArchivoCoord(archivo);
+
+            Aplicacion.revisionActual = nombreRevision;
+
+            onResume();
+        }
     }
 
     /**
@@ -237,6 +235,42 @@ public class MostrarRevisiones extends AppCompatActivity implements FrgListadoRe
         // Se asigna la nueva ruta al archivo
         archivoOrigen.renameTo(nuevoArchivo);
     }
+
+/*
+    */
+/**
+     * Método que recibe el archivo XML de referencia al cual se asociará el archivo KML. Leerá el
+     * archivo KML y asociará las coordenadas recogidas al equipo correspondiente
+     *
+     * @param archivoXML con extensión XML
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
+     *//*
+
+
+    public void leerArchivoCoord (File archivoXML) {
+        // Se recupera el nombre y la ruta del archivo XML para recuperar el archivo KML con el mismo nombre
+        String nombreRevision = archivoXML.getName();
+        nombreRevision = nombreRevision.substring(0, nombreRevision.lastIndexOf("."));
+        String nombreKML = nombreRevision + ".kml";
+        String ruta = archivoXML.getAbsolutePath();
+        ruta = ruta.substring(0, ruta.lastIndexOf("/"));
+        File archivoCoord = Aplicacion.recuperarArchivo(ruta, nombreKML);
+        //Si se encuentra el archivo KML con el mismo nombre que el XML se leerá
+        if (archivoCoord != null) {
+            // Se lee el archivo en un hilo secundario
+            HiloLeerArchivosCoord hilo = new HiloLeerArchivosCoord();
+            hilo.execute(archivoCoord);
+            //LectorCoord lector = new LectorCoord(nombreRevision);
+            //lector.leer(archivoCoord);
+
+        } else { // Si no se encuentra se muestra un mensaje por pantalla para informar al usuario
+            Aplicacion.print("No se ha encontrado archivo KML asociado a la revision " + nombreRevision);
+        }
+
+    }
+*/
 
     /**
      * Método que leerá un archivo ".xml" basandose en la clase ManejadorXML

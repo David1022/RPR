@@ -410,7 +410,7 @@ public class DatosDefecto extends AppCompatActivity {
                     }
                     break;
                 case "T55D":
-                    tvMedida.setText("Rmn: - Tr1:");
+                    tvMedida.setText("Rc: - Tr1:");
                     etMedida.setFocusable(true);
                     if (!defecto.getMedidaTr3().equals("")) {
                         activarTr2();

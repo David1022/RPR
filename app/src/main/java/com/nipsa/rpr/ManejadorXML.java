@@ -4,7 +4,11 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Vector;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 class ManejadorXML extends DefaultHandler {
     private StringBuilder cadenaData;
@@ -138,7 +142,6 @@ class ManejadorXML extends DefaultHandler {
      */
     @Override
     public void endDocument() throws SAXException {
-        Aplicacion.revisionActual = null;
     }
 
 }

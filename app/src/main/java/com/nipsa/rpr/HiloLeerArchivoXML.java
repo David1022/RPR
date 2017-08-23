@@ -5,12 +5,15 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
@@ -28,7 +31,7 @@ public class HiloLeerArchivoXML extends AsyncTask<File, Object, Object>{
 
         pd = new ProgressDialog(MostrarRevisiones.contexto);
         pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        pd.setMessage("Leyendo archivo XML...");
+        pd.setMessage("Leyendo archivos...");
         pd.setCancelable(false);
         pd.setIndeterminate(true);
         pd.show();
@@ -54,6 +57,7 @@ public class HiloLeerArchivoXML extends AsyncTask<File, Object, Object>{
             ManejadorXML manejadorXML = new ManejadorXML();
             lector.setContentHandler(manejadorXML);
             lector.parse(entrada);
+            leerArchivoCoord(archivo[0]);
         } catch (Exception e) {
             Log.e (Aplicacion.TAG, "Error al leer el archivo XML " + e.toString());
             return null;
@@ -72,6 +76,35 @@ public class HiloLeerArchivoXML extends AsyncTask<File, Object, Object>{
         super.onPostExecute(o);
 
         pd.dismiss();
+    }
+
+    /**
+     * Método que recibe el archivo XML de referencia al cual se asociará el archivo KML. Leerá el
+     * archivo KML y asociará las coordenadas recogidas al equipo correspondiente
+     *
+     * @param archivoXML con extensión XML
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
+     */
+
+    public void leerArchivoCoord (File archivoXML) {
+        // Se recupera el nombre y la ruta del archivo XML para recuperar el archivo KML con el mismo nombre
+        String nombreRevision = archivoXML.getName();
+        nombreRevision = nombreRevision.substring(0, nombreRevision.lastIndexOf("."));
+        String nombreKML = nombreRevision + ".kml";
+        String ruta = archivoXML.getAbsolutePath();
+        ruta = ruta.substring(0, ruta.lastIndexOf("/"));
+        File archivoCoord = Aplicacion.recuperarArchivo(ruta, nombreKML);
+        //Si se encuentra el archivo KML con el mismo nombre que el XML se leerá
+        if (archivoCoord != null) {
+            LectorCoord lector = new LectorCoord(nombreRevision);
+            lector.leer(archivoCoord);
+
+        } else { // Si no se encuentra se muestra un mensaje por pantalla para informar al usuario
+            Aplicacion.print("No se ha encontrado archivo KML asociado a la revision " + nombreRevision);
+        }
+
     }
 
 }

@@ -53,6 +53,7 @@ public class DialogoNuevaRevision extends DialogFragment {
         dbRevisiones = new DBRevisiones(getContext());
         direccionArchivosEntrada = Environment.getExternalStoragePublicDirectory
                 (Environment.DIRECTORY_DOWNLOADS) + DIRECTORIO_ENTRADA;
+        MostrarRevisiones.nombreArchivo = "";
 
         try {
             listaNuevas = MostrarRevisiones.listarArchivosDirEntrada(direccionArchivosEntrada);
@@ -110,13 +111,7 @@ public class DialogoNuevaRevision extends DialogFragment {
             texto.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String nombreArchivo = listaNuevas.elementAt(position).getName();
-                    String nombreRevision = nombreArchivo.substring(0, nombreArchivo.lastIndexOf("."));
-                    File archivo = Aplicacion.recuperarArchivo(direccionArchivosEntrada, nombreArchivo);
-                    leerArchivoXML(archivo);
-                    leerArchivoCoord(archivo);
-                    Aplicacion.revisionActual = nombreRevision;
-                    dbRevisiones.incluirRevision(nombreRevision, Aplicacion.ESTADO_PENDIENTE);
+                    MostrarRevisiones.nombreArchivo = listaNuevas.elementAt(position).getName();
                     dialog.dismiss();
                 }
             });
@@ -131,77 +126,6 @@ public class DialogoNuevaRevision extends DialogFragment {
         final Activity activity = getActivity();
         if (activity instanceof DialogInterface.OnDismissListener) {
             ((DialogInterface.OnDismissListener) activity).onDismiss(dialog);
-        }
-
-    }
-
-    /**
-     * Método que leerá un archivo ".xml" basandose en la clase ManejadorXML
-     *
-     * @param archivo
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
-     */
-    public void leerArchivoXML(File archivo) {
-        //HiloLeerArchivoXML hilo = new HiloLeerArchivoXML();
-        //hilo.execute(archivo);
-
-        if (MostrarRevisiones.esXML(archivo.getPath())) {
-            String path = archivo.getPath();
-            String nombreRevision = path.substring(path.lastIndexOf("/") + 1);
-            nombreRevision = nombreRevision.substring(0, nombreRevision.lastIndexOf("."));
-            Aplicacion.revisionActual = nombreRevision;
-
-            try {
-                InputSource entrada = new InputSource(new InputStreamReader(new FileInputStream(archivo)));
-                SAXParserFactory fabrica = SAXParserFactory.newInstance();
-                SAXParser parser = fabrica.newSAXParser();
-                XMLReader lector = parser.getXMLReader();
-                ManejadorXML manejadorXML = new ManejadorXML();
-                lector.setContentHandler(manejadorXML);
-                lector.parse(entrada);
-
-            } catch (ParserConfigurationException parseException) {
-                Log.e (Aplicacion.TAG, "Error al parsear el archivo XML " + parseException.toString());
-            } catch (SAXException saxException) {
-                Log.e (Aplicacion.TAG, "Error SAX al leer el archivo XML " + saxException.toString());
-            } catch (IOException ioException) {
-                Log.e (Aplicacion.TAG, "Error IOExcetion al parsear el archivo XML " + ioException.toString());
-            }
-        } else {
-            Aplicacion.print("El archivo debe tener extension XML");
-        }
-
-    }
-
-    /**
-     * Método que recibe el archivo XML de referencia al cual se asociará el archivo KML. Leerá el
-     * archivo KML y asociará las coordenadas recogidas al equipo correspondiente
-     *
-     * @param archivoXML con extensión XML
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
-     */
-    public void leerArchivoCoord (File archivoXML) {
-        // Se recupera el nombre y la ruta del archivo XML para recuperar el archivo KML con el mismo nombre
-        String nombreRevision = archivoXML.getName();
-        nombreRevision = nombreRevision.substring(0, nombreRevision.lastIndexOf("."));
-        String nombreKML = nombreRevision + ".kml";
-        String ruta = archivoXML.getAbsolutePath();
-        ruta = ruta.substring(0, ruta.lastIndexOf("/"));
-        File archivoCoord = Aplicacion.recuperarArchivo(ruta, nombreKML);
-        //Si se encuentra el archivo KML con el mismo nombre que el XML se leerá
-        if (archivoCoord != null) {
-            // Se lee el archivo en un hilo secundario
-            //HiloLeerArchivosCoord hilo = new HiloLeerArchivosCoord();
-            //hilo.execute(archivoCoord);
-            LectorCoord lector = new LectorCoord(nombreRevision);
-            lector.leer(archivoCoord);
-
-        } else { // Si no se encuentra se muestra un mensaje por pantalla para informar al usuario
-            Aplicacion.print("No se ha encontrado archivo KML asociado a la revision " + nombreRevision);
         }
 
     }

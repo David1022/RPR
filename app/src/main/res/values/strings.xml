@@ -31,6 +31,10 @@
     <string name="eliminar">Eliminar</string>
     <!-- Dialogo nueva revisión -->
     <string name="titulo_nueva_revision">Escoge la nueva revisión a incluir</string>
+    <!-- Texto alerta eliminar revisión-->
+    <string name="titulo_confirmar_eliminar">CUIDADO!!</string>
+    <string name="texto_confirmar_eliminar">Se eliminarán todos los DATOS y FOTOS asociados a
+                                                esta revisión</string>
     <!-- ____________________ Textos pantalla MostrarEquipos ____________________ -->
     <string name="titulo_equipos">RPR - Listado equipos</string>
     <!-- Fragment listado de equipos -->
@@ -38,7 +42,7 @@
     <string name="equipo">Equipo</string>
     <string name="boton_incluir_nuevo_equipo">Nuevo equipo</string>
     <!-- Fragment detalle equipo -->
-    <string name="no_se_muestran_equipos">No se estra mostrando ningún equipo</string>
+    <string name="no_se_muestran_equipos">No se está mostrando ningún equipo</string>
     <string name="titulo_datos_equipo">Datos del equipo</string>
     <string name="instalacion">Instalacion:</string>
     <string name="tramo_">Tramo:</string>
