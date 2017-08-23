@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:scrollbars="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="25">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal" >
+
+            <TextView
+                style="@style/texto_titulo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="25"
+                android:paddingLeft="0dp"
+                android:gravity="center"
+                android:text="@string/tipo"
+                android:id="@+id/tituloEquipoTipo"/>
+
+            <TextView
+                style="@style/texto_titulo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:paddingLeft="0dp"
+                android:gravity="center"
+                android:text="@string/equipo"
+                android:id="@+id/tituloEquipoNombre" />
+
+            <TextView
+                style="@style/texto_titulo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="25"
+                android:paddingLeft="0dp"
+                android:gravity="center"
+                android:text="@string/tramo"
+                android:id="@+id/tituloEquipoTramo" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dim_margin_detalle_equipo"
+            android:layout_marginRight="@dimen/dim_margin_detalle_equipo"
+            android:minHeight="@dimen/separadores"
+            android:background="@color/separadores"/>
+
+        <fragment
+            android:id="@+id/FrgListadoEquipos"
+            class="com.nipsa.rpr.FrgListadoEquipos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/dim_margin_detalle_equipo"
+        android:layout_marginTop="@dimen/dim_margin_detalle_equipo"
+        android:minWidth="@dimen/separadores"
+        android:background="@color/separadores"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="75">
+
+        <TextView
+            style="@style/texto_titulo"
+            android:id="@+id/tituloEquipoSeleccionado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/no_se_muestran_equipos"
+            android:gravity="center" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dim_margin_detalle_equipo"
+            android:layout_marginRight="@dimen/dim_margin_detalle_equipo"
+            android:minHeight="@dimen/separadores"
+            android:background="@color/separadores"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:id="@+id/contenedorFragmentDetalleEquipo"/>
+
+    </LinearLayout>
+
+</LinearLayout>

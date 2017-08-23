@@ -1,0 +1,664 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="85"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="90"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/titDatosEquipo"
+                style="@style/texto_subtitulo"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="8"
+                android:gravity="center_vertical|left"
+                android:text="@string/titulo_datos_equipo" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="30"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="50dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/TVInstalacion"
+                            style="@style/texto_detalle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="30"
+                            android:gravity="center_vertical|left"
+                            android:text="@string/instalacion" />
+
+                        <TextView
+                            android:id="@+id/TVDatoInstalacion"
+                            style="@style/texto_detalle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="70"
+                            android:gravity="center_vertical|left" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="50dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/TVTramo"
+                            style="@style/texto_detalle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="70"
+                            android:gravity="center_vertical|left"
+                            android:text="@string/tramo_" />
+
+                        <TextView
+                            android:id="@+id/TVDatoTramo"
+                            style="@style/texto_detalle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="30"
+                            android:gravity="center_vertical|left"
+                            android:maxLines="1" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="50dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/TVTerritorio"
+                            style="@style/texto_detalle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="70"
+                            android:gravity="center_vertical|left"
+                            android:text="@string/territorio" />
+
+                        <TextView
+                            android:id="@+id/TVDatoTerritorio"
+                            style="@style/texto_detalle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="30"
+                            android:gravity="center_vertical|left"
+                            android:text="@string/catalunya" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="50"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+                </LinearLayout>
+
+            <TextView
+                android:id="@+id/titCaracteristicasEquipo"
+                style="@style/texto_subtitulo"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="8"
+                android:gravity="center_vertical|left"
+                android:text="@string/titulo_caracteristicas_equipo" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="60"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="45"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="70"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/lFecha"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:minHeight="50dp"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/TVFecha"
+                                style="@style/texto_detalle"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="30"
+                                android:gravity="center_vertical|left"
+                                android:text="@string/fecha" />
+
+                            <TextView
+                                android:id="@+id/TVDatoFecha"
+                                style="@style/texto_editable"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="70"
+                                android:gravity="center_vertical|left" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/lLatitud"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:minHeight="50dp"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/TVLatitud"
+                                style="@style/texto_detalle"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="30"
+                                android:gravity="center_vertical|left"
+                                android:text="@string/latitud" />
+
+                            <TextView
+                                android:id="@+id/TVDatoLatitud"
+                                style="@style/texto_detalle"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="70"
+                                android:gravity="center_vertical|left" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/lLongitud"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:minHeight="50dp"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/TVLongitud"
+                                style="@style/texto_detalle"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="30"
+                                android:gravity="center_vertical|left"
+                                android:text="@string/longitud" />
+
+                            <TextView
+                                android:id="@+id/TVDatoLongitud"
+                                style="@style/texto_detalle"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="70"
+                                android:gravity="center_vertical|left" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/lTipoEquipo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:minHeight="50dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/TVTipoEquipo"
+                                style="@style/texto_detalle"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="30"
+                                android:gravity="center_vertical|left"
+                                android:text="@string/tipo_" />
+
+                            <Spinner
+                                android:id="@+id/SpinnerTipoEquipo"
+                                style="@style/spinner"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/dim_margin_detalle_equipo"
+                                android:layout_weight="70"
+                                android:gravity="center_vertical|left" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/lObservaciones"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:minHeight="50dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/tvObservacionesEquipo"
+                                style="@style/texto_detalle"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="30"
+                                android:gravity="center_vertical|left"
+                                android:text="@string/obs" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="70"
+                                android:gravity="left"
+                                android:orientation="vertical">
+
+                                <EditText
+                                    android:id="@+id/etObservacionesEquipo"
+                                    style="@style/edit_text_detalle"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="textAutoComplete"
+                                    android:focusableInTouchMode="true"
+                                    android:gravity="center_vertical|left"/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="45"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/lMaterial"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="50dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/TVMaterial"
+                            style="@style/texto_detalle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="30"
+                            android:gravity="center_vertical|left"
+                            android:text="@string/material" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="70"
+                            android:gravity="left"
+                            android:orientation="vertical">
+
+                            <Spinner
+                                android:id="@+id/SpinnerMaterial"
+                                style="@style/spinner"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/dim_margin_detalle_equipo"
+                                android:gravity="center_vertical|left" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lCruces"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="50dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/TVCruces"
+                            style="@style/texto_detalle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="30"
+                            android:gravity="center_vertical|left"
+                            android:text="@string/cruces" />
+
+                        <RadioGroup
+                            android:id="@+id/rgCruces"
+                            style="@style/radio_group"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="70"
+                            android:gravity="center_vertical|left"
+                            android:orientation="horizontal"
+                            android:paddingLeft="20dp">
+
+                            <RadioButton
+                                android:id="@+id/radioCrucesSi"
+                                style="@style/texto_radio"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="@string/si" />
+
+                            <RadioButton
+                                android:id="@+id/radioCrucesNo"
+                                style="@style/texto_radio"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="true"
+                                android:gravity="center"
+                                android:text="@string/no" />
+
+                        </RadioGroup>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lManiobra"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="50dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/TVManiobra"
+                            style="@style/texto_detalle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="30"
+                            android:gravity="center_vertical|left"
+                            android:text="@string/maniobra" />
+
+                        <RadioGroup
+                            android:id="@+id/rgManiobra"
+                            style="@style/radio_group"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="70"
+                            android:gravity="center_vertical|left"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/radioManiobraSi"
+                                style="@style/texto_radio"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="@string/si" />
+
+                            <RadioButton
+                                android:id="@+id/radioManiobraNo"
+                                style="@style/texto_radio"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="true"
+                                android:gravity="center"
+                                android:text="@string/no" />
+
+                        </RadioGroup>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lConversion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:minHeight="50dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/TVConversion"
+                            style="@style/texto_detalle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="30"
+                            android:gravity="center_vertical|left"
+                            android:text="@string/conversion" />
+
+                        <RadioGroup
+                            android:id="@+id/rgConversion"
+                            style="@style/radio_group"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="70"
+                            android:gravity="center_vertical|left"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/radioConversionSi"
+                                style="@style/texto_radio"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="@string/si" />
+
+                            <RadioButton
+                                android:id="@+id/radioConversionNo"
+                                style="@style/texto_radio"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="true"
+                                android:gravity="center"
+                                android:text="@string/no" />
+
+                        </RadioGroup>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lNumApoyo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:minHeight="50dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/TVNumApoyo"
+                            style="@style/texto_detalle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="30"
+                            android:gravity="center_vertical|left"
+                            android:text="@string/num_apoyo" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="70"
+                            android:gravity="left"
+                            android:orientation="vertical">
+
+                            <EditText
+                                android:id="@+id/etNumApoyo"
+                                style="@style/edit_text_detalle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:focusableInTouchMode="true"
+                                android:gravity="center_vertical|left"
+                                android:inputType="numberDecimal"
+                                android:minWidth="@dimen/dim_min_edit_text" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="10"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="10"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <ImageButton
+                        android:id="@+id/botonAlternarEquipo"
+                        style="@style/botones"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_cambio_equipo" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <ImageButton
+                        android:id="@+id/botonCoordenadas"
+                        style="@style/botones"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_edit_coord" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <ImageButton
+                        android:id="@+id/botonFotosEquipo"
+                        style="@style/botones"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_add_photo" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <ImageButton
+                        android:id="@+id/botonEquipoNoRevisable"
+                        style="@style/botones"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@color/rojo"
+                        android:src="@drawable/ic_edit_revisable" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/TVMostrarFoto"
+            style="@style/texto_detalle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/no_hay_fotos" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/botonInspeccionEquipo"
+            style="@style/botones"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:drawableLeft="@android:drawable/ic_media_play"
+            android:drawablePadding="@dimen/dim_padding_imagen_boton"
+            android:text="@string/boton_iniciar_inspeccion_equipo" />
+
+    </LinearLayout>
+
+</LinearLayout>
+
+</ScrollView>

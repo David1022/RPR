@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="30"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tituloGrupoDefecto"
+            style="@style/texto_titulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/titulo_grupo_defecto" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dim_margin_detalle_equipo"
+            android:layout_marginRight="@dimen/dim_margin_detalle_equipo"
+            android:background="@color/separadores"
+            android:minHeight="@dimen/separadores" />
+
+        <fragment
+            android:id="@+id/FrgListadoDefectos"
+            class="com.nipsa.rpr.FrgListadoDefectos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/dim_margin_detalle_equipo"
+        android:layout_marginTop="@dimen/dim_margin_detalle_equipo"
+        android:minWidth="@dimen/separadores"
+        android:background="@color/separadores"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="70">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal" >
+
+            <TextView
+                style="@style/texto_titulo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/es_defecto"
+                android:id="@+id/tituloHayDefecto"/>
+
+            <TextView
+                style="@style/texto_titulo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/codigo"
+                android:id="@+id/tituloCodigoDefecto" />
+
+            <TextView
+                style="@style/texto_titulo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:gravity="center"
+                android:text="@string/descripcion_defecto"
+                android:id="@+id/tituloDescripcionDefecto" />
+
+            <!--TextView
+                style="@style/texto_titulo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/requiere_medida"
+                android:id="@+id/tituloRequiereMedida" /-->
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dim_margin_detalle_equipo"
+            android:layout_marginRight="@dimen/dim_margin_detalle_equipo"
+            android:minHeight="@dimen/separadores"
+            android:background="@color/separadores"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/contenedorFragmentDetalleDefecto"/>
+
+    </LinearLayout>
+
+</LinearLayout>

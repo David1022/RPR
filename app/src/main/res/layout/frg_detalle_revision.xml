@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/texto_titulo"
+        android:id="@+id/tituloRevisionSeleccionada"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:text="@string/no_se_muestran_revisiones"
+        android:layout_margin="@dimen/dim_margin_titulo"
+        android:gravity="center"
+        android:textSize="@dimen/dim_titulo"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dim_margin_detalle_inspeccion"
+        android:layout_marginRight="@dimen/dim_margin_detalle_inspeccion"
+        android:minHeight="@dimen/separadores"
+        android:background="@color/separadores"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="80">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    style="@style/texto_detalle"
+                    android:id="@+id/TVInspector1"
+                    android:text="@string/inspector1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="70" />
+
+                <EditText
+                    android:id="@+id/ETInspector1"
+                    style="@style/edit_text_detalle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="30"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    style="@style/texto_detalle"
+                    android:id="@+id/TVInspector2"
+                    android:text="@string/inspector2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="70" />
+
+                <EditText
+                    android:id="@+id/ETInspector2"
+                    style="@style/edit_text_detalle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="30"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    style="@style/texto_detalle"
+                    android:id="@+id/TVColegiado"
+                    android:text="@string/colegiado"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="70" />
+
+                <EditText
+                    style="@style/edit_text_detalle"
+                    android:id="@+id/ETColegiado"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="30"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    style="@style/texto_detalle"
+                    android:id="@+id/TVEquipos"
+                    android:text="@string/equipos_usados"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="70"/>
+
+                <EditText
+                    style="@style/edit_text_detalle"
+                    android:id="@+id/ETEquipos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="30"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    style="@style/texto_detalle"
+                    android:id="@+id/TVMetodologia"
+                    android:text="@string/metodologia"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="70" />
+
+                <EditText
+                    style="@style/edit_text_detalle"
+                    android:id="@+id/ETMetodologia"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="30"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    style="@style/texto_detalle"
+                    android:id="@+id/TVCodigoNipsa"
+                    android:text="@string/codigo_contrata"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="70" />
+
+                <EditText
+                    style="@style/edit_text_detalle"
+                    android:id="@+id/ETCodigoNipsa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="30"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    style="@style/texto_detalle"
+                    android:id="@+id/TVTrabajo"
+                    android:text="@string/trabajo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="70" />
+
+                <EditText
+                    style="@style/edit_text_detalle"
+                    android:id="@+id/ETTrabajo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="30"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    style="@style/texto_detalle"
+                    android:id="@+id/TVCodigoInterno"
+                    android:text="@string/codigo_interno"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="70" />
+
+                <EditText
+                    style="@style/edit_text_detalle"
+                    android:id="@+id/ETCodigoInterno"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="30"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/botonIniciarInspeccion"
+            style="@style/botones"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableLeft="@android:drawable/ic_media_play"
+            android:drawablePadding="@dimen/dim_padding_imagen_boton"
+            android:text="@string/boton_iniciar_revision" />
+
+    </LinearLayout>
+
+</LinearLayout>

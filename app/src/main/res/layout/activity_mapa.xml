@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Actividad principal -->
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context="com.nipsa.rpr.Mapa">
+
+    <!-- Cargamos la appBar que incluirá una toolbar (menu) -->
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbarMapa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbarMapa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            app:layout_scrollFlags="enterAlwaysCollapsed"
+            app:navigationIcon="@mipmap/logo_nipsa"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:title="@string/titulo_mapa" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <!-- Cargamos/incluimos la "actividad" que aporta el contenido de la vista -->
+    <include layout="@layout/content_mapa" />
+
+</android.support.design.widget.CoordinatorLayout>

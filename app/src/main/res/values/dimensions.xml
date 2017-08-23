@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- dimensiones titulos -->
+    <dimen name="dim_titulo">25sp</dimen>
+    <dimen name="dim_margin_titulo">3dp</dimen>
+    <dimen name="separadores">2dp</dimen>
+    <!-- dimensiones fragment listado revisiones -->
+    <dimen name="dim_texto_listado_inspecciones">25sp</dimen>
+    <dimen name="dim_margin_listado_inspecciones">10dp</dimen>
+    <!-- dimensiones fragment detalle revision -->
+    <dimen name="dim_texto_detalle_inspeccion">20sp</dimen>
+    <dimen name="dim_margin_detalle_inspeccion">3dp</dimen>
+    <!-- dimensiones botones -->
+    <dimen name="dim_texto_boton">20sp</dimen>
+    <dimen name="dim_margin_boton">20dp</dimen>
+    <dimen name="dim_padding_imagen_boton">10dp</dimen>
+    <dimen name="dim_padding_texto_boton">10dp</dimen>
+    <!-- dimensiones fragment listado equipos -->
+    <dimen name="dim_texto_listado_equipos">25sp</dimen>
+    <dimen name="dim_margin_listado_equipos">5dp</dimen>
+    <!-- dimensiones fragment detalle equipo -->
+    <dimen name="dim_texto_detalle_equipo">20sp</dimen>
+    <dimen name="dim_margin_detalle_equipo">3dp</dimen>
+    <dimen name="alto_min_textos">50dp</dimen>
+    <!-- dimensiones floating action button -->
+    <dimen name="dim_fab">75dp</dimen>
+    <dimen name="dim_fab_margin_right">20dp</dimen>
+    <dimen name="dim_fab_margin_bottom">20dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="fab_elevation">0dp</dimen>
+    <!-- dimensiones fotos -->
+    <dimen name="ancho_foto">100dp</dimen>
+    <dimen name="alto_foto">100dp</dimen>
+    <dimen name="dim_padding_foto">20dp</dimen>
+    <!-- dimensiones spinners -->
+    <dimen name="padding_spinner">15dp</dimen>
+    <!-- dimensiones listViews -->
+    <dimen name="padding_list_view">5dp</dimen>
+    <!-- Edit Text -->
+    <dimen name="dim_min_edit_text">75dp</dimen>
+
+</resources>

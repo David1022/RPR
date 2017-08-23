@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/linear_alter"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/item_alter_revision"
+        style="@style/texto_detalle"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="25"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:text="prueba"/>
+
+    <TextView
+        android:id="@+id/item_alter_equipo"
+        style="@style/texto_detalle"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="25"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:text="@string/prueba"/>
+
+    <TextView
+        android:id="@+id/item_alter_codigoTramo"
+        style="@style/texto_detalle"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="50"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:text="@string/prueba"/>
+
+</LinearLayout>

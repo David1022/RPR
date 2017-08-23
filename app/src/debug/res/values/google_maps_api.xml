@@ -1,0 +1,43 @@
+<resources>
+    <!--
+    TODO: Before you run your application, you need a Google Maps API key.
+
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=95:60:5F:71:41:7E:D7:8A:8F:43:DF:42:3D:90:49:1E:B7:9E:A5:07%3Bcom.nipsa.rpr
+
+    You can also add your credentials to an existing key, using these values:
+
+    Package name:
+    95:60:5F:71:41:7E:D7:8A:8F:43:DF:42:3D:90:49:1E:B7:9E:A5:07
+
+    SHA-1 certificate fingerprint:
+    95:60:5F:71:41:7E:D7:8A:8F:43:DF:42:3D:90:49:1E:B7:9E:A5:07
+
+    8D:BD:18:00:27:32:EE:AE:B3:F3:9F:9A:D0:71:93:17:92:EF:A9:89
+
+    Alternatively, follow the directions here:
+    https://developers.google.com/maps/documentation/android/start#get-key
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+    -->
+
+    <!-- Clave Debug PC NIPSA
+    95:60:5F:71:41:7E:D7:8A:8F:43:DF:42:3D:90:49:1E:B7:9E:A5:07
+    AIzaSyAY4C5BfXok2aTgzQs5np2vRpTJvXyVMeM -->
+
+    <!-- Clave Release PC Nipsa
+    8D:BD:18:00:27:32:EE:AE:B3:F3:9F:9A:D0:71:93:17:92:EF:A9:89
+    AIzaSyAH5exsqwIi4UvKp-i9ABXUHHpIlvj8GS4 -->
+
+    <!-- Clave Debug MAC
+    AIzaSyAPAvMJ2rSUfWhaxJckCRKeJhd9bE_iVBc -->
+
+    <!-- Clave sin restricciones
+    AIzaSyDT72ul6bnt3_0jMzecWr3If0Tdi7sWSvI -->
+
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
+        AIzaSyAY4C5BfXok2aTgzQs5np2vRpTJvXyVMeM
+    </string>
+</resources>

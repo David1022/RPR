@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Valores spinners detalle equipo -->
+    <string name="spinners"></string>
+    <string-array name="spinner_cruces">
+        <item>No</item>
+        <item>Si</item>
+    </string-array>
+    <string-array name="spinner_material">
+        <item>Hormigón</item>
+        <item>Madera</item>
+        <item>Acero</item>
+        <item>Metal</item>
+        <item>Fibra de vídrio</item>
+        <item>Otros</item>
+        <item>Desconocido</item>
+    </string-array>
+    <string-array name="spinner_man_fus">
+        <item>No</item>
+        <item>Dispositivo maniobra</item>
+        <item>Fusible</item>
+    </string-array>
+    <string-array name="spinner_tipo_equipo">
+        <item>LAMT</item>
+        <item>CT</item>
+        <item>PT</item>
+    </string-array>
+</resources>

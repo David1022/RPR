@@ -1,0 +1,126 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <!-- Temas -->
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <!-- Textos -->
+    <style name="texto_titulo">
+        <item name="android:textSize">25sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:textColor">@color/negro</item>
+        <item name="android:paddingLeft">10dp</item>
+    </style>
+    <style name="texto_subtitulo">
+        <item name="android:textSize">25sp</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:textColor">@color/negro</item>
+        <item name="android:textStyle">bold|italic</item>
+        <item name="android:paddingLeft">10dp</item>
+    </style>
+    <style name="texto_detalle">
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:textColor">@color/negro</item>
+        <item name="android:paddingLeft">20dp</item>
+    </style>
+    <style name="texto_detalle_negrita" parent="texto_detalle">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="edit_text_detalle" parent="@android:style/Widget.Holo.EditText">
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:textColor">@color/negro</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:imeOptions">actionDone</item>
+        <item name="android:textAppearance">@android:style/Widget.Holo.EditText</item>
+    </style>
+    <style name="edit_text_datos_defecto" parent="edit_text_detalle">
+        <item name="android:paddingLeft">10dp</item>
+    </style>
+    <style name="texto_alerta">
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:textColor">@color/rojo</item>
+        <item name="android:paddingLeft">20dp</item>
+    </style>
+    <style name="radio_group">
+        <item name="android:paddingLeft">20dp</item>
+    </style>
+    <style name="texto_radio">
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:textColor">@color/negro</item>
+    </style>
+    <style name="texto_editable">
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:textColor">@color/azul</item>
+        <item name="android:paddingLeft">20dp</item>
+    </style>
+    <style name="texto_listado">
+        <item name="android:textSize">25sp</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:textColor">@color/negro</item>
+    </style>
+    <style name="texto_listado.equipos">
+        <item name="android:textSize">22sp</item>
+    </style>
+    <style name="texto_pop_up">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/negro</item>
+    </style>
+    <style name="botones">
+        <item name="android:textSize">15sp</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:textColor">@color/blanco</item>
+        <item name="android:background">@color/azul</item>
+        <item name="android:padding">@dimen/dim_padding_texto_boton</item>
+        <item name="android:color">@color/colorPrimaryDark</item>
+    </style>
+    <style name="spinner">
+        <item name="android:textColor">@color/azul</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:paddingLeft">10dp</item>
+    </style>
+    <style name="spinner_dropdown">
+        <item name="android:textColor">@color/azul</item>
+        <item name="android:textSize">23sp</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingTop">@dimen/padding_spinner</item>
+        <item name="android:paddingBottom">@dimen/padding_spinner</item>
+
+    </style>
+    <style name="spinner_nuevo_equipo">
+        <item name="android:textColor">@color/negro</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:paddingLeft">20dp</item>
+    </style>
+    <style name="fab_button">
+        <item name="android:layout_height">@dimen/dim_fab</item>
+        <item name="android:layout_width">@dimen/dim_fab</item>
+        <item name="android:layout_gravity">end|bottom</item>
+        <item name="android:layout_marginRight">@dimen/dim_fab_margin_right</item>
+        <item name="android:layout_marginBottom">@dimen/dim_fab_margin_bottom</item>
+    </style>
+
+</resources>

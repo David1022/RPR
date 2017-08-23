@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Actividad principal -->
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context="com.nipsa.rpr.MostrarDefectos">
+
+    <!-- Cargamos la appBar que incluirá una toolbar (menu)-->
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbarMostrarDefectos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbarMostrarDefectos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:navigationIcon="@mipmap/logo_nipsa"
+            app:title="@string/titulo_defectos"
+            app:layout_scrollFlags="enterAlwaysCollapsed"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+<!-- Cargamos/incluimos la "actividad" que aporta el contenido de la vista -->
+    <include layout="@layout/content_mostrar_defecto"/>
+
+    <android.support.design.widget.FloatingActionButton
+        style="@style/fab_button"
+        android:id="@+id/fabFinRevisionEquipo"
+        android:src="@drawable/ic_check_fin_revision"
+        app:backgroundTint="@color/azul"
+        app:fabSize="mini"
+        app:elevation="@dimen/fab_elevation"
+        android:layout_margin="@dimen/fab_margin" />
+
+</android.support.design.widget.CoordinatorLayout>

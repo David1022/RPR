@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Colores base de la aplicación -->
+    <color name="colorPrimary">@color/azul</color>
+    <color name="colorPrimaryDark">@android:color/holo_blue_bright</color>
+    <color name="colorAccent">@color/azul</color>
+    <color name="rojo">#BE0000</color>
+    <color name="naranja">#C86414</color>
+    <color name="verde">#009600</color>
+    <color name="azul">#0032AF</color>
+    <color name="negro">#000000</color>
+    <color name="gris">@android:color/darker_gray</color>
+    <color name="background_seleted_listview">#DDDDDD</color>
+    <color name="blanco">#FFFFFF</color>
+
+    <!-- Colores para listar las revisiones pendientes, en curso y finalizadas -->
+    <color name="texto">@color/negro</color>
+    <color name="texto_defecto">@color/rojo</color>
+    <color name="texto_clickable">@color/azul</color>
+    <color name="pendientes">@color/rojo</color>
+    <color name="enCurso">@color/naranja</color>
+    <color name="finalizadas">@color/verde</color>
+    <color name="separadores">@color/colorPrimary</color>
+    <!-- Colores para los botones -->
+    <color name="botonInahibilitado">@color/gris</color>
+    <color name="radio_def">@color/rojo</color>
+    <color name="radio_no_def">@color/negro</color>
+    <color name="p">#ffffff00</color>
+</resources>

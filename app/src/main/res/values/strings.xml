@@ -1,0 +1,135 @@
+<resources>
+    <string name="prueba"><p><u>Prueba</u></p></string>
+    <!-- Textos generales de la App -->
+    <string name="app_name">RPR</string>
+    <!-- ____________________ Textos pantalla MostrarRevisiones ____________________ -->
+    <string name="titulo_revisiones">RPR - Listado revisiones</string>
+    <!-- Menu_detalle -->
+    <string name="mapa">Mapa de equipos</string>
+    <string name="backup">Backup</string>
+    <string name="salir">Salir</string>
+    <!-- Fragment listado de revisiones -->
+    <string name="no_hay_revisiones">No hay revisiones por mostrar</string>
+    <string name="revisiones">Revisiones</string>
+    <string name="boton_incluir_nueva_revision">Nueva revision</string>
+    <!-- Fragment detalle de revisiones -->
+    <string name="no_se_muestran_revisiones">No se está mostrando ninguna revisión</string>
+    <string name="inspector1">Inspector 1:</string>
+    <string name="inspector2">Inspector 2:</string>
+    <string name="colegiado">Colegiado:</string>
+    <string name="equipos_usados">Equipos usados:</string>
+    <string name="revision">Revisión:</string>
+    <string name="metodologia">Metodología:</string>
+    <string name="codigo_contrata">Código interno NIPSA:</string>
+    <string name="trabajo">Trabajo:</string>
+    <string name="codigo_interno">Codigo interno inspección:</string>
+    <string name="alejandro_rey">Alejandro Rey Stolle - XX.XXX.XXX-Z</string>
+    <string name="boton_iniciar_revision">Acceder a la revisión</string>
+    <string name="debe_introducir_datos">Debe rellenar todos los campos</string>
+    <!-- Menu contextual -->
+    <string name="finalizar">Finalizar</string>
+    <string name="eliminar">Eliminar</string>
+    <!-- Dialogo nueva revisión -->
+    <string name="titulo_nueva_revision">Escoge la nueva revisión a incluir</string>
+    <!-- ____________________ Textos pantalla MostrarEquipos ____________________ -->
+    <string name="titulo_equipos">RPR - Listado equipos</string>
+    <!-- Fragment listado de equipos -->
+    <string name="tipo">Tipo</string>
+    <string name="equipo">Equipo</string>
+    <string name="boton_incluir_nuevo_equipo">Nuevo equipo</string>
+    <!-- Fragment detalle equipo -->
+    <string name="no_se_muestran_equipos">No se estra mostrando ningún equipo</string>
+    <string name="titulo_datos_equipo">Datos del equipo</string>
+    <string name="instalacion">Instalacion:</string>
+    <string name="tramo_">Tramo:</string>
+    <string name="tramo">Tramo</string>
+    <string name="territorio">Territorio:</string>
+    <string name="catalunya">Catalunya</string>
+    <string name="titulo_caracteristicas_equipo">Características del equipo</string>
+    <string name="latitud">Latitud:</string>
+    <string name="longitud">Longitud:</string>
+    <string name="material">Material:</string>
+    <string name="tipo_">Tipo:</string>
+    <string name="num_apoyo">Núm. apoyo:</string>
+    <string name="cruces">Tiene cruces:</string>
+    <string name="maniobra">Maniobra:</string>
+    <string name="conversion">Conversion:</string>
+    <string name="fecha">Fecha revisión:</string>
+    <string name="obs">Observ.:</string>
+    <string name="boton_coordenadas">Coordenadas</string>
+    <string name="boton_iniciar_inspeccion_equipo">Inspeccion equipo</string>
+    <string name="boton_foto">Tomar foto</string>
+    <string name="boton_equipo_no_revisable">No revisable</string>
+    <!-- Textos diáolgo alternar equipos -->
+    <string name="titulo_alternar_equipos">Selecciona equipo al que alternar</string>
+    <!-- Textos dialogos confirmación coordenadas -->
+    <string name="si">Si</string>
+    <string name="no">No</string>
+    <string name="titulo_dialogo_modificar_coord">¿Desea modificar las coordenadas?</string>
+    <string name="coordenadas_obtenidas">Las coordenadas obtenidas son:</string>
+    <string name="titulo_no_coordenadas">No se han encontrado coordenadas</string>
+    <string name="no_hay_coordenadas">En este momento ha sido imposible recoger las coordenadas. Inténtalo mas tarde</string>
+    <string name="de_acuerdo">De acuerdo</string>
+    <!-- Textos dialogos confirmación fotos -->
+    <string name="texto_dialogo_sobreescribir_foto">Ya existe una foto. Si continua la foto se sobreescribirá:</string>
+    <string name="desea_continuar">¿Desea continuar?</string>
+    <!-- Textos dialogo no revisable -->
+    <string name="titulo_motivo">Motivo de NO REVISION</string>
+    <string name="texto_motivo">Introduce el motivo por el que no se revisará esta instalación: </string>
+    <string name="texto_alerta_motivo">Cuidado! Al marcar el equipo como no revisable se eliminarán
+                                        todos los defectos asociados a este equipo</string>
+    <string name="texto_revisable">Se volverá a marcar este equipo como revisable</string>
+    <!-- ____________________ Textos pantalla FotosEquipo ____________________ -->
+    <string name="titulo_fotos_equipo">Fotos del equipo:</string>
+    <string name="borrar_foto">Borrar foto</string>
+    <!-- ____________________ Textos pantalla Mapa ____________________ -->
+    <string name="titulo_mapa">RPR - Visualización equipos</string>
+    <!-- Textos del mapa -->
+    <string name="posicion_actual">Posición Actual</string>
+    <string name="descr_posicion_actual">Actualmente te encuentras aquí</string>
+    <!-- ____________________ Textos pantalla MostrarDefectos ____________________ -->
+    <string name="titulo_defectos">RPR - Defectos</string>
+    <string name="titulo_grupo_defecto">Grupo de defecto</string>
+    <string name="es_defecto">Es defecto</string>
+    <string name="codigo">Código</string>
+    <string name="descripcion_defecto">Descripción del defecto</string>
+    <string name="requiere_medida">Medida</string>
+    <string name="titulo_defectos_asociados">Defectos asociados</string>
+    <string name="boton_mostrar_defectos">Mostrar Defectos</string>
+    <!-- Textos dialogos confirmación detalle -->
+    <string name="aceptar">Aceptar</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="titulo_confirmar_finalizar_revision">¿Desea finalizar la revisión?</string>
+    <string name="texto_confirmar_finalizar_revision">Al finalizar la revisión del equipo todos los
+                                                        defectos que no han sido revisados se marcarán como correctos</string>
+    <!-- Textos dialogo nuevo equipo -->
+    <string name="titulo_dialogo_nuevo_equipo">Nuevo equipo</string>
+    <string name="nombre_equipo">Nombre equipo:</string>
+    <!-- ____________________ Textos pantalla Datos Defecto ____________________ -->
+    <string name="equipo_">Equipo:</string>
+    <string name="codigo_defecto">Código defecto:</string>
+    <string name="ocurrencias">Ocurrencias:</string>
+    <string name="medida">Medida:</string>
+    <string name="hint_medida">Medida PaT</string>
+    <string name="observaciones">Observaciones:</string>
+    <string name="corregido">Corregido</string>
+    <string name="no_hay_fotos">No hay fotos a mostrar</string>
+    <string name="mostrar_fotos">Mostrar fotos</string>
+    <string name="foto1">Foto 1:</string>
+    <string name="foto2">Foto 2:</string>
+    <string name="boton_ok">Aceptar</string>
+    <!-- Textos diálogo borrar fotos -->
+    <string name="titulo_confirmar_borrar_foto">¿Seguro que desea borrar la foto?</string>
+    <string name="title_activity_tomar_coordenada">TomarCoordenada</string>
+    <string name="title_activity_obtener_coordenadas">Map</string>
+    <!-- Textos diálogo alerta -->
+    <string name="titulo_correccion_inmediata">Cuidado!</string>
+    <string name="mensaje_correccion_inmediata">: defecto marcado como CORRECCIÓN INMEDIATA</string>
+    <!-- Textos menu aceptar coordenadas -->
+    <string name="titulo_menu_aceptar_coordenadas">¿Quieres tomar nuevas coordenadas?</string>
+    <string name="tomar_coordenadas_equipo">Tomar las mismas coordenadas del equipo</string>
+    <string name="nuevas_coordenadas">Tomar nuevas coordenadas</string>
+    <!-- ____________________ Textos pantalla FotosDefecto ____________________ -->
+    <string name="titulo_fotos_defecto">Fotos del defecto:</string>
+
+</resources>

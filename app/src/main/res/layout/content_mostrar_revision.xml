@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:scrollbars="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="70">
+
+        <!--TextView
+            style="@style/texto_titulo"
+            android:id="@+id/inspeccion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/revisiones"
+            android:gravity="center" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dim_margin_detalle_inspeccion"
+            android:layout_marginRight="@dimen/dim_margin_detalle_inspeccion"
+            android:minHeight="@dimen/separadores"
+            android:background="@color/separadores"/-->
+<!--
+        <fragment class="com.nipsa.rpr.FrgListadoRevisiones"
+            android:id="@+id/FrgListado"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+-->
+        <LinearLayout
+            android:id="@+id/contenedorFragmentListadoRevision"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/dim_margin_detalle_inspeccion"
+        android:layout_marginTop="@dimen/dim_margin_detalle_inspeccion"
+        android:minWidth="@dimen/separadores"
+        android:background="@color/separadores"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="30">
+
+        <!--TextView
+            style="@style/texto_titulo"
+            android:id="@+id/tituloRevisionSeleccionada"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/no_se_muestran_revisiones"
+            android:layout_margin="@dimen/dim_margin_titulo"
+            android:gravity="center"
+            android:textSize="@dimen/dim_titulo"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dim_margin_detalle_inspeccion"
+            android:layout_marginRight="@dimen/dim_margin_detalle_inspeccion"
+            android:minHeight="@dimen/separadores"
+            android:background="@color/separadores"/-->
+
+        <LinearLayout
+            android:id="@+id/contenedorFragmentDetalleRevision"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" />
+
+    </LinearLayout>
+
+</LinearLayout>
