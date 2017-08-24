@@ -139,8 +139,6 @@ public class MostrarRevisiones extends AppCompatActivity implements FrgListadoRe
             // Se lee el archivo XML
             HiloLeerArchivoXML hilo = new HiloLeerArchivoXML();
             hilo.execute(archivo);
-            //Se lee el archivo KML
-            //leerArchivoCoord(archivo);
 
             Aplicacion.revisionActual = nombreRevision;
 

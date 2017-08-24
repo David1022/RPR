@@ -199,9 +199,9 @@ public class FrgDetalleEquipo extends Fragment {
                     if (num.equals("")) {
                         texto = obs;
                     } else if (obs.equals("")) {
-                        texto = "Num. apoyo:" + num;
+                        texto = Aplicacion.NUM_APOYO + num;
                     } else {
-                        texto = "Num. apoyo:" + num + "-" + etObservaciones.getText().toString();
+                        texto = Aplicacion.NUM_APOYO + num + "-" + etObservaciones.getText().toString();
                     }
                     dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_EQUIPOS,
                                                                     "Observaciones", texto, revisionActual,
@@ -224,9 +224,9 @@ public class FrgDetalleEquipo extends Fragment {
                     if (num.equals("")) {
                         texto = obs;
                     } else if (obs.equals("")) {
-                        texto = "Num. apoyo:" + num;
+                        texto = Aplicacion.NUM_APOYO + num;
                     } else {
-                        texto = "Num. apoyo:" + num + "-" + etObservaciones.getText().toString();
+                        texto = Aplicacion.NUM_APOYO + num + "-" + etObservaciones.getText().toString();
                     }
                     dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_EQUIPOS, "Observaciones",
                                                                     texto, revisionActual, equipoActual, tramoActual);
@@ -388,7 +388,7 @@ public class FrgDetalleEquipo extends Fragment {
             if (obs.equals("")) {
                 etObservaciones.setText("");
                 etNumApoyo.setText("");
-            } else if (obs.startsWith("Num. apoyo:")){
+            } else if (obs.startsWith(Aplicacion.NUM_APOYO)){
                 String num;
                 if (obs.contains("-")) {
                     etObservaciones.setText(obs.substring(obs.indexOf("-") + 1));

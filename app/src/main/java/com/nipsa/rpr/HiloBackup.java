@@ -4,7 +4,7 @@ import android.app.Application;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 
-public class HiloBackup extends AsyncTask<String, Object, Object> {
+public class HiloBackup extends AsyncTask<Revision, Object, Object> {
 
     Aplicacion aplicacion = new Aplicacion();
     ProgressDialog pd;
@@ -30,13 +30,14 @@ public class HiloBackup extends AsyncTask<String, Object, Object> {
      * @return
      */
     @Override
-    protected Object doInBackground(String[] revision) {
+    protected Object doInBackground(Revision[] revision) {
+        String nombreRevision = revision[0].getNombre();
 
         Aplicacion.backupBaseDatos();
-        Aplicacion.generarXML(revision[0]);
-        Aplicacion.generarKML(revision[0]);
-        Aplicacion.generarArchivoEquiposTXT(revision[0]);
-        Aplicacion.generarArchivoDefectosTXT(revision[0]);
+        Aplicacion.generarXML(nombreRevision);
+        Aplicacion.generarKML(nombreRevision);
+        Aplicacion.generarArchivoEquiposTXT(nombreRevision);
+        Aplicacion.generarArchivoDefectosTXT(nombreRevision);
 
         return null;
     }

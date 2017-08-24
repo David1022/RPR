@@ -31,6 +31,12 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Vector;
 
+/**
+ * Para no mostrar el teclado al iniciar la actividad incluir la siguiente línea en la declaración
+ * de la activity correspondiente en el Manifest:
+ *          android:windowSoftInputMode="stateAlwaysHidden"
+ */
+
 public class DatosDefecto extends AppCompatActivity {
 
     Activity activity;
@@ -104,6 +110,7 @@ public class DatosDefecto extends AppCompatActivity {
                     etMedida.requestFocus();
                 } else {
                     etObservaciones.requestFocus();
+                    etObservaciones.setSelection(etObservaciones.getText().length());
                 }
                 return false;
             }
@@ -115,6 +122,7 @@ public class DatosDefecto extends AppCompatActivity {
                     etMedidaTrafo2.requestFocus();
                 } else {
                     etObservaciones.requestFocus();
+                    etObservaciones.setSelection(etObservaciones.getText().length());
                 }
                 return false;
             }
@@ -126,6 +134,7 @@ public class DatosDefecto extends AppCompatActivity {
                     etMedidaTrafo3.requestFocus();
                 } else {
                     etObservaciones.requestFocus();
+                    etObservaciones.setSelection(etObservaciones.getText().length());
                 }
                 return false;
             }
@@ -134,6 +143,7 @@ public class DatosDefecto extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 etObservaciones.requestFocus();
+                etObservaciones.setSelection(etObservaciones.getText().length());
                 return false;
             }
         });
@@ -164,6 +174,17 @@ public class DatosDefecto extends AppCompatActivity {
         if (defectoActual.equals("T53D") || defectoActual.equals("T55D") || defectoActual.equals("T62D")) {
             ivAddTrafo2.setVisibility(View.VISIBLE);
             ivAddTrafo2.setClickable(true);
+        }
+        Equipo equipo = dbRevisiones.solicitarEquipo(revisionActual, equipoActual, tramoActual);
+        Defecto defecto = dbRevisiones.solicitarDefecto(equipoActual, defectoActual, tramoActual);
+        String textoObservaciones = equipo.getObservaciones();
+        if (defecto.getObservaciones().equals("")){ // Si aún no se han introducido observaciones
+            if (textoObservaciones.contains(Aplicacion.NUM_APOYO)){ // Se confirma que se haya introducido número de apoyo
+                if (textoObservaciones.contains("-")) { // Si también hay observaciones del equipo se recoge sólo el num. apoyo
+                    textoObservaciones = textoObservaciones.substring(0, textoObservaciones.indexOf("-"));
+                }
+                dbRevisiones.actualizarItemDefecto(defectoActual, "Observaciones", textoObservaciones);
+            }
         }
         cbEsDefecto = (CheckBox) findViewById(R.id.cbDatoEsDefecto);
         cbCorregido = (CheckBox) findViewById(R.id.cbDatoCorregido);

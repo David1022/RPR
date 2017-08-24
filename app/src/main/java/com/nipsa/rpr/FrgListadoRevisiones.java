@@ -124,21 +124,13 @@ public class FrgListadoRevisiones extends Fragment {
 
         switch (item.getItemId()) {
             case R.id.backup:
-                Aplicacion.backup(rev.getNombre());
+                Aplicacion.backup(rev);
                 break;
             case R.id.finalizar:
-                finalizarRevision (rev);
+                finalizarRevision(rev);
                 break;
             case R.id.eliminar:
                 lanzarDialogoConfirmacionEliminar(rev);
-/*
-                eliminarRevision (rev);
-                if (Aplicacion.revisionActual != null) {
-                    if (Aplicacion.revisionActual.equals(rev.getNombre())) {
-                        Aplicacion.revisionActual = "";
-                    }
-                }
-*/
                 break;
             default:
                 break;
@@ -148,8 +140,9 @@ public class FrgListadoRevisiones extends Fragment {
     }
 
     public void finalizarRevision (Revision revision) {
-        if (dbRevisiones.equiposFinalizados(revision.getNombre())){
-            Aplicacion.backup(revision.getNombre());
+        //if (dbRevisiones.equiposFinalizados(revision.getNombre())){
+            Aplicacion.finalizarRevision(revision);
+            //Aplicacion.backup(revision.getNombre());
             // Se actualiza el estado de la revisión
             dbRevisiones.actualizarItemRevision(revision.getNombre(), "Estado", Aplicacion.ESTADO_FINALIZADA);
 
@@ -159,10 +152,12 @@ public class FrgListadoRevisiones extends Fragment {
             mAdapter.notifyDataSetChanged();
 
             // Se mueven las fotos al directorio de salida
-            Aplicacion.moverFotos(revision);
+            //Aplicacion.moverFotos(revision);
+/*
         } else {
             Aplicacion.print("Comprueba que hayas revisado todos los equipos");
         }
+*/
     }
 
     public void lanzarDialogoConfirmacionEliminar(final Revision revision) {

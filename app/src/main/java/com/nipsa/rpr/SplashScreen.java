@@ -29,7 +29,7 @@ public class SplashScreen extends AppCompatActivity {
         String nombreArchivoBD = "/data/data/com.nipsa.rpr/databases/" + DBGlobal.DATABASE_NAME;
         File archivoBD = new File(nombreArchivoBD);
         if(!archivoBD.exists()) {
-            Aplicacion.primeraLecturaBD();
+            Aplicacion.lecturaBDDefectos();
         }
 
     }
