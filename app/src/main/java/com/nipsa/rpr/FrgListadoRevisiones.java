@@ -6,11 +6,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -22,7 +24,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Vector;
 
 public class FrgListadoRevisiones extends Fragment {
@@ -142,7 +150,7 @@ public class FrgListadoRevisiones extends Fragment {
     public void finalizarRevision (Revision revision) {
         //if (dbRevisiones.equiposFinalizados(revision.getNombre())){
             Aplicacion.finalizarRevision(revision);
-            //Aplicacion.backup(revision.getNombre());
+            copiarIconosKML(revision);
             // Se actualiza el estado de la revisión
             dbRevisiones.actualizarItemRevision(revision.getNombre(), "Estado", Aplicacion.ESTADO_FINALIZADA);
 
@@ -151,14 +159,57 @@ public class FrgListadoRevisiones extends Fragment {
             listaAMostrar.addAll(dbRevisiones.solicitarListaRevisiones());
             mAdapter.notifyDataSetChanged();
 
-            // Se mueven las fotos al directorio de salida
-            //Aplicacion.moverFotos(revision);
 /*
         } else {
             Aplicacion.print("Comprueba que hayas revisado todos los equipos");
         }
 */
     }
+
+    /**
+     * Se crea una copia de los iconos de CT y Apoyo para poder utilizarlos en el kmz
+     * @param revision
+     */
+    public void copiarIconosKML (Revision revision) {
+        String rutaSalida = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) +
+                                "/RPR/OUTPUT/" + revision.getNombre() + "/Iconos/";
+        InputStream isCT, isApoyo;
+        isCT = getResources().openRawResource(R.raw.ct_yellow);
+        isApoyo = getResources().openRawResource(R.raw.apoyo_yellow);
+        String nombreArchivoSalida = "ct_yellow.png";
+        copiarImagenFromRawToMemory(rutaSalida, isCT, nombreArchivoSalida);
+
+        nombreArchivoSalida = "apoyo_yellow.png";
+        copiarImagenFromRawToMemory(rutaSalida, isApoyo, nombreArchivoSalida);
+
+    }
+
+    public void copiarImagenFromRawToMemory (String rutaSalida, InputStream archivoRaw, String nombreArchivoSalida) {
+        try {
+            // Se crean el directorio de salida si no está creado
+            File dir = new File(rutaSalida);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+            //ruta + nombre del archivo de salida
+            String salida= rutaSalida + nombreArchivoSalida;
+
+            // Proceso de lectura/escritura
+            OutputStream bosOut = new FileOutputStream(salida);
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = archivoRaw.read(buffer)) > 0) {
+                bosOut.write(buffer, 0, length);
+            }
+
+            bosOut.flush();
+            bosOut.close();
+            archivoRaw.close();
+        } catch (IOException e) {
+            Log.e("ERROR_COPY: ", e.toString());
+        }
+    }
+
 
     public void lanzarDialogoConfirmacionEliminar(final Revision revision) {
         LayoutInflater li = LayoutInflater.from(getContext());

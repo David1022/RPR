@@ -180,9 +180,9 @@ public class MostrarEquipos extends AppCompatActivity implements FrgListadoEquip
      * Metodo para abrir el mapa con los apoyos existentes
      */
     private void abrirMapa () {
+        finish();
         Intent intent = new Intent(this, Mapa.class);
         startActivity(intent);
-        finish();
 
     }
 

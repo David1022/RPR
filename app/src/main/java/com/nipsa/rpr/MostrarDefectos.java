@@ -265,8 +265,8 @@ public class MostrarDefectos extends AppCompatActivity implements FrgListadoDefe
                                                         revisionActual, equipoActual, tramoActual);
         }
 
+        finish();
         Intent intent = new Intent(this, MostrarEquipos.class);
         startActivity(intent);
-        finish();
     }
 }

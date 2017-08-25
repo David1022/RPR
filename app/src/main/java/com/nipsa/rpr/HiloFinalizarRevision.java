@@ -2,6 +2,15 @@ package com.nipsa.rpr;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.os.Environment;
+import android.util.Log;
+import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Created by David.Mendano on 24/08/2017.
@@ -63,4 +72,5 @@ public class HiloFinalizarRevision extends AsyncTask<Revision, Object, Object> {
 
         pd.dismiss();
     }
+
 }
