@@ -2,6 +2,7 @@ package com.nipsa.rpr;
 
 import android.app.Application;
 
+import java.util.EmptyStackException;
 import java.util.Vector;
 
 public class Revision {
@@ -38,6 +39,23 @@ public class Revision {
         } else {
             Aplicacion.print("Error en el vector pasado: Se han pasado " + datos.size() + " datos");
         }
+    }
+
+    public Vector<String> getRevisionPorLista(){
+        Vector<String> lista = new Vector<String>();
+
+        lista.add(nombre);
+        lista.add(estado);
+        lista.add(inspector1);
+        lista.add(inspector2);
+        lista.add(colegiado);
+        lista.add(equiposUsados);
+        lista.add(metodologia);
+        lista.add(codigoNipsa);
+        lista.add(numTrabajo);
+        lista.add(codigoInspeccion);
+
+        return lista;
     }
 
     public int getId() {

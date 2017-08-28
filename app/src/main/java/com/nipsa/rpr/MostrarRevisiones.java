@@ -16,6 +16,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import org.xml.sax.InputSource;
@@ -29,6 +32,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.util.Vector;
@@ -53,6 +57,7 @@ public class MostrarRevisiones extends AppCompatActivity implements FrgListadoRe
     public static String nombreArchivo;
     private FrgListadoRevisiones frgListado;
     private final int ABRIR_ARCHIVO = 1;
+
 
     /**
      * Se inicializa Toolbar y variables. Se infla el fragment estatico
@@ -129,6 +134,33 @@ public class MostrarRevisiones extends AppCompatActivity implements FrgListadoRe
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+/*
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_revisiones, menu);
+*/
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_importar_revision:
+                Intent intent = new Intent(this, ImportarRevision.class);
+                startActivity(intent);
+                finish();
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Se lanzará cuando se cierre el diálogo contextual para mostrar las opciones de una revisión
+     * @param dialog
+     */
+    @Override
     public void onDismiss(DialogInterface dialog) {
         if (nombreArchivo.contains(".")) {
             String nombreRevision = nombreArchivo.substring(0, nombreArchivo.lastIndexOf("."));
@@ -145,26 +177,6 @@ public class MostrarRevisiones extends AppCompatActivity implements FrgListadoRe
             onResume();
         }
     }
-
-    /**
-     * Se recogerá el resultado de hacer la foto. Se toma la Uri del archivo donde se ha guardado la imagen
-     *
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     *
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_CANCELED) {
-            //Cancelado por el usuario, no se hace nada
-        }
-        if ((resultCode == RESULT_OK) && (requestCode == ABRIR_ARCHIVO )) {
-            //Procesar el resultado
-            Uri uri = data.getData(); //obtener el uri content
-            leerArchivoXML(uri);
-        }
-    }*/
 
     /**
      * Método para listar los archivos de una ruta determinada
@@ -216,186 +228,15 @@ public class MostrarRevisiones extends AppCompatActivity implements FrgListadoRe
     }
 
     /**
-     * Método que moverá el archivo recibido por parametro al directorio de destino recibido por parametro
-     *
-     * @param archivoOrigen
-     * @param rutaDestino
-     * @throws Exception
-     */
-    public void moverArchivo(File archivoOrigen, String rutaDestino) throws Exception{
-        String rutaNuevoArchivo = rutaDestino + archivoOrigen.getName();
-        File f = new File(rutaDestino);
-        File nuevoArchivo = new File(rutaNuevoArchivo);
-        // Si el directorio no existe se crea (solo sucederá en la primera instalación de la app)
-        if (!f.exists()){
-            f.mkdirs();
-        }
-        // Se asigna la nueva ruta al archivo
-        archivoOrigen.renameTo(nuevoArchivo);
-    }
-
-/*
-    */
-/**
-     * Método que recibe el archivo XML de referencia al cual se asociará el archivo KML. Leerá el
-     * archivo KML y asociará las coordenadas recogidas al equipo correspondiente
-     *
-     * @param archivoXML con extensión XML
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
-     *//*
-
-
-    public void leerArchivoCoord (File archivoXML) {
-        // Se recupera el nombre y la ruta del archivo XML para recuperar el archivo KML con el mismo nombre
-        String nombreRevision = archivoXML.getName();
-        nombreRevision = nombreRevision.substring(0, nombreRevision.lastIndexOf("."));
-        String nombreKML = nombreRevision + ".kml";
-        String ruta = archivoXML.getAbsolutePath();
-        ruta = ruta.substring(0, ruta.lastIndexOf("/"));
-        File archivoCoord = Aplicacion.recuperarArchivo(ruta, nombreKML);
-        //Si se encuentra el archivo KML con el mismo nombre que el XML se leerá
-        if (archivoCoord != null) {
-            // Se lee el archivo en un hilo secundario
-            HiloLeerArchivosCoord hilo = new HiloLeerArchivosCoord();
-            hilo.execute(archivoCoord);
-            //LectorCoord lector = new LectorCoord(nombreRevision);
-            //lector.leer(archivoCoord);
-
-        } else { // Si no se encuentra se muestra un mensaje por pantalla para informar al usuario
-            Aplicacion.print("No se ha encontrado archivo KML asociado a la revision " + nombreRevision);
-        }
-
-    }
-*/
-
-    /**
-     * Método que leerá un archivo ".xml" basandose en la clase ManejadorXML
-     *
-     * @param
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
-     *
-    public void leerArchivoXML(Uri uri) {
-        if (esXML(uri.getPath())) {
-            ProgressDialog pd = abrirDialogoProgreso("Leyendo archivo XML...");
-            String path = uri.getPath();
-            nombreRevision = path.substring(path.lastIndexOf("/") + 1);
-            nombreRevision = nombreRevision.substring(0, nombreRevision.lastIndexOf("."));
-            Aplicacion.revisionActual = nombreRevision;
-
-            try {
-                InputStream inputStream = this.getContentResolver().openInputStream(uri);
-                InputSource entrada = new InputSource(inputStream);
-
-                SAXParserFactory fabrica = SAXParserFactory.newInstance();
-                SAXParser parser = fabrica.newSAXParser();
-                XMLReader lector = parser.getXMLReader();
-                ManejadorXML manejadorXML = new ManejadorXML();
-                lector.setContentHandler(manejadorXML);
-                lector.parse(entrada);
-
-                leerArchivoCoord(uri);
-                dbRevisiones.incluirRevision(nombreRevision, Aplicacion.ESTADO_PENDIENTE);
-                inputStream.close();
-
-            } catch (ParserConfigurationException parseException) {
-                Log.e (Aplicacion.TAG, "Error al parsear el archivo XML " + parseException.toString());
-            } catch (SAXException saxException) {
-                Log.e (Aplicacion.TAG, "Error SAX al leer el archivo XML " + saxException.toString());
-            } catch (IOException ioException) {
-                Log.e (Aplicacion.TAG, "Error IOExcetion al parsear el archivo XML " + ioException.toString());
-            } finally {
-                pd.dismiss();
-            }
-        } else {
-            Aplicacion.print("El archivo debe tener extension XML");
-        }
-
-    }*/
-
-    /*
-    private ProgressDialog abrirDialogoProgreso (String titulo) {
-        ProgressDialog pd = new ProgressDialog(this);
-        pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        pd.setMessage(titulo);
-        pd.setCancelable(false);
-        pd.setIndeterminate(true);
-        pd.show();
-
-        return pd;
-    }*/
-
-/*
-    public void leerArchivoCoord (Uri uriXML) {
-        // Se recupera el nombre y la ruta del archivo XML para recuperar el archivo KML con el mismo nombre
-        Uri.Builder ub = new Uri.Builder();
-        ub.authority(uriXML.getAuthority());
-        String path = uriXML.getPath();
-        path = path.substring(0, path.lastIndexOf("."));
-        path += ".kml";
-        ub.appendPath(path);
-        ub.scheme(uriXML.getScheme());
-
-        try {
-            InputStream inputStream = this.getContentResolver().openInputStream(ub.build());
-            LectorCoord lector = new LectorCoord(nombreRevision);
-            lector.leer(inputStream);
-        } catch (Exception e) {
-
-        }
-/*
-        File archivoXML = new File(uriXML.getPath());
-        String nombre = archivoXML.getName();
-        nombre = nombre.substring(0, nombre.lastIndexOf("."));
-        nombre = nombre + ".kml";
-        String ruta = archivoXML.getAbsolutePath();
-        ruta = ruta.substring(0, ruta.lastIndexOf("/"));
-        File archivoCoord = Aplicacion.recuperarArchivo(ruta, nombre);
-        //Si se encuentra el archivo KML con el mismo nombre que el XML se leerá
-        if (archivoCoord != null) {
-            // Se lee el archivo en un hilo secundario
-            HiloLeerArchivosCoord hilo = new HiloLeerArchivosCoord();
-            hilo.execute(archivoCoord);
-        } else { // Si no se encuentra se muestra un mensaje por pantalla para informar al usuario
-            Aplicacion.print("No se ha encontrado archivo KML asociado a la revision " + nombre);
-        }
-*
-    }*/
-
-    public static void refrescarFragmentDetalle () {
-        // Si procede se infla el fragment dinamico (Detalle revisión)
-/*
-        if (Aplicacion.revisionActual != null) {
-            boolean hayDetalle =
-                    (activity.getFragmentManager().findFragmentById(R.id.contenedorFragmentDetalleRevision) != null);
-
-            FrgDetalleRevision fdi = new FrgDetalleRevision();
-
-            if (!hayDetalle) { // Si el fragment no esta inflado se infla
-                getSupportFragmentManager().beginTransaction().add(R.id.contenedorFragmentDetalleRevision, fdi).commit();
-            } else { // Si el fragment está inflado se refresca
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.contenedorFragmentDetalleRevision, fdi);
-                transaction.commit();
-            }
-*/
-
-        }
-
-    /**
      * Método que escuchará la selección de un elemento de la lista de revisiones
-     *
-     * @param r
+     * @param revision
      */
     @Override
-    public void onRevisionSeleccionada(Revision r) {
+    public void onRevisionSeleccionada(Revision revision) {
         boolean hayDetalle =
                 (getSupportFragmentManager().findFragmentById(R.id.contenedorFragmentDetalleRevision) != null);
 
-        nombreRevision = r.getNombre();
+        nombreRevision = revision.getNombre();
         Aplicacion.revisionActual = nombreRevision;
         Aplicacion.equipoActual = "";
 

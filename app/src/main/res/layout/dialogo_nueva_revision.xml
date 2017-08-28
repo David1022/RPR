@@ -17,6 +17,14 @@
         android:gravity="center"
         android:text="@string/titulo_nueva_revision"/>
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dim_margin_detalle_inspeccion"
+        android:layout_marginTop="@dimen/dim_margin_detalle_inspeccion"
+        android:minHeight="@dimen/separadores"
+        android:background="@color/negro"/>
+
     <ListView
         android:id="@+id/listNuevaRevision"
         android:layout_width="match_parent"

@@ -141,6 +141,11 @@ public class Aplicacion extends Application {
 
     }
 
+    public static void generarBackupRevision(String revision) {
+        DBBackup dbBackup = new DBBackup(contexto);
+        dbBackup.crearBackup(revision);
+    }
+
     public static void finalizarRevision (Revision revision) {
         HiloFinalizarRevision hilo = new HiloFinalizarRevision();
         hilo.execute(revision);

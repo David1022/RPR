@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 
 public class HiloBackup extends AsyncTask<Revision, Object, Object> {
 
-    Aplicacion aplicacion = new Aplicacion();
     ProgressDialog pd;
 
     /**
@@ -34,6 +33,7 @@ public class HiloBackup extends AsyncTask<Revision, Object, Object> {
         String nombreRevision = revision[0].getNombre();
 
         Aplicacion.backupBaseDatos();
+        Aplicacion.generarBackupRevision(nombreRevision);
         Aplicacion.generarXML(nombreRevision);
         Aplicacion.generarKML(nombreRevision);
         Aplicacion.generarArchivoEquiposTXT(nombreRevision);

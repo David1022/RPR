@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.nipsa.rpr">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -40,7 +40,7 @@
             android:name=".DatosDefecto"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+            android:windowSoftInputMode="stateAlwaysHidden" />
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -71,6 +71,7 @@
             android:name=".FotosDefecto"
             android:screenOrientation="landscape"
             android:theme="@style/DialogTheme" />
+        <activity android:name=".ImportarRevision"></activity>
     </application>
 
 </manifest>

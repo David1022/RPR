@@ -5,6 +5,7 @@
     <!-- ____________________ Textos pantalla MostrarRevisiones ____________________ -->
     <string name="titulo_revisiones">RPR - Listado revisiones</string>
     <!-- Menu_detalle -->
+    <string name="importar_revision">Importar revisión</string>
     <string name="mapa">Mapa de equipos</string>
     <string name="backup">Backup</string>
     <string name="salir">Salir</string>
@@ -35,6 +36,8 @@
     <string name="titulo_confirmar_eliminar">CUIDADO!!</string>
     <string name="texto_confirmar_eliminar">Se eliminarán todos los DATOS y FOTOS asociados a
                                                 esta revisión</string>
+    <!-- ____________________ Textos pantalla ImportarRevision____________________ -->
+    <string name="titulo_importar_revision">Importar revisión</string>
     <!-- ____________________ Textos pantalla MostrarEquipos ____________________ -->
     <string name="titulo_equipos">RPR - Listado equipos</string>
     <!-- Fragment listado de equipos -->

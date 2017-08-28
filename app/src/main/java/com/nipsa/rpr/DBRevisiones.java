@@ -20,7 +20,6 @@ public class DBRevisiones extends SQLiteOpenHelper {
     public static final String TABLA_NO_REVISABLE = "EquiposNoRevisables";
     public static final String TABLA_DEFECTOS = "Defectos";
     public static final String TABLA_TRAMOS = "Tramos";
-    public Aplicacion aplicacion = new Aplicacion();
     private final int NUM_COL_EQUIPOS = 28;
     private final int NUM_COL_APOYOS = 18;
     private final int NUM_COL_APOYOS_NO_REVISABLES = 2;
@@ -1717,5 +1716,28 @@ public class DBRevisiones extends SQLiteOpenHelper {
 
         return tramo;
     }
+
+    /**
+     * Devuelve un backup de la tabla y revisión recibidos
+     * @param revision
+     * @param tabla
+     * @return
+     */
+    public Cursor solicitarBackup (String revision, String tabla) {
+        Cursor cursor = null;
+
+        String instruccion = "SELECT * FROM " + tabla + " WHERE NombreRevision = '" + revision + "'";
+        try {
+            SQLiteDatabase db = getReadableDatabase();
+            cursor = db.rawQuery(instruccion, null);
+        } catch (Exception e) {
+            Log.e(Aplicacion.TAG, "Error al solicitar lista equipos: " + e.toString());
+            return null;
+        }
+
+        return cursor;
+
+    }
+
 
 }
