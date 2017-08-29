@@ -10,7 +10,7 @@
     <color name="azul">#0032AF</color>
     <color name="negro">#000000</color>
     <color name="gris">@android:color/darker_gray</color>
-    <color name="background_seleted_listview">#DDDDDD</color>
+    <color name="background_selected_listview">#DDDDDD</color>
     <color name="blanco">#FFFFFF</color>
 
     <!-- Colores para listar las revisiones pendientes, en curso y finalizadas -->

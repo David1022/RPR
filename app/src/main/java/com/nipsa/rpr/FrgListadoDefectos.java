@@ -21,16 +21,16 @@ import static com.nipsa.rpr.MostrarRevisiones.dbRevisiones;
 
 public class FrgListadoDefectos extends Fragment {
 
-    private String[] listaGrupoDefectosLAMT = {"Aislamiento", "Conductor", "Cruces", "Herrajes",
-                                "Cimientos", "Estructura", "Paso por zonas", "Apoyos",
-                                "Aparamenta", "Puestas a Tierra", "Entorno perimetral", "Observaciones"};
-    private String[] listaGrupoDefectosCT = {"Aislamiento", "Transformador", "Aparamenta y dispositivos de maniobra",
-                                "Puestas a Tierra", "Secundario BT del transformador", "Protecciones y obra civil",
-                                "Embarrados y conexiones", "Observaciones"};
-    private String[] listaGrupoDefectosPT = {"Aislamiento", "Distancias (D)", "Transformador", "Herrajes",
-                                "Cimientos", "Estructura", "Distancias (L)", "Apoyos",
-                                "Aparamenta y dispositivos de maniobra", "Puestas a Tierra", "Secundario BT del transformador",
-                                "Entorno perimetral", "Embarrados y conexiones", "Observaciones"};
+    private String[] listaGrupoDefectosLAMT = {"Aislamiento (A)", "Conductor (C)", "Cruces (G)", "Herrajes (H)",
+                                "Cimientos (I)", "Estructura (J)", "Paso por zonas (L)", "Apoyos (P)",
+                                "Aparamenta (R)", "Puestas a Tierra (T)", "Entorno perimetral", "Observaciones (Z)"};
+    private String[] listaGrupoDefectosCT = {"Aislamiento (A)", "Transformador (F)", "Aparamenta y dispositivos de maniobra (R)",
+                                "Puestas a Tierra (T)", "Secundario BT del transformador (U)", "Protecciones y obra civil (V)",
+                                "Embarrados y conexiones (X)", "Observaciones (Z)"};
+    private String[] listaGrupoDefectosPT = {"Aislamiento (A)", "Distancias (D)", "Transformador (F)", "Herrajes (H)",
+                                "Cimientos (I)", "Estructura (J)", "Distancias (L)", "Apoyos (P)",
+                                "Aparamenta y dispositivos de maniobra (R)", "Puestas a Tierra (T)", "Secundario BT del transformador (U)",
+                                "Entorno perimetral (V)", "Embarrados y conexiones (X)", "Observaciones (Z)"};
     private FrgListadoDefectos.GrupoDefectoListener listener;
     private ListView lstListado;
     private String[] listaAMostrar;

@@ -125,7 +125,7 @@ public class FrgListadoEquipos extends Fragment {
 
             // Se cambia el color de background si está seleccionado
             if (position == mSelected) {
-                item.setBackgroundColor(getResources().getColor(R.color.background_seleted_listview));
+                item.setBackgroundColor(getResources().getColor(R.color.background_selected_listview));
 
             } else {
                 item.setBackgroundColor(getResources().getColor(R.color.blanco));

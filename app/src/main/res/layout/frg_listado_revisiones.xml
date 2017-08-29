@@ -28,7 +28,6 @@
             android:minHeight="@dimen/separadores"
             android:background="@color/separadores"/>
 
-
         <ListView
             android:id="@+id/listadoRevisiones"
             android:layout_width="match_parent"

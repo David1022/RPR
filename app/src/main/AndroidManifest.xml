@@ -71,7 +71,9 @@
             android:name=".FotosDefecto"
             android:screenOrientation="landscape"
             android:theme="@style/DialogTheme" />
-        <activity android:name=".ImportarRevision"></activity>
+        <activity android:name=".ImportarRevision"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

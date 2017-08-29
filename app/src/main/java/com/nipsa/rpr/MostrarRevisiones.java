@@ -135,10 +135,8 @@ public class MostrarRevisiones extends AppCompatActivity implements FrgListadoRe
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-/*
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_revisiones, menu);
-*/
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -148,7 +146,7 @@ public class MostrarRevisiones extends AppCompatActivity implements FrgListadoRe
             case R.id.menu_importar_revision:
                 Intent intent = new Intent(this, ImportarRevision.class);
                 startActivity(intent);
-                finish();
+                //finish();
                 break;
             default:
                 break;

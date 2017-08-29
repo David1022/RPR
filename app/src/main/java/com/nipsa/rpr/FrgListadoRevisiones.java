@@ -52,11 +52,8 @@ public class FrgListadoRevisiones extends Fragment {
 
         dbRevisiones = new DBRevisiones(getContext());
         listaAMostrar = new Vector<Revision>();
-/*
-        listaAMostrar.clear();
-        listaAMostrar.addAll(dbRevisiones.solicitarListaRevisiones());
-*/
         mSelected = -1;
+
         lstListado = (ListView) v.findViewById(R.id.listadoRevisiones);
         mAdapter = new AdaptadorRevisiones(this);
         bNuevaRevision = (Button) v.findViewById(R.id.botonNuevaRevision);
@@ -76,7 +73,6 @@ public class FrgListadoRevisiones extends Fragment {
             @Override
             public void onClick(View v) {
                 lanzarDialogoNuevaRevision();
-                //abrirSelectorArchivos();
             }
         });
 
@@ -296,7 +292,7 @@ public class FrgListadoRevisiones extends Fragment {
 
             // Se cambia el color de background si está seleccionado
             if (position == mSelected) {
-                item.setBackgroundColor(getResources().getColor(R.color.background_seleted_listview));
+                item.setBackgroundColor(getResources().getColor(R.color.background_selected_listview));
 
             } else {
                 item.setBackgroundColor(getResources().getColor(R.color.blanco));

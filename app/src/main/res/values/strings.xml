@@ -38,6 +38,9 @@
                                                 esta revisión</string>
     <!-- ____________________ Textos pantalla ImportarRevision____________________ -->
     <string name="titulo_importar_revision">Importar revisión</string>
+    <string name="texto_no_revisiones_a_importar">No hay revisiones a importar</string>
+    <string name="texto_importar_revision">Selecciona la revisión a importar</string>
+    <string name="seleccionar_archivo">Seleccionar archivo</string>
     <!-- ____________________ Textos pantalla MostrarEquipos ____________________ -->
     <string name="titulo_equipos">RPR - Listado equipos</string>
     <!-- Fragment listado de equipos -->

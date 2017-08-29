@@ -3,6 +3,7 @@ package com.nipsa.rpr;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -13,6 +14,7 @@ import java.util.concurrent.Exchanger;
 public class DBRevisiones extends SQLiteOpenHelper {
 
     public Context contexto;
+
     public static final String DATABASE_NAME = "dbrpr";
     public static final String TABLA_REVISIONES = "Revisiones";
     public static final String TABLA_EQUIPOS = "Equipos";
@@ -55,6 +57,7 @@ public class DBRevisiones extends SQLiteOpenHelper {
     public DBRevisiones(Context contexto) {
         super(contexto, DATABASE_NAME, null, 1);
         this.contexto = contexto;
+        //dbBackup = new DBBackup(contexto);
     }
 
     @Override
@@ -130,14 +133,21 @@ public class DBRevisiones extends SQLiteOpenHelper {
      * @return true si la revision ya se ha incluido en la BDD
      */
     public boolean existeRevision(String nombreRevision) {
+
+        if ((nombreRevision.contains(".xml")) || (nombreRevision.contains(".XML"))) {
+            nombreRevision = nombreRevision.substring(0, nombreRevision.lastIndexOf("."));
+        }
+        Revision revision = solicitarRevision(nombreRevision);
+
+        return (revision != null);
+/*
         boolean existeRevision = false;
-        nombreRevision = nombreRevision.substring(0, nombreRevision.lastIndexOf("."));
         String instruccion = "SELECT Nombre FROM '" + TABLA_REVISIONES + "' WHERE Nombre = '" + nombreRevision + "'";
 
         try {
             SQLiteDatabase db = getReadableDatabase();
             Cursor cursor = db.rawQuery(instruccion, null);
-            if (cursor.getCount() > 0) {
+            if ((cursor !=null) && (cursor.getCount() > 0)) {
                 existeRevision = true;
             }
             cursor.close();
@@ -147,6 +157,8 @@ public class DBRevisiones extends SQLiteOpenHelper {
         }
 
         return existeRevision;
+*/
+
     }
 
     /**
@@ -452,11 +464,12 @@ public class DBRevisiones extends SQLiteOpenHelper {
         try {
             SQLiteDatabase db = getReadableDatabase();
             Cursor cursor = db.rawQuery(instruccion, null);
-            cursor.moveToFirst();
-            for (int i=1; i<cursor.getColumnCount(); i++){
-                datosRevision.add(cursor.getString(i));
+            if ((cursor != null) && (cursor.moveToFirst())){
+                for (int i=1; i<cursor.getColumnCount(); i++){
+                    datosRevision.add(cursor.getString(i));
+                }
+                revision = new Revision(cursor.getInt(0), datosRevision);
             }
-            revision = new Revision(cursor.getInt(0), datosRevision);
             cursor.close();
         } catch (Exception e) {
             return null;
@@ -666,19 +679,24 @@ public class DBRevisiones extends SQLiteOpenHelper {
         try{
             SQLiteDatabase db = getReadableDatabase();
             Cursor cursor = db.rawQuery(instruccion, null);
-            while (cursor.moveToNext()){
-                datosFila.clear();
-                for (int i=1; i<cursor.getColumnCount(); i++){
-                    datosFila.add(cursor.getString(i));
+            if(cursor != null) {
+                if (cursor.moveToFirst()) {
+                    do{
+                        datosFila.clear();
+                        for (int i=1; i<cursor.getColumnCount(); i++){
+                            datosFila.add(cursor.getString(i));
+                        }
+                        resultado.add(new Revision(cursor.getInt(0), datosFila));
+                    } while (cursor.moveToNext());
                 }
-            resultado.add(new Revision(cursor.getInt(0), datosFila));
+                cursor.close();
             }
-            cursor.close();
         } catch (Exception e) {
-            return null;
-    }
+            resultado = null;
+        } finally {
+            return resultado;
+        }
 
-        return resultado;
     }
 
     /**
@@ -692,25 +710,27 @@ public class DBRevisiones extends SQLiteOpenHelper {
 
         resultado.clear();
         String instruccion = "SELECT * FROM " + TABLA_EQUIPOS +
-                                    " WHERE NombreRevision = '" + nombreRevision +
-                                    "' ORDER BY TipoInstalacion, CodigoTramo, NombreEquipo";
+                " WHERE NombreRevision = '" + nombreRevision +
+                "' ORDER BY TipoInstalacion, CodigoTramo, NombreEquipo";
         try {
             SQLiteDatabase db = getReadableDatabase();
             Cursor cursor = db.rawQuery(instruccion, null);
-            while (cursor.moveToNext()) {
-                datosFila.clear();
-                for (int i = 1; i < cursor.getColumnCount(); i++) {
-                    datosFila.add(cursor.getString(i));
-                }
-                Equipo e = new Equipo(cursor.getInt(0), datosFila);
-                resultado.add(e);
+            if ((cursor != null) && (cursor.moveToFirst())) {
+                do {
+                    datosFila.clear();
+                    for (int i = 1; i < cursor.getColumnCount(); i++) {
+                        datosFila.add(cursor.getString(i));
+                    }
+                    Equipo e = new Equipo(cursor.getInt(0), datosFila);
+                    resultado.add(e);
+                } while (cursor.moveToNext());
             }
             cursor.close();
         } catch (Exception e) {
-            return null;
+            resultado = null;
+        } finally {
+            return resultado;
         }
-
-        return resultado;
     }
 
     /**
@@ -1686,16 +1706,6 @@ public class DBRevisiones extends SQLiteOpenHelper {
         }
     }
 
-    public void borrarBD () {
-        try {
-            SQLiteDatabase db = getWritableDatabase();
-            db.execSQL("DROP DATABASE " + TABLA_REVISIONES);
-        } catch (Exception e) {
-            Log.e(Aplicacion.TAG, "Error al borrar BD: " + e.toString());
-            Aplicacion.print(Aplicacion.TAG + "Error al borrar BD: " + e.toString());
-        }
-    }
-
     /**
      * Recupera el número de tramo de un texto dado (puede ser del formato aaa-000-bbbbbbb o bien 000)
      *
@@ -1739,5 +1749,121 @@ public class DBRevisiones extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * Incluye la revisión seleccionada en la BDD
+     * @param nombreRevision
+     */
+    public void importarRevision(String nombreRevision) {
+        Aplicacion.print(nombreRevision);
+        if (!existeRevision(nombreRevision)) {
+            incluirNuevaRevision(nombreRevision);
+        } else {
+            fusionarDB(nombreRevision);
+        }
+    }
+
+    /**
+     * Incluye una nueva revisión leida de un backup
+     * @param nombreRevision
+     */
+    private void incluirNuevaRevision (String nombreRevision) {
+            incluirRevision(nombreRevision);
+            incluirElementos(nombreRevision, TABLA_EQUIPOS);
+            incluirElementos(nombreRevision, TABLA_APOYOS);
+            incluirElementos(nombreRevision, TABLA_NO_REVISABLE);
+            //incluirElementos(nombreRevision, TABLA_TRAMOS);
+            incluirElementos(nombreRevision, TABLA_DEFECTOS);
+
+    }
+
+    /**
+     * Incluye los datos de la tabla Revisión
+     * @param nombreRevision
+     */
+    private void incluirRevision(String nombreRevision) {
+        DBBackup dbBackup = new DBBackup(contexto);
+        Revision revision = dbBackup.solicitarRevision(nombreRevision);
+        Vector<String> lista = revision.getRevisionPorLista();
+        StringBuffer inst = new StringBuffer();
+
+        inst.append("INSERT INTO " + TABLA_REVISIONES + " VALUES (null");
+        for (int i =0; i<lista.size(); i++) {
+            inst.append(", '" + lista.elementAt(i) + "'");
+        }
+        inst.append(")");
+
+        SQLiteDatabase db = getWritableDatabase();
+        try {
+            db.execSQL(inst.toString());
+        } catch (SQLException e) {
+            Log.e(Aplicacion.TAG, "Error al incluir revision: " + e.toString());
+        }
+
+    }
+
+    /**
+     * Incluye los datos de la tabla recibida por parámetro
+     * @param nombreRevision
+     * @param tabla
+     */
+    private void incluirElementos(String nombreRevision, String tabla) {
+        DBBackup dbBackup = new DBBackup(contexto);
+        Cursor cursor = dbBackup.solicitarBackup(nombreRevision, tabla);
+        if ((cursor != null) && (cursor.moveToFirst())){
+            do {
+                StringBuffer inst = new StringBuffer();
+                inst.append("INSERT INTO " + tabla + " VALUES (null");
+                for (int i=1; i<cursor.getColumnCount(); i++) {
+                    inst.append(", '" + cursor.getString(i) + "'");
+                }
+                inst.append(")");
+                SQLiteDatabase db = getWritableDatabase();
+                try {
+                    db.execSQL(inst.toString());
+                } catch (SQLException e) {
+                    Log.e(Aplicacion.TAG, "Error al incluir elemento: " + e.toString());
+                }
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+    }
+
+    /**
+     * Fusiona la BDD existente con la BDD del backup leido
+     * @param nombreRevision
+     */
+    private void fusionarDB (String nombreRevision) {
+        DBBackup dbBackup = new DBBackup(contexto);
+        Vector<Equipo> listaEquiposEsclavo = dbBackup.solicitarEquiposFinalizados(nombreRevision);
+        if (listaEquiposEsclavo != null) {
+            for (int i=0; i<listaEquiposEsclavo.size(); i++) {
+                Equipo equipoEscalvo = listaEquiposEsclavo.elementAt(i);
+                Equipo equipoMaster = solicitarEquipo(equipoEscalvo.getNombreRevision(), equipoEscalvo.getNombreEquipo(),
+                                                        equipoEscalvo.getCodigoTramo());
+                if (!equipoMaster.getEstado().equals(Aplicacion.ESTADO_FINALIZADA)) {
+                    fusionarEquipos(equipoEscalvo);
+//                    fusionarElementos(equipoEscalvo);
+//                    fusionarElementos(equipoEscalvo);
+//                    fusionarElementos(equipoEscalvo);
+//                    fusionarElementos(equipoEscalvo);
+                }
+            }
+        }
+    }
+
+    /**
+     *
+     * @param equipoEsclavo
+     */
+    private void fusionarEquipos (Equipo equipoEsclavo) {
+        DBBackup dbBackup = new DBBackup(contexto);
+        Cursor cursor = dbBackup.solicitarEquipo(equipoEsclavo);
+        if((cursor != null) && (cursor.moveToFirst())) {
+            do {
+                // TODO: Machacar equipo Master con equipo Esclavo
+            } while (cursor.moveToNext());
+        }
+    }
 
 }

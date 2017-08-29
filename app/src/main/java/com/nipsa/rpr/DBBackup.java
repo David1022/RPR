@@ -135,6 +135,35 @@ public class DBBackup extends SQLiteOpenHelper{
 
     }
 
+    /**
+     *
+     * @return lista de revisiones existentes en la BDD
+     */
+    public Vector<String> solicitarListaRevisiones () {
+        Vector<String> resultado = new Vector<String>();
+
+        resultado.clear();
+        String instruccion = "SELECT * FROM " + TABLA_REVISIONES + " ORDER BY Nombre";
+        try{
+            SQLiteDatabase db = getReadableDatabase();
+            Cursor cursor = db.rawQuery(instruccion, null);
+            if(cursor != null) {
+                if (cursor.moveToFirst()) {
+                     do {
+                         int col = cursor.getColumnIndex("Nombre");
+                         resultado.add(cursor.getString(col));
+                     }while (cursor.moveToNext());
+                }
+            }
+                cursor.close();
+        } catch (Exception e) {
+            resultado = null;
+        } finally {
+            return resultado;
+        }
+
+    }
+
     public void crearBackup (String revision) {
         borrarElementosTabla(TABLA_REVISIONES);
         borrarElementosTabla(TABLA_EQUIPOS);
@@ -245,6 +274,104 @@ public class DBBackup extends SQLiteOpenHelper{
             Log.e("ErrorRPR: ", e.toString());
         }
 
+    }
+
+    /**
+     *
+     * @param nombreRevision
+     * @return la revisión solicitada (o null si no se encuentra)
+     */
+    public Revision solicitarRevision(String nombreRevision) {
+        Revision revision = null;
+        Vector <String> datosRevision = new Vector<String>();
+        String instruccion = "SELECT * FROM '" + TABLA_REVISIONES + "' WHERE Nombre = '" + nombreRevision + "'";
+        try {
+            SQLiteDatabase db = getReadableDatabase();
+            Cursor cursor = db.rawQuery(instruccion, null);
+            if ((cursor != null) && (cursor.moveToFirst())){
+                for (int i=1; i<cursor.getColumnCount(); i++){
+                    datosRevision.add(cursor.getString(i));
+                }
+                revision = new Revision(cursor.getInt(0), datosRevision);
+            }
+            cursor.close();
+        } catch (Exception e) {
+            return null;
+        }
+
+        return revision;
+    }
+
+    /**
+     * Devuelve un backup de la tabla y revisión recibidos
+     * @param revision
+     * @param tabla
+     * @return
+     */
+    public Cursor solicitarBackup (String revision, String tabla) {
+        Cursor cursor = null;
+        String inst = "SELECT * FROM " + tabla + " WHERE NombreRevision = '" + revision + "'";
+
+        try {
+            SQLiteDatabase db = getReadableDatabase();
+            cursor = db.rawQuery(inst, null);
+        } catch (Exception e) {
+            Log.e(Aplicacion.TAG, "Error al solicitar lista equipos: " + e.toString());
+            return null;
+        }
+
+        return cursor;
+
+    }
+
+    /**
+     * Devuelve un vector con la lista de equipos en estado Finalizado
+     * @param nombreRevision
+     * @return
+     */
+    public Vector<Equipo> solicitarEquiposFinalizados (String nombreRevision) {
+        Vector<Equipo> resultado = new Vector<Equipo>();
+        Vector<String> datosFila = new Vector<String>();
+
+        resultado.clear();
+        String instruccion = "SELECT * FROM " + TABLA_EQUIPOS +
+                " WHERE NombreRevision = '" + nombreRevision +
+                "' AND Estado = '" + Aplicacion.ESTADO_FINALIZADA + "' ORDER BY TipoInstalacion, CodigoTramo, NombreEquipo";
+        try {
+            SQLiteDatabase db = getReadableDatabase();
+            Cursor cursor = db.rawQuery(instruccion, null);
+            if ((cursor != null) && (cursor.moveToFirst())) {
+                do {
+                    datosFila.clear();
+                    for (int i = 1; i < cursor.getColumnCount(); i++) {
+                        datosFila.add(cursor.getString(i));
+                    }
+                    Equipo e = new Equipo(cursor.getInt(0), datosFila);
+                    resultado.add(e);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+            resultado = null;
+        } finally {
+            return resultado;
+        }
+    }
+
+    public Cursor solicitarEquipo(Equipo equipo) {
+        Cursor cursor = null;
+        String inst = "SELECT * FROM " + TABLA_EQUIPOS + " WHERE NombreRevision = '" +
+                equipo.getNombreRevision() + "' AND NombreEquipo = '" + equipo.getNombreEquipo() +
+                "' AND CodigoTramo = '" + equipo.getCodigoTramo() + "'";
+
+        try {
+            SQLiteDatabase db = getReadableDatabase();
+            cursor = db.rawQuery(inst, null);
+        } catch (SQLException e) {
+            Log.e(Aplicacion.TAG, "Error al solicitar equipo: " + e.toString());
+        } finally {
+            return cursor;
+        }
     }
 
 }
