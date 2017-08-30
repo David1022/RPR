@@ -48,7 +48,7 @@ public class DBGlobal extends SQLiteOpenHelper {
     }
 
     /**
-     * Se utilizará para mostrar los defectos según el tipo equipo (LAMT, CT, PT) y el grupo de defecto
+     * Devuelve los defectos según el tipo equipo (LAMT, CT, PT) y el grupo de defecto
      * dado (Aislamiento, Conductor,...)
      *
      * @param tipo

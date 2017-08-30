@@ -23,7 +23,7 @@ public class FrgListadoDefectos extends Fragment {
 
     private String[] listaGrupoDefectosLAMT = {"Aislamiento (A)", "Conductor (C)", "Cruces (G)", "Herrajes (H)",
                                 "Cimientos (I)", "Estructura (J)", "Paso por zonas (L)", "Apoyos (P)",
-                                "Aparamenta (R)", "Puestas a Tierra (T)", "Entorno perimetral", "Observaciones (Z)"};
+                                "Aparamenta (R)", "Puestas a Tierra (T)", "Entorno perimetral (V)", "Observaciones (Z)"};
     private String[] listaGrupoDefectosCT = {"Aislamiento (A)", "Transformador (F)", "Aparamenta y dispositivos de maniobra (R)",
                                 "Puestas a Tierra (T)", "Secundario BT del transformador (U)", "Protecciones y obra civil (V)",
                                 "Embarrados y conexiones (X)", "Observaciones (Z)"};

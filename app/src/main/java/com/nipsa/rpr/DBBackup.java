@@ -141,12 +141,13 @@ public class DBBackup extends SQLiteOpenHelper{
      */
     public Vector<String> solicitarListaRevisiones () {
         Vector<String> resultado = new Vector<String>();
+        Cursor cursor = null;
 
         resultado.clear();
         String instruccion = "SELECT * FROM " + TABLA_REVISIONES + " ORDER BY Nombre";
         try{
             SQLiteDatabase db = getReadableDatabase();
-            Cursor cursor = db.rawQuery(instruccion, null);
+            cursor = db.rawQuery(instruccion, null);
             if(cursor != null) {
                 if (cursor.moveToFirst()) {
                      do {
@@ -155,10 +156,12 @@ public class DBBackup extends SQLiteOpenHelper{
                      }while (cursor.moveToNext());
                 }
             }
-                cursor.close();
         } catch (Exception e) {
             resultado = null;
         } finally {
+            if(cursor != null ) {
+                cursor.close();
+            }
             return resultado;
         }
 
@@ -173,11 +176,11 @@ public class DBBackup extends SQLiteOpenHelper{
         borrarElementosTabla(TABLA_DEFECTOS);
 
         incluirRevision(revision);
-        incluirElemento(revision, TABLA_EQUIPOS);
-        incluirElemento(revision, TABLA_APOYOS);
-        incluirElemento(revision, TABLA_NO_REVISABLE);
-        //incluirElemento(revision, TABLA_TRAMOS);
-        incluirElemento(revision, TABLA_DEFECTOS);
+        incluirRegistro(revision, TABLA_EQUIPOS);
+        incluirRegistro(revision, TABLA_APOYOS);
+        incluirRegistro(revision, TABLA_NO_REVISABLE);
+        //incluirRegistro(revision, TABLA_TRAMOS);
+        incluirRegistro(revision, TABLA_DEFECTOS);
 
         crearCopiaDB(revision);
     }
@@ -212,7 +215,7 @@ public class DBBackup extends SQLiteOpenHelper{
 
     }
 
-    private void incluirElemento(String nombreRevision, String tabla) {
+    private void incluirRegistro(String nombreRevision, String tabla) {
         Cursor cursor = dbRevisiones.solicitarBackup(nombreRevision, tabla);
         if (cursor.moveToFirst()){
             do {
@@ -226,7 +229,7 @@ public class DBBackup extends SQLiteOpenHelper{
                 try {
                     db.execSQL(inst.toString());
                 } catch (SQLException e) {
-                    Log.e(Aplicacion.TAG, "Error al incluir elemento: " + e.toString());
+                    Log.e(Aplicacion.TAG, "Error al incluir registro: " + e.toString());
                 }
             } while (cursor.moveToNext());
         }
@@ -363,6 +366,54 @@ public class DBBackup extends SQLiteOpenHelper{
         String inst = "SELECT * FROM " + TABLA_EQUIPOS + " WHERE NombreRevision = '" +
                 equipo.getNombreRevision() + "' AND NombreEquipo = '" + equipo.getNombreEquipo() +
                 "' AND CodigoTramo = '" + equipo.getCodigoTramo() + "'";
+
+        try {
+            SQLiteDatabase db = getReadableDatabase();
+            cursor = db.rawQuery(inst, null);
+        } catch (SQLException e) {
+            Log.e(Aplicacion.TAG, "Error al solicitar equipo: " + e.toString());
+        } finally {
+            return cursor;
+        }
+    }
+
+    public Cursor solicitarApoyo(Equipo equipo) {
+        Cursor cursor = null;
+        String inst = "SELECT * FROM " + TABLA_APOYOS + " WHERE NombreRevision = '" +
+                equipo.getNombreRevision() + "' AND NombreEquipo = '" + equipo.getNombreEquipo() +
+                "' AND CodigoTramo = '" + equipo.getCodigoTramo() + "'";
+
+        try {
+            SQLiteDatabase db = getReadableDatabase();
+            cursor = db.rawQuery(inst, null);
+        } catch (SQLException e) {
+            Log.e(Aplicacion.TAG, "Error al solicitar equipo: " + e.toString());
+        } finally {
+            return cursor;
+        }
+    }
+
+    public Cursor solicitarNoRevisable(Equipo equipo) {
+        Cursor cursor = null;
+        String inst = "SELECT * FROM " + TABLA_NO_REVISABLE + " WHERE NombreRevision = '" +
+                equipo.getNombreRevision() + "' AND CodigoApoyoCT = '" + equipo.getNombreEquipo() +
+                "' AND Tramo = '" + equipo.getCodigoTramo() + "'";
+
+        try {
+            SQLiteDatabase db = getReadableDatabase();
+            cursor = db.rawQuery(inst, null);
+        } catch (SQLException e) {
+            Log.e(Aplicacion.TAG, "Error al solicitar equipo: " + e.toString());
+        } finally {
+            return cursor;
+        }
+    }
+
+    public Cursor solicitarDefectos(Equipo equipo) {
+        Cursor cursor = null;
+        String inst = "SELECT * FROM " + TABLA_NO_REVISABLE + " WHERE NombreRevision = '" +
+                equipo.getNombreRevision() + "' AND NombreEquipo = '" + equipo.getNombreEquipo() +
+                "' AND Tramo = '" + equipo.getCodigoTramo() + "'";
 
         try {
             SQLiteDatabase db = getReadableDatabase();

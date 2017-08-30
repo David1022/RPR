@@ -192,7 +192,9 @@ public class DatosDefecto extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    cbCorregido.setEnabled(true);
+                    if (sePuedeCorregir()) {
+                        cbCorregido.setEnabled(true);
+                    }
                     dbRevisiones.actualizarItemDefecto(Aplicacion.defectoActual, "EsDefecto", Aplicacion.SI);
                     textoEsDefectoEnRojo(true);
                     alertaCorreccionInmediata();
@@ -457,7 +459,9 @@ public class DatosDefecto extends AppCompatActivity {
 
             if (defecto.getEsDefecto().equals(Aplicacion.SI)) {
                 cbEsDefecto.setChecked(true);
-                cbCorregido.setEnabled(true);
+                if (sePuedeCorregir()) {
+                    cbCorregido.setEnabled(true);
+                }
                 textoEsDefectoEnRojo(true);
             } else {
                 cbEsDefecto.setChecked(false);
@@ -814,6 +818,17 @@ public class DatosDefecto extends AppCompatActivity {
             startActivity(intent);
         }
 
+    }
+
+    private boolean sePuedeCorregir () {
+        boolean sePuedeCorregir = false;
+        if (defectoActual.startsWith("J51") || defectoActual.startsWith("J61") || defectoActual.startsWith("V25")
+                || defectoActual.startsWith("V31") || defectoActual.startsWith("V32")
+                || defectoActual.startsWith("V2Q") || defectoActual.startsWith("R4D")) {
+            sePuedeCorregir = true;
+        }
+
+        return sePuedeCorregir;
     }
 
 }

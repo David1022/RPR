@@ -106,6 +106,7 @@ public class ImportarRevision extends AppCompatActivity {
                         try {
                             InputStream is = getContentResolver().openInputStream(uri);
                             copiarDBAMemoriaInterna(is);
+                            listaAMostrar.setSize(0);
                             listaAMostrar.addAll(dbBackup.solicitarListaRevisiones());
                             if((listaAMostrar == null) || (listaAMostrar.size()==0)) {
                                 titulo.setText(getResources().getString(R.string.texto_no_revisiones_a_importar));

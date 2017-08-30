@@ -1830,7 +1830,8 @@ public class DBRevisiones extends SQLiteOpenHelper {
     }
 
     /**
-     * Fusiona la BDD existente con la BDD del backup leido
+     * Fusiona la BDD existente con la BDD del backup leido. Sólo fusionará los equipos que ya estén
+     * finalizados en la BDD esclava
      * @param nombreRevision
      */
     private void fusionarDB (String nombreRevision) {
@@ -1843,27 +1844,132 @@ public class DBRevisiones extends SQLiteOpenHelper {
                                                         equipoEscalvo.getCodigoTramo());
                 if (!equipoMaster.getEstado().equals(Aplicacion.ESTADO_FINALIZADA)) {
                     fusionarEquipos(equipoEscalvo);
-//                    fusionarElementos(equipoEscalvo);
-//                    fusionarElementos(equipoEscalvo);
-//                    fusionarElementos(equipoEscalvo);
-//                    fusionarElementos(equipoEscalvo);
+                    fusionarApoyos(equipoEscalvo);
+                    fusionarNoRevisables(equipoEscalvo);
+//                    fusionarDefectos(equipoEscalvo);
                 }
             }
         }
     }
 
     /**
-     *
+     * Se borra en la BDD Master el equipo que coincide con el esclavo recibido para sobreescribirlo
+     * con este último
      * @param equipoEsclavo
      */
     private void fusionarEquipos (Equipo equipoEsclavo) {
         DBBackup dbBackup = new DBBackup(contexto);
-        Cursor cursor = dbBackup.solicitarEquipo(equipoEsclavo);
-        if((cursor != null) && (cursor.moveToFirst())) {
+        Cursor cursorMaster = dbBackup.solicitarEquipo(equipoEsclavo);
+        if((cursorMaster != null) && (cursorMaster.moveToFirst())) {
             do {
-                // TODO: Machacar equipo Master con equipo Esclavo
-            } while (cursor.moveToNext());
+                // Se borra el elemento existente en la BDD Master
+                SQLiteDatabase db = getWritableDatabase();
+                String clausulaWhere = "NombreRevision = '" + equipoEsclavo.getNombreRevision() +
+                                        "' AND NombreEquipo = '" + equipoEsclavo.getNombreEquipo() +
+                                        "' AND CodigoTramo LIKE '%" + equipoEsclavo.getCodigoTramo() + "%'";
+                db.delete(TABLA_EQUIPOS, clausulaWhere, null);
+                // Se incluye el registro del equipo de la BDD Esclava
+/*
+                Vector<String> v = new Vector<String>();
+                for (int i=0; i<cursorMaster.getColumnCount(); i++) {
+                    v.add(cursorMaster.getString(i));
+                }
+*/
+                incluirRegistro(cursorMaster, TABLA_EQUIPOS);
+            } while (cursorMaster.moveToNext());
         }
+        cursorMaster.close();
+    }
+
+    /**
+     * Incluye el registro pasado en el cursor en la tabla pasada por parámetro
+     * @param cRegistro
+     * @param tabla
+     */
+    private void incluirRegistro (Cursor cRegistro, String tabla) {
+        if((cRegistro != null) && cRegistro.moveToFirst()) {
+            StringBuffer inst = new StringBuffer();
+            inst.append("INSERT INTO " + tabla + " VALUES (null");
+            for (int i=1; i<cRegistro.getColumnCount(); i++) {
+                inst.append(", '" + cRegistro.getString(i) + "'");
+            }
+            inst.append(")");
+            SQLiteDatabase db = getWritableDatabase();
+            try {
+                db.execSQL(inst.toString());
+            } catch (SQLException e) {
+                Log.e(Aplicacion.TAG, "Error al incluir registro: " + e.toString());
+            }
+        }
+    }
+
+    /**
+     * Se borra en la BDD Master el apoyo que coincide con el esclavo recibido para sobreescribirlo
+     * con este último
+     * @param equipoEsclavo
+     */
+    private void fusionarApoyos (Equipo equipoEsclavo) {
+        DBBackup dbBackup = new DBBackup(contexto);
+        Cursor cursorMaster = dbBackup.solicitarApoyo(equipoEsclavo);
+        if((cursorMaster != null) && (cursorMaster.moveToFirst())) {
+            do {
+                // Se borra el elemento existente en la BDD Master
+                SQLiteDatabase db = getWritableDatabase();
+                String clausulaWhere = "NombreRevision = '" + equipoEsclavo.getNombreRevision() +
+                        "' AND NombreEquipo = '" + equipoEsclavo.getNombreEquipo() +
+                        "' AND CodigoTramo LIKE '%" + equipoEsclavo.getCodigoTramo() + "%'";
+                db.delete(TABLA_APOYOS, clausulaWhere, null);
+                // Se incluye el registro del apoyo de la BDD Esclava
+                incluirRegistro(cursorMaster, TABLA_APOYOS);
+            } while (cursorMaster.moveToNext());
+        }
+        cursorMaster.close();
+    }
+
+    /**
+     * Se borra en la BDD Master el apoyo no revisable que coincide con el esclavo recibido para sobreescribirlo
+     * con este último
+     * @param equipoEsclavo
+     */
+    private void fusionarNoRevisables (Equipo equipoEsclavo) {
+        DBBackup dbBackup = new DBBackup(contexto);
+        Cursor cursorMaster = dbBackup.solicitarNoRevisable(equipoEsclavo);
+        if((cursorMaster != null) && (cursorMaster.moveToFirst())) {
+            do {
+                // Se borra el elemento existente en la BDD Master
+                SQLiteDatabase db = getWritableDatabase();
+                String clausulaWhere = "NombreRevision = '" + equipoEsclavo.getNombreRevision() +
+                        "' AND CodigoApoyoCT = '" + equipoEsclavo.getNombreEquipo() +
+                        "' AND Tramo LIKE '%" + equipoEsclavo.getCodigoTramo() + "%'";
+                db.delete(TABLA_NO_REVISABLE, clausulaWhere, null);
+                // Se incluye el registro del apoyo no revisable de la BDD Esclava
+                incluirRegistro(cursorMaster, TABLA_NO_REVISABLE);
+            } while (cursorMaster.moveToNext());
+        }
+        cursorMaster.close();
+    }
+
+    /**
+     * Se borra en la BDD Master el apoyo no revisable que coincide con el esclavo recibido para sobreescribirlo
+     * con este último.
+     * @param equipoEsclavo
+     */
+    private void fusionarDefectos (Equipo equipoEsclavo) {
+        DBBackup dbBackup = new DBBackup(contexto);
+        Cursor cursorMaster = dbBackup.solicitarDefectos(equipoEsclavo);
+        if((cursorMaster != null) && (cursorMaster.moveToFirst())) {
+            do {
+                // Se borra el elemento existente en la BDD Master
+                SQLiteDatabase db = getWritableDatabase();
+                String clausulaWhere = "NombreRevision = '" + equipoEsclavo.getNombreRevision() +
+                        "' AND NombreEquipo = '" + equipoEsclavo.getNombreEquipo() +
+                        "' AND Tramo LIKE '%" + equipoEsclavo.getCodigoTramo() + "%'";
+                db.delete(TABLA_DEFECTOS, clausulaWhere, null);
+                // Se incluye el registro del apoyo no revisable de la BDD Esclava
+                incluirRegistro(cursorMaster, TABLA_DEFECTOS);
+            } while (cursorMaster.moveToNext());
+        }
+        cursorMaster.close();
     }
 
 }
