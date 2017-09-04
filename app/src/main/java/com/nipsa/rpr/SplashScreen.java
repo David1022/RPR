@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -21,15 +22,24 @@ public class SplashScreen extends AppCompatActivity {
     // Se establece la duración de la pantalla
     private static final long SPLASH_SCREEN_DELAY = 500;
     private int SOLICITUD_PERMISO_WRITE_EXTERNAL_STORAGE = 0;
+    public static final String DIRECTORIO_ENTRADA = "/RPR/INPUT/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+        // Si no se ha leido por primera vez la BDD de los defectos, se lee (sólo se leerá la primera vez que se abre la app)
         String nombreArchivoBD = "/data/data/com.nipsa.rpr/databases/" + DBGlobal.DATABASE_NAME;
         File archivoBD = new File(nombreArchivoBD);
         if(!archivoBD.exists()) {
             Aplicacion.lecturaBDDefectos();
+        }
+        // Si no se ha creado el arbol de directorios de entrada, se crea
+        String directorioEntrada = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                                        + DIRECTORIO_ENTRADA;
+        File fEntrada = new File(directorioEntrada);
+        if (!fEntrada.exists()) {
+            fEntrada.mkdirs();
         }
 
     }

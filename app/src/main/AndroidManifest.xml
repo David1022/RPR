@@ -39,8 +39,8 @@
         <activity
             android:name=".DatosDefecto"
             android:screenOrientation="landscape"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:theme="@style/AppTheme.NoActionBar"/>
+            <!--android:windowSoftInputMode="stateAlwaysHidden" />-->
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -71,7 +71,8 @@
             android:name=".FotosDefecto"
             android:screenOrientation="landscape"
             android:theme="@style/DialogTheme" />
-        <activity android:name=".ImportarRevision"
+        <activity
+            android:name=".ImportarRevision"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar"/>
     </application>

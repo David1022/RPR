@@ -46,10 +46,9 @@ public class DatosDefecto extends AppCompatActivity {
 
     private TextView tvEquipo, tvDefecto, tvMostrarFoto, tvMedida;
     private TextView tvDatoFechaCorrecion, tvTrafo2, tvTrafo3;
-    private Double lat, lng;
     private EditText etLatitud, etLongitud, etOcurrencias, etMedida, etObservaciones;
     private EditText etMedidaTrafo2, etMedidaTrafo3;
-    private CheckBox cbEsDefecto, cbCorregido;
+    private CheckBox cbEsDefecto, cbCorregido, cbPatUnidas;
     private ImageView ivAddTrafo2, ivAddTrafo3, ivDelTrafo2, ivDelTrafo3;
 
     private String foto1, foto2, fechaCorreccion;
@@ -94,6 +93,7 @@ public class DatosDefecto extends AppCompatActivity {
         tvDatoFechaCorrecion = (TextView) findViewById(R.id.tvDatoFechaCorreccion);
         tvDatoFechaCorrecion.setText("");
         etOcurrencias = (EditText) findViewById(R.id.etDatoOcurrencias);
+        cbPatUnidas = (CheckBox) findViewById(R.id.cbPatUnidas);
         etMedida = (EditText) findViewById(R.id.etDatoMedida);
         etMedidaTrafo2 = (EditText) findViewById(R.id.etTrafo2);
         etMedidaTrafo3= (EditText) findViewById(R.id.etTrafo3);
@@ -102,6 +102,8 @@ public class DatosDefecto extends AppCompatActivity {
         ivDelTrafo2 = (ImageView) findViewById(R.id.ivDelTrafo2);
         ivAddTrafo3 = (ImageView) findViewById(R.id.ivAddTrafo3);
         ivDelTrafo3 = (ImageView) findViewById(R.id.ivDelTrafo3);
+        cbEsDefecto = (CheckBox) findViewById(R.id.cbDatoEsDefecto);
+        cbCorregido = (CheckBox) findViewById(R.id.cbDatoCorregido);
 
         etOcurrencias.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -113,6 +115,16 @@ public class DatosDefecto extends AppCompatActivity {
                     etObservaciones.setSelection(etObservaciones.getText().length());
                 }
                 return false;
+            }
+        });
+        cbPatUnidas.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    dbRevisiones.actualizarItemDefecto(defectoActual, "PaTUnidas", Aplicacion.SI);
+                } else {
+                    dbRevisiones.actualizarItemDefecto(defectoActual, "PaTUnidas", Aplicacion.NO);
+                }
             }
         });
         etMedida.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -186,8 +198,6 @@ public class DatosDefecto extends AppCompatActivity {
                 dbRevisiones.actualizarItemDefecto(defectoActual, "Observaciones", textoObservaciones);
             }
         }
-        cbEsDefecto = (CheckBox) findViewById(R.id.cbDatoEsDefecto);
-        cbCorregido = (CheckBox) findViewById(R.id.cbDatoCorregido);
         cbEsDefecto.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -397,8 +407,15 @@ public class DatosDefecto extends AppCompatActivity {
             etLatitud.setText(defecto.getLatitud());
             etLongitud.setText(defecto.getLongitud());
             etOcurrencias.setText(defecto.getOcurrencias());
+            if (defecto.getPatUnidas().equals(Aplicacion.SI)) {
+                cbPatUnidas.setChecked(true);
+            } else {
+                cbPatUnidas.setChecked(false);
+            }
             switch (defectoActual) {
                 case "T22B":
+                    cbPatUnidas.setVisibility(View.INVISIBLE);
+                    cbPatUnidas.setEnabled(false);
                     tvMedida.setText("Valor PaT:");
                     etMedida.setFocusable(true);
                     break;
@@ -447,7 +464,33 @@ public class DatosDefecto extends AppCompatActivity {
                         }
                     }
                     break;
+                case "T53C":
+                    cbPatUnidas.setVisibility(View.INVISIBLE);
+                    cbPatUnidas.setEnabled(false);
+                    tvMedida.setText("Rm - Tr1:");
+                    etMedida.setFocusable(true);
+                    ivAddTrafo2.setVisibility(View.INVISIBLE);
+                    ivAddTrafo2.setFocusable(false);
+                    break;
+                case "T62C":
+                    cbPatUnidas.setVisibility(View.INVISIBLE);
+                    cbPatUnidas.setEnabled(false);
+                    tvMedida.setText("Rn: - Tr1:");
+                    etMedida.setFocusable(true);
+                    ivAddTrafo2.setVisibility(View.INVISIBLE);
+                    ivAddTrafo2.setFocusable(false);
+                    break;
+                case "T55C":
+                    cbPatUnidas.setVisibility(View.INVISIBLE);
+                    cbPatUnidas.setEnabled(false);
+                    tvMedida.setText("Rc: - Tr1:");
+                    etMedida.setFocusable(true);
+                    ivAddTrafo2.setVisibility(View.INVISIBLE);
+                    ivAddTrafo2.setFocusable(false);
+                    break;
                 default:
+                    cbPatUnidas.setVisibility(View.INVISIBLE);
+                    cbPatUnidas.setEnabled(false);
                     tvMedida.setTextColor(getResources().getColor(R.color.gris));
                     etMedida.setFocusable(false);
                     break;

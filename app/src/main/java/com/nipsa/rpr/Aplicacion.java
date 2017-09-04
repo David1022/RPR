@@ -37,7 +37,6 @@ import java.util.Vector;
 public class Aplicacion extends Application {
 
     public static final String DIRECTORIO_SALIDA_BD = "/RPR/OUTPUT/";
-    public static final String DIRECTORIO_ENTRADA_BD = "/RPR/INPUT/";
 
     public static final String ESTADO_PENDIENTE = "Pendiente";
     public static final String ESTADO_EN_CURSO = "En curso";
@@ -458,19 +457,19 @@ public class Aplicacion extends Application {
                                         texto.append("<Data ss:Type=\"String\">");
                                         texto.append(def.getObservaciones());
                                         break;
-                                    case 24:
+                                    case 24: // Se incluye la foto con hipervínculo
                                         imagen = def.getFoto1();
                                         texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"Fotos\\" + imagen + "\">");
                                         texto.append("<Data ss:Type=\"String\">");
                                         texto.append(imagen);
                                         break;
-                                    case 25:
+                                    case 25: // Se incluye la foto con hipervínculo
                                         imagen = def.getFoto2();
                                         texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"Fotos\\" + imagen + "\">");
                                         texto.append("<Data ss:Type=\"String\">");
                                         texto.append(imagen);
                                         break;
-                                    default:
+                                    default: // Por defecto se incluye el valor recogido en la BDD
                                         texto.append("<Cell ss:StyleID=\"s79\">");
                                         texto.append("<Data ss:Type=\"String\">");
                                         texto.append(cEquipos.getString(j));
@@ -486,40 +485,54 @@ public class Aplicacion extends Application {
                         if (hayMedida) {
                             texto.append("<Row>\n");
                             for (int j=1; j<=28; j++) {
-                                String fecha;
-                                texto.append("<Cell ss:StyleID=\"s79\">");
-                                texto.append("<Data ss:Type=\"String\">");
+                                String fecha, imagen;
                                 switch (j){
-                                    case 4:
+                                    case 4: // Si es CT no se pone el tramo
+                                        texto.append("<Cell ss:StyleID=\"s79\">");
+                                        texto.append("<Data ss:Type=\"String\">");
                                         if (tipo.equals("Z")) {
                                             texto.append("");
                                         } else {
                                             texto.append(cEquipos.getString(j));
                                         }
                                         break;
-                                    case 8:
+                                    case 8: // Se corrige la fecha para que tenga el formato pedido por EDE
+                                        texto.append("<Cell ss:StyleID=\"s79\">");
+                                        texto.append("<Data ss:Type=\"String\">");
                                         fecha = cEquipos.getString(j);
                                         texto.append(corregirFecha(fecha));
                                         break;
                                     case 9: // Se incluye el codigo de la medida en lugar del codigo del defecto
-                                        texto.append(equivalenciaMedidaCodigo(def.getCodigoDefecto()));
+                                        texto.append("<Cell ss:StyleID=\"s79\">");
+                                        texto.append("<Data ss:Type=\"String\">");
+                                        texto.append(equivalenciaMedidaCodigo(def.getCodigoDefecto(), def.getPatUnidas()));
                                         break;
                                     case 12: // Se incluye la medida en lugar de las ocurrencias
-                                        texto.append(def.getMedida());
+                                        texto.append("<Cell ss:StyleID=\"s79\">");
+                                        texto.append("<Data ss:Type=\"String\">");
+                                        texto.append(adaptarMedida(def.getMedida()));
                                         break;
                                     case 23: // Se incluyen las observaciones del defecto además de las del equipo
+                                        texto.append("<Cell ss:StyleID=\"s79\">");
+                                        texto.append("<Data ss:Type=\"String\">");
                                         texto.append("TR1");
                                         if (!def.getObservaciones().equals("")) {
                                             texto.append(": " + def.getObservaciones());
                                         }
                                         break;
-                                    case 24:
-                                        texto.append("");
-                                        break;
-                                    case 25:
-                                        texto.append("");
-                                        break;
+                                    case 24: // Se incluye también el vínculo a la foto en las medidas
+                                        imagen = def.getFoto1();
+                                        texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"Fotos\\" + imagen + "\">");
+                                        texto.append("<Data ss:Type=\"String\">");
+                                        texto.append(imagen);
+                                    case 25: // Se incluye también el vínculo a la foto en las medidas
+                                        imagen = def.getFoto2();
+                                        texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"Fotos\\" + imagen + "\">");
+                                        texto.append("<Data ss:Type=\"String\">");
+                                        texto.append(imagen);
                                     default:
+                                        texto.append("<Cell ss:StyleID=\"s79\">");
+                                        texto.append("<Data ss:Type=\"String\">");
                                         texto.append(cEquipos.getString(j));
                                         break;
                                 }
@@ -533,40 +546,54 @@ public class Aplicacion extends Application {
                         if (hayMedidaTr2) {
                             texto.append("<Row>\n");
                             for (int j=1; j<=28; j++) {
-                                String fecha;
-                                texto.append("<Cell ss:StyleID=\"s79\">");
-                                texto.append("<Data ss:Type=\"String\">");
+                                String fecha, imagen;
                                 switch (j){
-                                    case 4:
+                                    case 4: // Si es CT no se pone el tramo
+                                        texto.append("<Cell ss:StyleID=\"s79\">");
+                                        texto.append("<Data ss:Type=\"String\">");
                                         if (tipo.equals("Z")) {
                                             texto.append("");
                                         } else {
                                             texto.append(cEquipos.getString(j));
                                         }
                                         break;
-                                    case 8:
+                                    case 8: // Se corrige la fecha para que tenga el formato pedido por EDE
+                                        texto.append("<Cell ss:StyleID=\"s79\">");
+                                        texto.append("<Data ss:Type=\"String\">");
                                         fecha = cEquipos.getString(j);
                                         texto.append(corregirFecha(fecha));
                                         break;
                                     case 9: // Se incluye el codigo de la medida en lugar del codigo del defecto
-                                        texto.append(equivalenciaMedidaCodigo(def.getCodigoDefecto()));
+                                        texto.append("<Cell ss:StyleID=\"s79\">");
+                                        texto.append("<Data ss:Type=\"String\">");
+                                        texto.append(equivalenciaMedidaCodigo(def.getCodigoDefecto(), def.getPatUnidas()));
                                         break;
                                     case 12: // Se incluye la medida en lugar de las ocurrencias
-                                        texto.append(def.getMedidaTr2());
+                                        texto.append("<Cell ss:StyleID=\"s79\">");
+                                        texto.append("<Data ss:Type=\"String\">");
+                                        texto.append(adaptarMedida(def.getMedidaTr2()));
                                         break;
                                     case 23: // Se incluyen las observaciones del defecto además de las del equipo
+                                        texto.append("<Cell ss:StyleID=\"s79\">");
+                                        texto.append("<Data ss:Type=\"String\">");
                                         texto.append("TR2");
                                         if (!def.getObservaciones().equals("")) {
                                             texto.append(": " + def.getObservaciones());
                                         }
                                         break;
-                                    case 24:
-                                        texto.append("");
-                                        break;
-                                    case 25:
-                                        texto.append("");
-                                        break;
+                                    case 24: // Se incluye también el vínculo a la foto en las medidas
+                                        imagen = def.getFoto1();
+                                        texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"Fotos\\" + imagen + "\">");
+                                        texto.append("<Data ss:Type=\"String\">");
+                                        texto.append(imagen);
+                                    case 25: // Se incluye también el vínculo a la foto en las medidas
+                                        imagen = def.getFoto2();
+                                        texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"Fotos\\" + imagen + "\">");
+                                        texto.append("<Data ss:Type=\"String\">");
+                                        texto.append(imagen);
                                     default:
+                                        texto.append("<Cell ss:StyleID=\"s79\">");
+                                        texto.append("<Data ss:Type=\"String\">");
                                         texto.append(cEquipos.getString(j));
                                         break;
                                 }
@@ -580,40 +607,54 @@ public class Aplicacion extends Application {
                         if (hayMedidaTr3) {
                             texto.append("<Row>\n");
                             for (int j=1; j<=28; j++) {
-                                String fecha;
-                                texto.append("<Cell ss:StyleID=\"s79\">");
-                                texto.append("<Data ss:Type=\"String\">");
+                                String fecha, imagen;
                                 switch (j){
-                                    case 4:
+                                    case 4: // Si es CT no se pone el tramo
+                                        texto.append("<Cell ss:StyleID=\"s79\">");
+                                        texto.append("<Data ss:Type=\"String\">");
                                         if (tipo.equals("Z")) {
                                             texto.append("");
                                         } else {
                                             texto.append(cEquipos.getString(j));
                                         }
                                         break;
-                                    case 8:
+                                    case 8: // Se corrige la fecha para que tenga el formato pedido por EDE
+                                        texto.append("<Cell ss:StyleID=\"s79\">");
+                                        texto.append("<Data ss:Type=\"String\">");
                                         fecha = cEquipos.getString(j);
                                         texto.append(corregirFecha(fecha));
                                         break;
                                     case 9:// Se incluye el codigo de la medida en lugar del codigo del defecto
-                                        texto.append(equivalenciaMedidaCodigo(def.getCodigoDefecto()));
+                                        texto.append("<Cell ss:StyleID=\"s79\">");
+                                        texto.append("<Data ss:Type=\"String\">");
+                                        texto.append(equivalenciaMedidaCodigo(def.getCodigoDefecto(), def.getPatUnidas()));
                                         break;
                                     case 12: // Se incluye la medida en lugar de las ocurrencias
-                                        texto.append(def.getMedidaTr3());
+                                        texto.append("<Cell ss:StyleID=\"s79\">");
+                                        texto.append("<Data ss:Type=\"String\">");
+                                        texto.append(adaptarMedida(def.getMedidaTr3()));
                                         break;
                                     case 23: // Se incluyen las observaciones del defecto además de las del equipo
+                                        texto.append("<Cell ss:StyleID=\"s79\">");
+                                        texto.append("<Data ss:Type=\"String\">");
                                         texto.append("TR3");
                                         if (!def.getObservaciones().equals("")) {
                                             texto.append(": " + def.getObservaciones());
                                         }
                                         break;
-                                    case 24:
-                                        texto.append("");
-                                        break;
-                                    case 25:
-                                        texto.append("");
-                                        break;
+                                    case 24: // Se incluye también el vínculo a la foto en las medidas
+                                        imagen = def.getFoto1();
+                                        texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"Fotos\\" + imagen + "\">");
+                                        texto.append("<Data ss:Type=\"String\">");
+                                        texto.append(imagen);
+                                    case 25: // Se incluye también el vínculo a la foto en las medidas
+                                        imagen = def.getFoto2();
+                                        texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"Fotos\\" + imagen + "\">");
+                                        texto.append("<Data ss:Type=\"String\">");
+                                        texto.append(imagen);
                                     default:
+                                        texto.append("<Cell ss:StyleID=\"s79\">");
+                                        texto.append("<Data ss:Type=\"String\">");
                                         texto.append(cEquipos.getString(j));
                                         break;
                                 }
@@ -1267,26 +1308,41 @@ public class Aplicacion extends Application {
         }
     }
 
-    public static String equivalenciaMedidaCodigo (String defecto) {
+    public static String equivalenciaMedidaCodigo (String codigoDefecto, String patUnidas) {
         String medida = "";
-        switch (defecto){
+        switch (codigoDefecto){
             case "T22B":
                 medida = "1000";
                 break;
             case "T53D":
-                medida = "1010";
+                if (patUnidas.equals(Aplicacion.SI)) {
+                    medida = "1010";
+                } else {
+                    medida = "1012";
+                }
                 break;
             case "T55D":
-                medida = "1011";
+                medida = "1013";
                 break;
             case "T62D":
-                medida = "1013";
+                medida = "1011";
                 break;
             default:
                 break;
         }
 
         return medida;
+    }
+
+    public static String adaptarMedida(String medida) {
+        String resultado;
+        if (medida.contains(".")) {
+            resultado = medida.replace(".", ",");
+        } else {
+            resultado = medida;
+        }
+
+        return resultado;
     }
 
 }

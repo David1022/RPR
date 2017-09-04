@@ -96,8 +96,8 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:layout_weight="70"
-                    android:gravity="left"
                     android:orientation="vertical"
                     android:paddingLeft="@dimen/padding_list_view">
 
@@ -135,6 +135,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="70"
+                    android:layout_gravity="center"
                     android:gravity="left"
                     android:orientation="vertical"
                     android:paddingLeft="@dimen/padding_list_view">
@@ -173,8 +174,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="70"
-                    android:gravity="left"
-                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal"
                     android:paddingLeft="@dimen/padding_list_view">
 
                     <EditText
@@ -183,9 +184,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:focusableInTouchMode="true"
-                        android:gravity="left"
+                        android:gravity="left|center_vertical"
                         android:inputType="number"
                         android:minWidth="@dimen/dim_min_edit_text" />
+
+                    <CheckBox
+                        android:id="@+id/cbPatUnidas"
+                        style="@style/texto_detalle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="@string/pat_unidas"/>
 
                 </LinearLayout>
 
@@ -430,7 +439,6 @@
                     android:layout_height="match_parent"
                     android:layout_weight="30"
                     android:orientation="horizontal" />
-
 
             </LinearLayout-->
 

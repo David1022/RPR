@@ -9,7 +9,7 @@ public class Defecto {
     //private double medida, medidaTr2, medidaTr3;
     private String observaciones, ocurrencias, latitud, longitud, esDefecto,
                     corregido, fechaCorreccion, tramo;
-    private String medida, medidaTr2, medidaTr3;
+    private String medida, medidaTr2, medidaTr3, patUnidas;
 
     public Defecto () {
 
@@ -40,6 +40,7 @@ public class Defecto {
         setTramo(datos.elementAt(13));
         setMedidaTr2(datos.elementAt(14));
         setMedidaTr3(datos.elementAt(15));
+        setPatUnidas(datos.elementAt(16));
 
 /*
         try {
@@ -194,4 +195,11 @@ public class Defecto {
         this.medidaTr3 = medidaTr3;
     }
 
+    public String getPatUnidas() {
+        return patUnidas;
+    }
+
+    public void setPatUnidas(String patUnidas) {
+        this.patUnidas = patUnidas;
+    }
 }

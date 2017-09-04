@@ -75,7 +75,7 @@ public class DBGlobal extends SQLiteOpenHelper {
             }
             cursor.close();
         } catch (Exception e) {
-            Log.e("ERRORRPR: ", e.toString());
+            Log.e(Aplicacion.TAG, e.toString());
             Aplicacion.print("ERRORRPR: al solicitar lista defectos" + e.toString());
         }
 

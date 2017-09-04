@@ -57,7 +57,7 @@ public class DBBackup extends SQLiteOpenHelper{
     private final String[] COL_TABLA_DEFECTOS = {"_id", "NombreEquipo", "NombreRevision", "CodigoDefecto", "Foto1",
             "Foto2", "Medida", "Observaciones", "Ocurrencias", "Latitud",
             "Longitud", "EsDefecto", "Corregido", "FechaCorreccion", "Tramo",
-            "MedidaTr2", "MedidaTr3"};
+            "MedidaTr2", "MedidaTr3", "PaTUnidas"};
 
     private final String[] COL_TABLA_TRAMOS = {"_id", "NombreRevision", "NombreTramo", "Longitud", "Latitud"};
 

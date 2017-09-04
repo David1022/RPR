@@ -119,6 +119,7 @@
     <string name="equipo_">Equipo:</string>
     <string name="codigo_defecto">Código defecto:</string>
     <string name="ocurrencias">Ocurrencias:</string>
+    <string name="pat_unidas">PaT unidas</string>
     <string name="medida">Medida:</string>
     <string name="hint_medida">Medida PaT</string>
     <string name="observaciones">Observaciones:</string>

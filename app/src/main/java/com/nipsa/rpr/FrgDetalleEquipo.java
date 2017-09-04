@@ -158,24 +158,35 @@ public class FrgDetalleEquipo extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 textoTipo = parent.getItemAtPosition(position).toString();
+                Equipo eq = dbRevisiones.solicitarEquipo(revisionActual, equipoActual, tramoActual);
+                String tipoActual = eq.getTipoEquipo();
                 switch (textoTipo){
                     case Aplicacion.LAMT:
-                        dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_EQUIPOS, "TipoEquipo",
-                                Aplicacion.LAMT, revisionActual, equipoActual, tramoActual);
-                        dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_EQUIPOS, "TipoInstalacion",
-                                "L", revisionActual, equipoActual, tramoActual);
+                        if (!tipoActual.equals(textoTipo)) {
+                            dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_EQUIPOS, "TipoEquipo",
+                                    Aplicacion.LAMT, revisionActual, equipoActual, tramoActual);
+                            dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_EQUIPOS, "TipoInstalacion",
+                                    "L", revisionActual, equipoActual, tramoActual);
+                            //lanzarDialogoBorrarDefectos(textoTipo, tipoActual);
+                        }
                         break;
                     case Aplicacion.CT:
-                        dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_EQUIPOS, "TipoEquipo",
-                                Aplicacion.CT, revisionActual, equipoActual, tramoActual);
-                        dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_EQUIPOS, "TipoInstalacion",
-                                "Z", revisionActual, equipoActual, tramoActual);
+                        if (!tipoActual.equals(textoTipo)) {
+                            dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_EQUIPOS, "TipoEquipo",
+                                    Aplicacion.CT, revisionActual, equipoActual, tramoActual);
+                            dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_EQUIPOS, "TipoInstalacion",
+                                    "Z", revisionActual, equipoActual, tramoActual);
+                            //lanzarDialogoBorrarDefectos();
+                        }
                         break;
                     case Aplicacion.PT:
-                        dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_EQUIPOS, "TipoEquipo", Aplicacion.PT,
-                                revisionActual, equipoActual, tramoActual);
-                        dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_EQUIPOS, "TipoInstalacion", "Z",
-                                revisionActual, equipoActual, tramoActual);
+                        if (!tipoActual.equals(textoTipo)) {
+                            dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_EQUIPOS, "TipoEquipo",
+                                    Aplicacion.PT, revisionActual, equipoActual, tramoActual);
+                            dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_EQUIPOS, "TipoInstalacion",
+                                    "Z", revisionActual, equipoActual, tramoActual);
+                            //lanzarDialogoBorrarDefectos();
+                        }
                         break;
                     default:
                         break;
@@ -895,6 +906,44 @@ public class FrgDetalleEquipo extends Fragment {
         Intent intent = new Intent(getContext(), MostrarEquipos.class);
         startActivity(intent);
         getActivity().finish();
+    }
+
+    /**
+     * Se lanza diálogo de advertencia antes de borrar los defectos asociados al equipo
+     */
+    private void lanzarDialogoBorrarDefectos (String tipoPrevisto, String tipoActual) {
+/*
+        LayoutInflater li = LayoutInflater.from(getContext());
+        View vista = li.inflate(R.layout.dialogo_confirmacion_eliminar, null);
+        TextView texto = (TextView) vista.findViewById(R.id.tvAlertaEliminar);
+        texto.setText("Prueba");
+
+        AlertDialog.Builder dialogo = new AlertDialog.Builder(getContext());
+        dialogo.setView(vista);
+        dialogo.setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                borrarDefectosEquipoActual();
+            }
+        });
+        dialogo.setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        dialogo.setCancelable(false);
+        dialogo.show();
+*/
+
+    }
+
+    /**
+     * Se borran los defectos del equipo actual al cambiar el tipo de equipo puesto que los defectos no son los mismos
+     * y dependen del tipo de equipo
+     */
+    public void borrarDefectosEquipoActual () {
+        Aplicacion.print("borrando");
     }
 
 }
