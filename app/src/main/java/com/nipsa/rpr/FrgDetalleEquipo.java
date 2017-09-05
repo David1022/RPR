@@ -373,6 +373,30 @@ public class FrgDetalleEquipo extends Fragment {
     }
 
     /**
+     * Cuando el fragment se pausa se guardan los datos de los edittext para que no se pierdan
+     */
+    @Override
+    public void onPause() {
+        super.onPause();
+        String texto;
+        String obs = etObservaciones.getText().toString();
+        String num = etNumApoyo.getText().toString();
+        if (num.equals("")) {
+            texto = obs;
+        } else if (obs.equals("")) {
+            texto = Aplicacion.NUM_APOYO + num;
+        } else {
+            texto = Aplicacion.NUM_APOYO + num + "-" + etObservaciones.getText().toString();
+        }
+        dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_EQUIPOS, "Observaciones",
+                texto, revisionActual, equipoActual, tramoActual);
+        dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_APOYOS,
+                "Observaciones", texto, revisionActual,
+                equipoActual, tramoActual);
+
+    }
+
+    /**
      * Se muestran los valores almacenados
      */
     public void mostrarDatosAlmacenados() {

@@ -555,7 +555,7 @@ public class DBRevisiones extends SQLiteOpenHelper {
         try {
             SQLiteDatabase db = getReadableDatabase();
             Cursor cursor = db.rawQuery(instruccion, null);
-            if (cursor.getCount() > 0) {
+            if ((cursor != null) && (cursor.getCount() > 0)) {
                 cursor.moveToFirst();
                 for (int i=1; i<cursor.getColumnCount(); i++){
                     datosDefecto.add(cursor.getString(i));
@@ -1758,7 +1758,7 @@ public class DBRevisiones extends SQLiteOpenHelper {
         if (!existeRevision(nombreRevision)) {
             incluirNuevaRevision(nombreRevision);
         } else {
-            fusionarDB(nombreRevision);
+            //fusionarDB(nombreRevision);
         }
     }
 
@@ -1816,6 +1816,7 @@ public class DBRevisiones extends SQLiteOpenHelper {
                 for (int i=1; i<cursor.getColumnCount(); i++) {
                     inst.append(", '" + cursor.getString(i) + "'");
                 }
+                if (tabla.equals(TABLA_DEFECTOS)) inst.append(", ''");
                 inst.append(")");
                 SQLiteDatabase db = getWritableDatabase();
                 try {

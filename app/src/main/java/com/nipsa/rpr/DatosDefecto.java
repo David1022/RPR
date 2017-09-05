@@ -204,12 +204,14 @@ public class DatosDefecto extends AppCompatActivity {
                 if (isChecked) {
                     if (sePuedeCorregir()) {
                         cbCorregido.setEnabled(true);
+                        cbCorregido.setTextColor(getResources().getColor(R.color.negro));
                     }
                     dbRevisiones.actualizarItemDefecto(Aplicacion.defectoActual, "EsDefecto", Aplicacion.SI);
                     textoEsDefectoEnRojo(true);
                     alertaCorreccionInmediata();
                 } else {
                     cbCorregido.setEnabled(false);
+                    cbCorregido.setTextColor(getResources().getColor(R.color.gris));
                     cbCorregido.setChecked(false);
                     dbRevisiones.actualizarItemDefecto(Aplicacion.defectoActual, "Corregido", Aplicacion.NO);
                     dbRevisiones.actualizarItemDefecto(Aplicacion.defectoActual, "FechaCorreccion", "");
@@ -402,16 +404,13 @@ public class DatosDefecto extends AppCompatActivity {
 
         // Si el defecto ya había sido inicializado se muestran los datos guardados en la BD
         if (defecto != null){
+            boolean patUnidas = hayPatUnidas();
             tvEquipo.setText(Aplicacion.equipoActual);
             tvDefecto.setText(Aplicacion.defectoActual +  " - " + descripcionDefecto);
             etLatitud.setText(defecto.getLatitud());
             etLongitud.setText(defecto.getLongitud());
             etOcurrencias.setText(defecto.getOcurrencias());
-            if (defecto.getPatUnidas().equals(Aplicacion.SI)) {
-                cbPatUnidas.setChecked(true);
-            } else {
-                cbPatUnidas.setChecked(false);
-            }
+            cbPatUnidas.setChecked(hayPatUnidas());
             switch (defectoActual) {
                 case "T22B":
                     cbPatUnidas.setVisibility(View.INVISIBLE);
@@ -435,6 +434,9 @@ public class DatosDefecto extends AppCompatActivity {
                     }
                     break;
                 case "T62D":
+                    //cbPatUnidas.setVisibility(View.INVISIBLE);
+                    cbPatUnidas.setEnabled(false);
+                    cbPatUnidas.setTextColor(getResources().getColor(R.color.gris));
                     tvMedida.setText("Rn: - Tr1:");
                     etMedida.setFocusable(true);
                     if (!defecto.getMedidaTr3().equals("")) {
@@ -450,6 +452,9 @@ public class DatosDefecto extends AppCompatActivity {
                     }
                     break;
                 case "T55D":
+                    //cbPatUnidas.setVisibility(View.INVISIBLE);
+                    cbPatUnidas.setEnabled(false);
+                    cbPatUnidas.setTextColor(getResources().getColor(R.color.gris));
                     tvMedida.setText("Rc: - Tr1:");
                     etMedida.setFocusable(true);
                     if (!defecto.getMedidaTr3().equals("")) {
@@ -504,22 +509,26 @@ public class DatosDefecto extends AppCompatActivity {
                 cbEsDefecto.setChecked(true);
                 if (sePuedeCorregir()) {
                     cbCorregido.setEnabled(true);
+                    cbCorregido.setTextColor(getResources().getColor(R.color.negro));
                 }
                 textoEsDefectoEnRojo(true);
             } else {
                 cbEsDefecto.setChecked(false);
                 cbCorregido.setEnabled(false);
+                cbCorregido.setTextColor(getResources().getColor(R.color.gris));
                 textoEsDefectoEnRojo(false);
             }
 
             if (defecto.getCorregido().equals(Aplicacion.SI)) {
                 cbCorregido.setChecked(true);
+                cbCorregido.setTextColor(getResources().getColor(R.color.negro));
                 Vector<Integer> vFecha = fechaAMostrar();
                 fechaCorreccion = vFecha.get(0).toString() + "/" +      // Dia
                                     vFecha.get(1).toString() + "/" +    // Mes
                                     vFecha.get(2).toString();           // Año
             } else {
                 cbCorregido.setChecked(false);
+                cbCorregido.setTextColor(getResources().getColor(R.color.gris));
                 fechaCorreccion = "";
             }
             tvDatoFechaCorrecion.setText(fechaCorreccion);
@@ -536,6 +545,24 @@ public class DatosDefecto extends AppCompatActivity {
 
         }
 
+    }
+
+    /**
+     * Consulta si se han marcado PaT unidas o no para el equipo actual
+     * @return
+     */
+    private boolean hayPatUnidas () {
+        Defecto def = dbRevisiones.solicitarDefecto(equipoActual, "T53D", tramoActual);
+        boolean hayPatUnidas = false;
+
+        if (def != null) {
+            String s = def.getPatUnidas();
+            if (s.equals(Aplicacion.SI)) {
+                hayPatUnidas = true;
+            }
+        }
+
+        return hayPatUnidas;
     }
 
     /**

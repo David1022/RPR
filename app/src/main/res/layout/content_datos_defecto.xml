@@ -186,7 +186,8 @@
                         android:focusableInTouchMode="true"
                         android:gravity="left|center_vertical"
                         android:inputType="number"
-                        android:minWidth="@dimen/dim_min_edit_text" />
+                        android:minWidth="@dimen/dim_min_edit_text"
+                        android:maxWidth="@dimen/dim_min_edit_text"/>
 
                     <CheckBox
                         android:id="@+id/cbPatUnidas"

@@ -66,12 +66,14 @@ public class DBGlobal extends SQLiteOpenHelper {
         try {
             SQLiteDatabase db = getReadableDatabase();
             cursor = db.rawQuery(instruccion, null);
-            while (cursor.moveToNext()) {
-                datosFila.clear();
-                for (int i = 0; i < cursor.getColumnCount(); i++) {
-                    datosFila.add(cursor.getString(i));
-                }
-                resultado.add(new ListaDef(datosFila));
+            if ((cursor != null) && cursor.moveToFirst()) {
+                do {
+                    datosFila.clear();
+                    for (int i = 0; i < cursor.getColumnCount(); i++) {
+                        datosFila.add(cursor.getString(i));
+                    }
+                    resultado.add(new ListaDef(datosFila));
+                } while (cursor.moveToNext());
             }
             cursor.close();
         } catch (Exception e) {
@@ -96,12 +98,14 @@ public class DBGlobal extends SQLiteOpenHelper {
         try {
             SQLiteDatabase db = getReadableDatabase();
             cursor = db.rawQuery(instruccion, null);
-            while (cursor.moveToNext()) {
-                datosFila.clear();
-                for (int i = 0; i < cursor.getColumnCount(); i++) {
-                    datosFila.add(cursor.getString(i));
+            if (cursor != null) {
+                while (cursor.moveToNext()) {
+                    datosFila.clear();
+                    for (int i = 0; i < cursor.getColumnCount(); i++) {
+                        datosFila.add(cursor.getString(i));
+                    }
+                    resultado.add(new ListaDef(datosFila));
                 }
-                resultado.add(new ListaDef(datosFila));
             }
             cursor.close();
         } catch (Exception e) {
@@ -119,13 +123,15 @@ public class DBGlobal extends SQLiteOpenHelper {
      * @return descripción del defecto o null si no se encuentra el codigo
      */
     public String solicitarDescripcionPorCodigo (String codigo) {
-        String descripcion;
+        String descripcion = "";
         String instruccion = "SELECT DescripcionEndesa FROM " + TABLA_DEFECTOS + " WHERE CodigoEndesa2012 = '" + codigo + "'";
         try {
             SQLiteDatabase db = getReadableDatabase();
             Cursor c = db.rawQuery(instruccion, null);
-            c.moveToFirst();
-            descripcion = c.getString(0);
+            if ((c != null) && (c.moveToFirst())) {
+                descripcion = c.getString(0);
+            }
+            c.close();
         } catch (Exception e) {
             return null;
         }
@@ -134,14 +140,16 @@ public class DBGlobal extends SQLiteOpenHelper {
     }
 
     public String solicitarItem(String codigoDefecto, String columna) {
-        String resultado;
+        String resultado = "";
         String instruccion = "SELECT " + columna + " FROM " + TABLA_DEFECTOS + " WHERE CodigoEndesa2012 = ?";
         String[] args = {codigoDefecto};
         try {
             SQLiteDatabase db = getReadableDatabase();
             Cursor c = db.rawQuery(instruccion, args);
-            c.moveToFirst();
-            resultado = c.getString(0);
+            if ((c != null) && (c.moveToFirst())) {
+                resultado = c.getString(0);
+            }
+            c.close();
         } catch (Exception e) {
             return null;
         }
@@ -156,9 +164,10 @@ public class DBGlobal extends SQLiteOpenHelper {
         try {
             SQLiteDatabase db = getReadableDatabase();
             Cursor c = db.rawQuery(instruccion, null);
-            if (c.getCount()>0) {
+            if ((c != null) && (c.getCount()>0)) {
                 esNoEstrategico = true;
             }
+            c.close();
         } catch (Exception e) {
             Log.e(Aplicacion.TAG, "Error al leer error NO estrategico " + e.toString());
         }finally {

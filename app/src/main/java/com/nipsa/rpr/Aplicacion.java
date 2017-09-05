@@ -525,11 +525,13 @@ public class Aplicacion extends Application {
                                         texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"Fotos\\" + imagen + "\">");
                                         texto.append("<Data ss:Type=\"String\">");
                                         texto.append(imagen);
+                                        break;
                                     case 25: // Se incluye también el vínculo a la foto en las medidas
                                         imagen = def.getFoto2();
                                         texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"Fotos\\" + imagen + "\">");
                                         texto.append("<Data ss:Type=\"String\">");
                                         texto.append(imagen);
+                                        break;
                                     default:
                                         texto.append("<Cell ss:StyleID=\"s79\">");
                                         texto.append("<Data ss:Type=\"String\">");
@@ -586,11 +588,13 @@ public class Aplicacion extends Application {
                                         texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"Fotos\\" + imagen + "\">");
                                         texto.append("<Data ss:Type=\"String\">");
                                         texto.append(imagen);
+                                        break;
                                     case 25: // Se incluye también el vínculo a la foto en las medidas
                                         imagen = def.getFoto2();
                                         texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"Fotos\\" + imagen + "\">");
                                         texto.append("<Data ss:Type=\"String\">");
                                         texto.append(imagen);
+                                        break;
                                     default:
                                         texto.append("<Cell ss:StyleID=\"s79\">");
                                         texto.append("<Data ss:Type=\"String\">");
@@ -602,7 +606,7 @@ public class Aplicacion extends Application {
                             }
                             texto.append("</Row>\n");
                         }
-                        // Si además tiene medida de Tr2 se incluye también
+                        // Si además tiene medida de Tr3 se incluye también
                         boolean hayMedidaTr3 = (!def.getMedidaTr3().equals(""));
                         if (hayMedidaTr3) {
                             texto.append("<Row>\n");
@@ -647,11 +651,13 @@ public class Aplicacion extends Application {
                                         texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"Fotos\\" + imagen + "\">");
                                         texto.append("<Data ss:Type=\"String\">");
                                         texto.append(imagen);
+                                        break;
                                     case 25: // Se incluye también el vínculo a la foto en las medidas
                                         imagen = def.getFoto2();
                                         texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"Fotos\\" + imagen + "\">");
                                         texto.append("<Data ss:Type=\"String\">");
                                         texto.append(imagen);
+                                        break;
                                     default:
                                         texto.append("<Cell ss:StyleID=\"s79\">");
                                         texto.append("<Data ss:Type=\"String\">");

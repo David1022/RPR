@@ -14,10 +14,6 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.Vector;
 
-/**
- * Created by David.Mendano on 28/08/2017.
- */
-
 public class DBBackup extends SQLiteOpenHelper{
 
     public Context contexto;
