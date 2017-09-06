@@ -122,6 +122,7 @@ public class DatosDefecto extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     dbRevisiones.actualizarItemDefecto(defectoActual, "PaTUnidas", Aplicacion.SI);
+                    borrarMedidasPaT();
                 } else {
                     dbRevisiones.actualizarItemDefecto(defectoActual, "PaTUnidas", Aplicacion.NO);
                 }
@@ -183,10 +184,12 @@ public class DatosDefecto extends AppCompatActivity {
                 desactivarTr3();
             }
         });
+/*
         if (defectoActual.equals("T53D") || defectoActual.equals("T55D") || defectoActual.equals("T62D")) {
             ivAddTrafo2.setVisibility(View.VISIBLE);
             ivAddTrafo2.setClickable(true);
         }
+*/
         Equipo equipo = dbRevisiones.solicitarEquipo(revisionActual, equipoActual, tramoActual);
         Defecto defecto = dbRevisiones.solicitarDefecto(equipoActual, defectoActual, tramoActual);
         String textoObservaciones = equipo.getObservaciones();
@@ -421,6 +424,8 @@ public class DatosDefecto extends AppCompatActivity {
                 case "T53D":
                     tvMedida.setText("Rm - Tr1:");
                     etMedida.setFocusable(true);
+                    ivAddTrafo2.setVisibility(View.VISIBLE);
+                    ivAddTrafo2.setClickable(true);
                     if (!defecto.getMedidaTr3().equals("")) {
                         activarTr2();
                         activarTr3();
@@ -438,16 +443,23 @@ public class DatosDefecto extends AppCompatActivity {
                     cbPatUnidas.setEnabled(false);
                     cbPatUnidas.setTextColor(getResources().getColor(R.color.gris));
                     tvMedida.setText("Rn: - Tr1:");
-                    etMedida.setFocusable(true);
-                    if (!defecto.getMedidaTr3().equals("")) {
-                        activarTr2();
-                        activarTr3();
-                        etMedidaTrafo2.setText(defecto.getMedidaTr2());
-                        etMedidaTrafo3.setText(defecto.getMedidaTr3());
+                    if (hayPatUnidas()) {
+                        tvMedida.setTextColor(getResources().getColor(R.color.gris));
+                        etMedida.setFocusable(false);
                     } else {
-                        if (!defecto.getMedidaTr2().equals("")) {
+                        etMedida.setFocusable(true);
+                        ivAddTrafo2.setVisibility(View.VISIBLE);
+                        ivAddTrafo2.setClickable(true);
+                        if (!defecto.getMedidaTr3().equals("")) {
                             activarTr2();
+                            activarTr3();
                             etMedidaTrafo2.setText(defecto.getMedidaTr2());
+                            etMedidaTrafo3.setText(defecto.getMedidaTr3());
+                        } else {
+                            if (!defecto.getMedidaTr2().equals("")) {
+                                activarTr2();
+                                etMedidaTrafo2.setText(defecto.getMedidaTr2());
+                            }
                         }
                     }
                     break;
@@ -456,16 +468,23 @@ public class DatosDefecto extends AppCompatActivity {
                     cbPatUnidas.setEnabled(false);
                     cbPatUnidas.setTextColor(getResources().getColor(R.color.gris));
                     tvMedida.setText("Rc: - Tr1:");
-                    etMedida.setFocusable(true);
-                    if (!defecto.getMedidaTr3().equals("")) {
-                        activarTr2();
-                        activarTr3();
-                        etMedidaTrafo2.setText(defecto.getMedidaTr2());
-                        etMedidaTrafo3.setText(defecto.getMedidaTr3());
+                    if (hayPatUnidas()) {
+                        tvMedida.setTextColor(getResources().getColor(R.color.gris));
+                        etMedida.setFocusable(false);
                     } else {
-                        if (!defecto.getMedidaTr2().equals("")) {
+                        etMedida.setFocusable(true);
+                        ivAddTrafo2.setVisibility(View.VISIBLE);
+                        ivAddTrafo2.setClickable(true);
+                        if (!defecto.getMedidaTr3().equals("")) {
                             activarTr2();
+                            activarTr3();
                             etMedidaTrafo2.setText(defecto.getMedidaTr2());
+                            etMedidaTrafo3.setText(defecto.getMedidaTr3());
+                        } else {
+                            if (!defecto.getMedidaTr2().equals("")) {
+                                activarTr2();
+                                etMedidaTrafo2.setText(defecto.getMedidaTr2());
+                            }
                         }
                     }
                     break;
@@ -647,6 +666,15 @@ public class DatosDefecto extends AppCompatActivity {
         } else {
             cbEsDefecto.setTextColor(getResources().getColor(R.color.texto));
         }
+    }
+
+    private void borrarMedidasPaT() {
+        dbRevisiones.actualizarItemDefecto("T55D", "Medida", "");
+        dbRevisiones.actualizarItemDefecto("T55D", "MedidaTr2", "");
+        dbRevisiones.actualizarItemDefecto("T55D", "MedidaTr3", "");
+        dbRevisiones.actualizarItemDefecto("T62D", "Medida", "");
+        dbRevisiones.actualizarItemDefecto("T62D", "MedidaTr2", "");
+        dbRevisiones.actualizarItemDefecto("T62D", "MedidaTr3", "");
     }
 
     /**

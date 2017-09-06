@@ -236,7 +236,8 @@ public class Aplicacion extends Application {
     public static File crearArchivoImagen() throws IOException {
 
         String fecha = Aplicacion.fechaHoraActual();
-        String nombreFichero = "Imagen_" + fecha;
+        String nombreFichero = equipoActual + "_Imagen_" + fecha;
+        //String nombreFichero = "Imagen_" + fecha;
         File ruta = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES +
                 "/" + Aplicacion.revisionActual + "/" + Aplicacion.equipoActual);
         if (!ruta.exists()){
@@ -387,13 +388,15 @@ public class Aplicacion extends Application {
                                 break;
                             case 24:
                                 imagen = cEquipos.getString(i);
-                                texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"Fotos\\" + imagen + "\">");
+                                //texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"Fotos\\" + imagen + "\">");
+                                texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"" + imagen + "\">");
                                 texto.append("<Data ss:Type=\"String\">");
                                 texto.append(imagen);
                                 break;
                             case 25:
                                 imagen = cEquipos.getString(i);
-                                texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"Fotos\\" + imagen + "\">");
+                                //texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"Fotos\\" + imagen + "\">");
+                                texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"" + imagen + "\">");
                                 texto.append("<Data ss:Type=\"String\">");
                                 texto.append(cEquipos.getString(i));
                                 break;
@@ -459,13 +462,15 @@ public class Aplicacion extends Application {
                                         break;
                                     case 24: // Se incluye la foto con hipervínculo
                                         imagen = def.getFoto1();
-                                        texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"Fotos\\" + imagen + "\">");
+                                        //texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"Fotos\\" + imagen + "\">");
+                                        texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"" + imagen + "\">");
                                         texto.append("<Data ss:Type=\"String\">");
                                         texto.append(imagen);
                                         break;
                                     case 25: // Se incluye la foto con hipervínculo
                                         imagen = def.getFoto2();
-                                        texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"Fotos\\" + imagen + "\">");
+                                        //texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"Fotos\\" + imagen + "\">");
+                                        texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"" + imagen + "\">");
                                         texto.append("<Data ss:Type=\"String\">");
                                         texto.append(imagen);
                                         break;
@@ -522,13 +527,15 @@ public class Aplicacion extends Application {
                                         break;
                                     case 24: // Se incluye también el vínculo a la foto en las medidas
                                         imagen = def.getFoto1();
-                                        texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"Fotos\\" + imagen + "\">");
+                                        //texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"Fotos\\" + imagen + "\">");
+                                        texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"" + imagen + "\">");
                                         texto.append("<Data ss:Type=\"String\">");
                                         texto.append(imagen);
                                         break;
                                     case 25: // Se incluye también el vínculo a la foto en las medidas
                                         imagen = def.getFoto2();
-                                        texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"Fotos\\" + imagen + "\">");
+                                        //texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"Fotos\\" + imagen + "\">");
+                                        texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"" + imagen + "\">");
                                         texto.append("<Data ss:Type=\"String\">");
                                         texto.append(imagen);
                                         break;
@@ -585,13 +592,15 @@ public class Aplicacion extends Application {
                                         break;
                                     case 24: // Se incluye también el vínculo a la foto en las medidas
                                         imagen = def.getFoto1();
-                                        texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"Fotos\\" + imagen + "\">");
+                                        //texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"Fotos\\" + imagen + "\">");
+                                        texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"" + imagen + "\">");
                                         texto.append("<Data ss:Type=\"String\">");
                                         texto.append(imagen);
                                         break;
                                     case 25: // Se incluye también el vínculo a la foto en las medidas
                                         imagen = def.getFoto2();
-                                        texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"Fotos\\" + imagen + "\">");
+                                        //texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"Fotos\\" + imagen + "\">");
+                                        texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"" + imagen + "\">");
                                         texto.append("<Data ss:Type=\"String\">");
                                         texto.append(imagen);
                                         break;
@@ -648,13 +657,15 @@ public class Aplicacion extends Application {
                                         break;
                                     case 24: // Se incluye también el vínculo a la foto en las medidas
                                         imagen = def.getFoto1();
-                                        texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"Fotos\\" + imagen + "\">");
+                                        //texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"Fotos\\" + imagen + "\">");
+                                        texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"" + imagen + "\">");
                                         texto.append("<Data ss:Type=\"String\">");
                                         texto.append(imagen);
                                         break;
                                     case 25: // Se incluye también el vínculo a la foto en las medidas
                                         imagen = def.getFoto2();
-                                        texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"Fotos\\" + imagen + "\">");
+                                        //texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"Fotos\\" + imagen + "\">");
+                                        texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"" + imagen + "\">");
                                         texto.append("<Data ss:Type=\"String\">");
                                         texto.append(imagen);
                                         break;
@@ -1257,7 +1268,9 @@ public class Aplicacion extends Application {
                 } else {
                     String rutaDest = Environment.getExternalStoragePublicDirectory
                                         (Environment.DIRECTORY_DOWNLOADS) + DIRECTORIO_SALIDA_BD +
-                                            nombreRevision + "/Fotos/";
+                                            nombreRevision +
+                                            "/";
+                                            //"/Fotos/";
                     File dirDest = new File(rutaDest);
                     if (!dirDest.exists()) {
                         dirDest.mkdirs();
@@ -1315,7 +1328,7 @@ public class Aplicacion extends Application {
     }
 
     public static String equivalenciaMedidaCodigo (String codigoDefecto, String patUnidas) {
-        String medida = "";
+        String medida;
         switch (codigoDefecto){
             case "T22B":
                 medida = "1000";
@@ -1333,7 +1346,17 @@ public class Aplicacion extends Application {
             case "T62D":
                 medida = "1011";
                 break;
+            case "T53C":
+                medida = "1012";
+                break;
+            case "T55C":
+                medida = "1013";
+                break;
+            case "T62C":
+                medida = "1011";
+                break;
             default:
+                medida = "";
                 break;
         }
 

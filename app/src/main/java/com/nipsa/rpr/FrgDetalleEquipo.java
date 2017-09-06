@@ -160,38 +160,64 @@ public class FrgDetalleEquipo extends Fragment {
                 textoTipo = parent.getItemAtPosition(position).toString();
                 Equipo eq = dbRevisiones.solicitarEquipo(revisionActual, equipoActual, tramoActual);
                 String tipoActual = eq.getTipoEquipo();
+                if (!tipoActual.equals(textoTipo)) {
+                    String tipoInstalPrevista;
+                    if (textoTipo.equals(Aplicacion.LAMT)) {
+                        tipoInstalPrevista = "L";
+                    } else {
+                        tipoInstalPrevista = "Z";
+                    }
+                    lanzarDialogoBorrarDefectos(textoTipo, tipoActual, tipoInstalPrevista);
+                }
+/*
                 switch (textoTipo){
                     case Aplicacion.LAMT:
                         if (!tipoActual.equals(textoTipo)) {
+*/
+/*
                             dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_EQUIPOS, "TipoEquipo",
                                     Aplicacion.LAMT, revisionActual, equipoActual, tramoActual);
                             dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_EQUIPOS, "TipoInstalacion",
                                     "L", revisionActual, equipoActual, tramoActual);
-                            //lanzarDialogoBorrarDefectos(textoTipo, tipoActual);
+*//*
+
+                            lanzarDialogoBorrarDefectos(textoTipo, tipoActual);
                         }
+//                        mostrarDatosAlmacenados();
                         break;
                     case Aplicacion.CT:
                         if (!tipoActual.equals(textoTipo)) {
+*/
+/*
                             dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_EQUIPOS, "TipoEquipo",
                                     Aplicacion.CT, revisionActual, equipoActual, tramoActual);
                             dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_EQUIPOS, "TipoInstalacion",
                                     "Z", revisionActual, equipoActual, tramoActual);
-                            //lanzarDialogoBorrarDefectos();
+*//*
+
+                            lanzarDialogoBorrarDefectos();
                         }
+//                        mostrarDatosAlmacenados();
                         break;
                     case Aplicacion.PT:
                         if (!tipoActual.equals(textoTipo)) {
+*/
+/*
                             dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_EQUIPOS, "TipoEquipo",
                                     Aplicacion.PT, revisionActual, equipoActual, tramoActual);
                             dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_EQUIPOS, "TipoInstalacion",
                                     "Z", revisionActual, equipoActual, tramoActual);
-                            //lanzarDialogoBorrarDefectos();
+*//*
+
+                            lanzarDialogoBorrarDefectos();
                         }
+//                        mostrarDatosAlmacenados();
                         break;
                     default:
+//                        mostrarDatosAlmacenados();
                         break;
                 }
-                mostrarDatosAlmacenados();
+*/
             }
 
             @Override
@@ -608,32 +634,36 @@ public class FrgDetalleEquipo extends Fragment {
         if (!dbRevisiones.marcadoNoRevisable(revisionActual, equipoActual, tramoActual)) {
             if (hayFoto(1)) {
                 if (hayCoordenadas()) {
-                    // Si la revisión del equipo aún no está inicializada se actualiza el estado
                     Equipo equipo = dbRevisiones.solicitarEquipo(revisionActual, equipoActual, tramoActual);
-                    if (equipo.getEstado().equals(Aplicacion.ESTADO_PENDIENTE)) {
-                        dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_EQUIPOS, "Estado",
-                                Aplicacion.ESTADO_EN_CURSO, revisionActual, equipoActual, tramoActual);
+                    if ((equipo.getTipoInstalcion().equals("L")) && (etNumApoyo.getText().toString().equals(""))) {
+                        Aplicacion.print("Debes tomar el número de apoyo");
+                    } else {
+                        // Si la revisión del equipo aún no está inicializada se actualiza el estado
+                        if (equipo.getEstado().equals(Aplicacion.ESTADO_PENDIENTE)) {
+                            dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_EQUIPOS, "Estado",
+                                    Aplicacion.ESTADO_EN_CURSO, revisionActual, equipoActual, tramoActual);
+                        }
+                        // Se actualiza el tramo si no se había recogido aún
+                        if (equipo.getPosicionTramo().equals("")) {
+                            String tramo = equipo.getCodigoTramo();
+                            try {
+                                tramo = tramo.substring((tramo.indexOf("-") + 1), tramo.lastIndexOf("-"));
+                                dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_EQUIPOS, "PosicionTramo",
+                                        tramo, revisionActual, equipoActual, tramoActual);
+                            } catch (Exception e) {}
+                        }
+                        // Se actualiza la fecha de la revisión del equipo
+                        dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_EQUIPOS, "FechaInspeccion",
+                                tvFechaRevision.getText().toString(), revisionActual, equipoActual, tramoActual);
+                        // Se actualiza el número de trabajo del equipo
+                        Revision rev = dbRevisiones.solicitarRevision(Aplicacion.revisionActual);
+                        dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_EQUIPOS, "TrabajoInspeccion",
+                                rev.getNumTrabajo(), revisionActual, equipoActual, tramoActual);
+                        Aplicacion.tipoActual = textoTipo;
+                        Intent intent = new Intent(getContext(), MostrarDefectos.class);
+                        startActivity(intent);
+                        getActivity().finish();
                     }
-                    // Se actualiza el tramo si no se había recogido aún
-                    if (equipo.getPosicionTramo().equals("")) {
-                        String tramo = equipo.getCodigoTramo();
-                        try {
-                            tramo = tramo.substring((tramo.indexOf("-") + 1), tramo.lastIndexOf("-"));
-                            dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_EQUIPOS, "PosicionTramo",
-                                    tramo, revisionActual, equipoActual, tramoActual);
-                        } catch (Exception e) {}
-                    }
-                    // Se actualiza la fecha de la revisión del equipo
-                    dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_EQUIPOS, "FechaInspeccion",
-                            tvFechaRevision.getText().toString(), revisionActual, equipoActual, tramoActual);
-                    // Se actualiza el número de trabajo del equipo
-                    Revision rev = dbRevisiones.solicitarRevision(Aplicacion.revisionActual);
-                    dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_EQUIPOS, "TrabajoInspeccion",
-                            rev.getNumTrabajo(), revisionActual, equipoActual, tramoActual);
-                    Aplicacion.tipoActual = textoTipo;
-                    Intent intent = new Intent(getContext(), MostrarDefectos.class);
-                    startActivity(intent);
-                    getActivity().finish();
                 } else {
                     Aplicacion.print("Debes tomar las coordenadas");
                 }
@@ -934,31 +964,54 @@ public class FrgDetalleEquipo extends Fragment {
 
     /**
      * Se lanza diálogo de advertencia antes de borrar los defectos asociados al equipo
+     * @param tipoPrevisto
+     * @param tipoActual
+     * @param tipoInstalPrevsita
      */
-    private void lanzarDialogoBorrarDefectos (String tipoPrevisto, String tipoActual) {
-/*
+    private void lanzarDialogoBorrarDefectos (final String tipoPrevisto, final String tipoActual,
+                                                                    final String tipoInstalPrevsita) {
         LayoutInflater li = LayoutInflater.from(getContext());
         View vista = li.inflate(R.layout.dialogo_confirmacion_eliminar, null);
         TextView texto = (TextView) vista.findViewById(R.id.tvAlertaEliminar);
-        texto.setText("Prueba");
+        texto.setText("Se borrarán todos los defectos asignados al equipo");
 
         AlertDialog.Builder dialogo = new AlertDialog.Builder(getContext());
         dialogo.setView(vista);
         dialogo.setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                //Se borran las observaciones
+                dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_EQUIPOS, "Observaciones", "",
+                        revisionActual, equipoActual, tramoActual);
+                // Se actualiza el tipo de equipo y de instalación
+                dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_EQUIPOS, "TipoEquipo",
+                        tipoPrevisto, revisionActual, equipoActual, tramoActual);
+                dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_EQUIPOS, "TipoInstalacion",
+                        tipoInstalPrevsita, revisionActual, equipoActual, tramoActual);
                 borrarDefectosEquipoActual();
             }
         });
         dialogo.setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                switch (tipoActual) {
+                    case Aplicacion.LAMT:
+                        spTipo.setSelection(0);
+                        break;
+                    case Aplicacion.CT:
+                        spTipo.setSelection(1);
+                        break;
+                    case Aplicacion.PT:
+                        spTipo.setSelection(2);
+                        break;
+                    default:
+                        break;
+                }
                 dialog.cancel();
             }
         });
         dialogo.setCancelable(false);
         dialogo.show();
-*/
 
     }
 
@@ -967,7 +1020,9 @@ public class FrgDetalleEquipo extends Fragment {
      * y dependen del tipo de equipo
      */
     public void borrarDefectosEquipoActual () {
-        Aplicacion.print("borrando");
+        dbRevisiones.borrarDefectosEquipo(revisionActual, equipoActual, tramoActual);
+        refrescarActividad();
+        //Aplicacion.print("borrando");
     }
 
 }
