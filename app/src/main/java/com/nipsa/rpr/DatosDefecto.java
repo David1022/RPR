@@ -50,6 +50,7 @@ public class DatosDefecto extends AppCompatActivity {
     private EditText etMedidaTrafo2, etMedidaTrafo3;
     private CheckBox cbEsDefecto, cbCorregido, cbPatUnidas;
     private ImageView ivAddTrafo2, ivAddTrafo3, ivDelTrafo2, ivDelTrafo3;
+    private TextView tvRcTexto, tvRc1, tvRc2, tvRc3;
 
     private String foto1, foto2, fechaCorreccion;
     private Uri uriFoto;
@@ -97,6 +98,10 @@ public class DatosDefecto extends AppCompatActivity {
         etMedida = (EditText) findViewById(R.id.etDatoMedida);
         etMedidaTrafo2 = (EditText) findViewById(R.id.etTrafo2);
         etMedidaTrafo3= (EditText) findViewById(R.id.etTrafo3);
+        tvRcTexto = (TextView) findViewById(R.id.tvRcTexto);
+        tvRc1 = (TextView) findViewById(R.id.tvRcTr1);
+        tvRc2 = (TextView) findViewById(R.id.tvRcTr2);
+        tvRc3 = (TextView) findViewById(R.id.tvRcTr3);
         etObservaciones = (EditText) findViewById(R.id.etDatoObservaciones);
         ivAddTrafo2 = (ImageView) findViewById(R.id.ivAddTrafo2);
         ivDelTrafo2 = (ImageView) findViewById(R.id.ivDelTrafo2);
@@ -128,6 +133,14 @@ public class DatosDefecto extends AppCompatActivity {
                 }
             }
         });
+        etMedida.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    tvRc1.setText(calcularRc(1));
+                }
+            }
+        });
         etMedida.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -140,6 +153,17 @@ public class DatosDefecto extends AppCompatActivity {
                 return false;
             }
         });
+        etMedidaTrafo2.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    String texto = calcularRc(2);
+                    if (!texto.equals("")){
+                        tvRc2.setText("Rc-Tr2: " + texto);
+                    }
+                }
+            }
+        });
         etMedidaTrafo2.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -150,6 +174,17 @@ public class DatosDefecto extends AppCompatActivity {
                     etObservaciones.setSelection(etObservaciones.getText().length());
                 }
                 return false;
+            }
+        });
+        etMedidaTrafo3.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    String texto = calcularRc(3);
+                    if (!texto.equals("")){
+                        tvRc3.setText("Rc-Tr3:" + texto);
+                    }
+                }
             }
         });
         etMedidaTrafo3.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -184,12 +219,6 @@ public class DatosDefecto extends AppCompatActivity {
                 desactivarTr3();
             }
         });
-/*
-        if (defectoActual.equals("T53D") || defectoActual.equals("T55D") || defectoActual.equals("T62D")) {
-            ivAddTrafo2.setVisibility(View.VISIBLE);
-            ivAddTrafo2.setClickable(true);
-        }
-*/
         Equipo equipo = dbRevisiones.solicitarEquipo(revisionActual, equipoActual, tramoActual);
         Defecto defecto = dbRevisiones.solicitarDefecto(equipoActual, defectoActual, tramoActual);
         String textoObservaciones = equipo.getObservaciones();
@@ -414,6 +443,9 @@ public class DatosDefecto extends AppCompatActivity {
             etLongitud.setText(defecto.getLongitud());
             etOcurrencias.setText(defecto.getOcurrencias());
             cbPatUnidas.setChecked(hayPatUnidas());
+            etMedida.setText(defecto.getMedida());
+            etMedidaTrafo2.setText(defecto.getMedidaTr2());
+            etMedidaTrafo3.setText(defecto.getMedidaTr3());
             switch (defectoActual) {
                 case "T22B":
                     cbPatUnidas.setVisibility(View.INVISIBLE);
@@ -467,12 +499,15 @@ public class DatosDefecto extends AppCompatActivity {
                     //cbPatUnidas.setVisibility(View.INVISIBLE);
                     cbPatUnidas.setEnabled(false);
                     cbPatUnidas.setTextColor(getResources().getColor(R.color.gris));
-                    tvMedida.setText("Rc: - Tr1:");
+                    tvMedida.setText("Rmn: - Tr1:");
                     if (hayPatUnidas()) {
                         tvMedida.setTextColor(getResources().getColor(R.color.gris));
                         etMedida.setFocusable(false);
                     } else {
                         etMedida.setFocusable(true);
+                        tvRcTexto.setVisibility(View.VISIBLE);
+                        tvRc1.setVisibility(View.VISIBLE);
+                        tvRc1.setText(calcularRc(1));
                         ivAddTrafo2.setVisibility(View.VISIBLE);
                         ivAddTrafo2.setClickable(true);
                         if (!defecto.getMedidaTr3().equals("")) {
@@ -507,8 +542,11 @@ public class DatosDefecto extends AppCompatActivity {
                 case "T55C":
                     cbPatUnidas.setVisibility(View.INVISIBLE);
                     cbPatUnidas.setEnabled(false);
-                    tvMedida.setText("Rc: - Tr1:");
+                    tvMedida.setText("Rmn: - Tr1:");
                     etMedida.setFocusable(true);
+                    tvRcTexto.setVisibility(View.VISIBLE);
+                    tvRc1.setVisibility(View.VISIBLE);
+                    tvRc1.setText(calcularRc(1));
                     ivAddTrafo2.setVisibility(View.INVISIBLE);
                     ivAddTrafo2.setFocusable(false);
                     break;
@@ -519,9 +557,11 @@ public class DatosDefecto extends AppCompatActivity {
                     etMedida.setFocusable(false);
                     break;
             }
+/*
             etMedida.setText(defecto.getMedida());
             etMedidaTrafo2.setText(defecto.getMedidaTr2());
             etMedidaTrafo3.setText(defecto.getMedidaTr3());
+*/
             etObservaciones.setText(defecto.getObservaciones());
 
             if (defecto.getEsDefecto().equals(Aplicacion.SI)) {
@@ -588,6 +628,10 @@ public class DatosDefecto extends AppCompatActivity {
      * Activa la visibilidad para los datos del trafo 2
      */
     private void activarTr2 () {
+        if (defectoActual.startsWith("T55")){
+            tvRc2.setVisibility(View.VISIBLE);
+            tvRc2.setText("Rc-Tr2: " + calcularRc(2));
+        }
         ivAddTrafo2.setVisibility(View.INVISIBLE);
         ivAddTrafo2.setClickable(false);
         tvTrafo2.setVisibility(View.VISIBLE);
@@ -604,6 +648,9 @@ public class DatosDefecto extends AppCompatActivity {
      * Desactiva la visibilidad para los datos del trafo 2
      */
     private void desactivarTr2 () {
+        if (defectoActual.startsWith("T55")){
+            tvRc2.setVisibility(View.INVISIBLE);
+        }
         ivAddTrafo2.setVisibility(View.VISIBLE);
         ivAddTrafo2.setClickable(true);
         tvTrafo2.setVisibility(View.INVISIBLE);
@@ -616,7 +663,6 @@ public class DatosDefecto extends AppCompatActivity {
         if (etMedidaTrafo2.hasFocus()) {
             etMedida.requestFocus();
         }
-        //dbRevisiones.actualizarItemDefecto(defectoActual, "MedidaTr2", "");
 
     }
 
@@ -624,6 +670,10 @@ public class DatosDefecto extends AppCompatActivity {
      * Activa la visibilidad para los datos del trafo 3
      */
     private void activarTr3 () {
+        if (defectoActual.startsWith("T55")){
+            tvRc3.setVisibility(View.VISIBLE);
+            tvRc3.setText("Rc-Tr3: " + calcularRc(3));
+        }
         ivAddTrafo3.setVisibility(View.INVISIBLE);
         ivAddTrafo3.setClickable(false);
         tvTrafo3.setVisibility(View.VISIBLE);
@@ -640,6 +690,9 @@ public class DatosDefecto extends AppCompatActivity {
      * Desactiva la visibilidad para los datos del trafo 3
      */
     private void desactivarTr3 () {
+        if (defectoActual.startsWith("T55")){
+            tvRc3.setVisibility(View.INVISIBLE);
+        }
         ivDelTrafo2.setVisibility(View.VISIBLE);
         ivDelTrafo2.setClickable(true);
         ivAddTrafo3.setVisibility(View.VISIBLE);
@@ -666,6 +719,38 @@ public class DatosDefecto extends AppCompatActivity {
         } else {
             cbEsDefecto.setTextColor(getResources().getColor(R.color.texto));
         }
+    }
+
+    private String calcularRc (int num) {
+        Defecto dRm = dbRevisiones.solicitarDefecto(equipoActual, "T53D", tramoActual);
+        Defecto dRn = dbRevisiones.solicitarDefecto(equipoActual, "T62D", tramoActual);
+        Integer rm, rn, rmn, rc;
+        try {
+            switch (num) {
+                case 1:
+                    rm = Integer.parseInt(dRm.getMedida());
+                    rn = Integer.parseInt(dRn.getMedida());
+                    rmn = Integer.parseInt(etMedida.getText().toString());
+                    break;
+                case 2:
+                    rm = Integer.parseInt(dRm.getMedidaTr2());
+                    rn = Integer.parseInt(dRn.getMedidaTr2());
+                    rmn = Integer.parseInt(etMedidaTrafo2.getText().toString());
+                    break;
+                case 3:
+                    rm = Integer.parseInt(dRm.getMedidaTr3());
+                    rn = Integer.parseInt(dRn.getMedidaTr3());
+                    rmn = Integer.parseInt(etMedidaTrafo3.getText().toString());
+                    break;
+                default:
+                    return "";
+            }
+            rc = ((rm+rn-rmn)/2);
+        } catch (Exception e) {
+                return "";
+        }
+
+        return rc.toString();
     }
 
     private void borrarMedidasPaT() {

@@ -40,5 +40,7 @@
     <dimen name="dim_min_edit_text">75dp</dimen>
     <!-- Titulo alerta-->
     <dimen name="dim_titulo_alerta">20dp</dimen>
+    <!-- Linear Layout -->
+    <dimen name="dim_min_layout">40dp</dimen>
 
 </resources>

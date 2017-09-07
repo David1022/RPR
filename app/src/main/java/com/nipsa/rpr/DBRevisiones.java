@@ -1754,7 +1754,7 @@ public class DBRevisiones extends SQLiteOpenHelper {
      * @param nombreRevision
      */
     public void importarRevision(String nombreRevision) {
-        Aplicacion.print(nombreRevision);
+        //Aplicacion.print(nombreRevision);
         if (!existeRevision(nombreRevision)) {
             incluirNuevaRevision(nombreRevision);
         } else {

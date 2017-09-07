@@ -2,6 +2,8 @@ package com.nipsa.rpr;
 
 import android.app.Activity;
 import android.app.Application;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
@@ -26,20 +28,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Vector;
+import java.util.concurrent.RunnableFuture;
 
 public class ImportarRevision extends AppCompatActivity {
 
+    public static Context contexto;
     private String DIRECTORIO_ENTRADA = "/RPR/Input/";
     private final int RESULT_SELECCIONAR_ARCHIVO = 0;
 
     private DBBackup dbBackup;
-    private DBRevisiones dbRevisiones;
+    private static DBRevisiones dbRevisiones;
 
     private TextView titulo;
     private ListView lstListado;
     //private ImportarListener listener;
-    private AdaptadorImportar mAdapter;
-    private int mSelected;
+    private static AdaptadorImportar mAdapter;
+    private static int mSelected;
 
     private Vector<String> listaAMostrar;
 
@@ -47,6 +51,8 @@ public class ImportarRevision extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_importar_revision);
+
+        contexto = this;
 
         // Inicialización de los elementos de la AppBar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarImportarRevision);
@@ -68,8 +74,9 @@ public class ImportarRevision extends AppCompatActivity {
             public void onItemClick(AdapterView<?> list, View view, int pos, long id) {
                 mSelected = pos;
                 mAdapter.notifyDataSetChanged();
-                TextView revision = (TextView) view.findViewById(R.id.itemImportarRevision);
-                dbRevisiones.importarRevision(revision.getText().toString());
+                final TextView revision = (TextView) view.findViewById(R.id.itemImportarRevision);
+                HiloImportarRevision hilo = new HiloImportarRevision();
+                hilo.execute(revision);
                 finish();
             }
         });
@@ -83,6 +90,11 @@ public class ImportarRevision extends AppCompatActivity {
                 startActivityForResult(intent, RESULT_SELECCIONAR_ARCHIVO);
             }
         });
+
+    }
+
+    public static void importarRevision(TextView revision) {
+        dbRevisiones.importarRevision(revision.getText().toString());
 
     }
 

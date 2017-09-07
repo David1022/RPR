@@ -246,6 +246,7 @@
                         android:layout_gravity="top"
                         android:src="@drawable/ic_add_trafo"
                         android:clickable="false"
+                        android:minWidth="@dimen/dim_min_layout"
                         android:visibility="invisible" />
 
                     <TextView
@@ -276,8 +277,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
-                        android:src="@drawable/ic_del_trafo"
                         android:clickable="false"
+                        android:src="@drawable/ic_del_trafo"
+                        android:minWidth="@dimen/dim_min_layout"
                         android:visibility="invisible" />
 
                     <ImageView
@@ -287,6 +289,7 @@
                         android:layout_gravity="top"
                         android:src="@drawable/ic_add_trafo"
                         android:clickable="false"
+                        android:minWidth="@dimen/dim_min_layout"
                         android:visibility="invisible" />
 
                     <TextView
@@ -320,11 +323,86 @@
                         android:layout_gravity="bottom"
                         android:src="@drawable/ic_del_trafo"
                         android:clickable="false"
+                        android:minWidth="@dimen/dim_min_layout"
                         android:visibility="invisible" />
 
                 </LinearLayout>
 
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvRcTexto"
+                    style="@style/texto_detalle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="30"
+                    android:gravity="right"
+                    android:visibility="invisible"
+                    android:text="Rc:-Tr1:"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="70"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="left"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/padding_list_view">
+
+                    <TextView
+                        android:id="@+id/tvRcTr1"
+                        style="@style/texto_detalle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:minWidth="@dimen/dim_min_edit_text"
+                        android:gravity="left"
+                        android:visibility="invisible"
+                        android:text="valor1"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:minWidth="@dimen/dim_min_layout" />
+
+                    <TextView
+                        android:id="@+id/tvRcTr2"
+                        style="@style/texto_detalle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:minWidth="@dimen/dim_min_edit_text"
+                        android:gravity="left"
+                        android:visibility="invisible"
+                        android:text="valor2"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:minWidth="@dimen/dim_min_layout" />
+
+                    <TextView
+                        android:id="@+id/tvRcTr3"
+                        style="@style/texto_detalle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:minWidth="@dimen/dim_min_edit_text"
+                        android:gravity="left"
+                        android:visibility="invisible"
+                        android:text="valor3"/>
+
+                </LinearLayout>
+
+                </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

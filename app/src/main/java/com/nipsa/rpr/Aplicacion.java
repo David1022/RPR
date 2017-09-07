@@ -50,7 +50,7 @@ public class Aplicacion extends Application {
     public static final String TIPO = "Tipo";
     public static final String EQUIPO = "Equipo";
     public static final String DEFECTO = "Defecto";
-    public static final String NUM_APOYO = "Num. apoyo: ";
+    public static final String NUM_APOYO = "Num. apoyo:";
     public static String revisionActual;
     public static String equipoActual;
     public static String tipoActual;
