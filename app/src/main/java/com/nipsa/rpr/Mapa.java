@@ -1,13 +1,19 @@
 package com.nipsa.rpr;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -24,6 +30,7 @@ import java.util.Vector;
 
 public class Mapa extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
+    private Context contexto;
     private GoogleMap mapa;
     private final static int NIVEL_ZOOM = 18;
     private Vector<Apoyo> listaApoyos;
@@ -45,6 +52,7 @@ public class Mapa extends AppCompatActivity implements OnMapReadyCallback, Googl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mapa);
+        contexto = this;
 
         // Inicializamos los elementos de la AppBar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMapa);
@@ -88,6 +96,8 @@ public class Mapa extends AppCompatActivity implements OnMapReadyCallback, Googl
         // Se recorre la lista de apoyos para visualizarlos en el mapa
         for (int i=0; i<listaApoyos.size();i++) {
             Apoyo apoyo = listaApoyos.elementAt(i);
+            Equipo equipo = dbRevisiones.solicitarEquipo(apoyo.getNombreRevision(),
+                                    apoyo.getNombreEquipo(), apoyo.getCodigoTramo());
             lat = null;
             lng = null;
 
@@ -104,10 +114,15 @@ public class Mapa extends AppCompatActivity implements OnMapReadyCallback, Googl
                 // Se asignan las características del marcador
                 MarkerOptions marker = new MarkerOptions().position(pos);
                 marker.title(apoyo.getNombreEquipo());
-                String sSnippet = "Tipo instalación: " + apoyo.getTipoInstalacion() + "\n" +
-                        "Código: " + apoyo.getCodigoApoyo() + "\n" +
-                        "Material: " + apoyo.getMaterial() + "\n" +
-                        "Tramo: " + apoyo.getCodigoTramo();
+                String sSnippet;
+                if (equipo.getTipoInstalcion().equals("L")) {
+                    sSnippet = "Tipo instalación: " + equipo.getTipoEquipo() + "\n" +
+                                "Material: " + apoyo.getMaterial() + "\n" +
+                                "Tramo: " + apoyo.getCodigoTramo();
+                } else {
+                    sSnippet = "Tipo instalación: " + equipo.getTipoEquipo() + "\n" +
+                            "Tramo: " + apoyo.getCodigoTramo();
+                }
                 marker.snippet(sSnippet);
                 Cursor cursor = dbRevisiones.solicitarItem(DBRevisiones.TABLA_EQUIPOS, "TipoInstalacion",
                         "NombreEquipo", apoyo.getNombreEquipo());
@@ -153,6 +168,33 @@ public class Mapa extends AppCompatActivity implements OnMapReadyCallback, Googl
                 }
 
                 cursor.close();
+                mapa.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+                    @Override
+                    public View getInfoWindow(Marker marker) {
+                        return null;
+                    }
+
+                    @Override
+                    public View getInfoContents(Marker marker) {
+                        LinearLayout info = new LinearLayout(contexto);
+                        info.setOrientation(LinearLayout.VERTICAL);
+
+                        TextView titulo = new TextView(contexto);
+                        titulo.setTextColor(getResources().getColor(R.color.negro));
+                        titulo.setText(marker.getTitle());
+                        titulo.setTypeface(null, Typeface.BOLD);
+                        titulo.setGravity(Gravity.CENTER);
+
+                        TextView snippet = new TextView(contexto);
+                        snippet.setTextColor(getResources().getColor(R.color.negro));
+                        snippet.setText(marker.getSnippet());
+
+                        info.addView(titulo);
+                        info.addView(snippet);
+
+                        return info;
+                    }
+                });
                 mapa.addMarker(marker);
             }
         }

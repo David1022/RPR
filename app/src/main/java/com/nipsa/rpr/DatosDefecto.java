@@ -722,25 +722,33 @@ public class DatosDefecto extends AppCompatActivity {
     }
 
     private String calcularRc (int num) {
-        Defecto dRm = dbRevisiones.solicitarDefecto(equipoActual, "T53D", tramoActual);
-        Defecto dRn = dbRevisiones.solicitarDefecto(equipoActual, "T62D", tramoActual);
-        Integer rm, rn, rmn, rc;
+        Equipo eq = dbRevisiones.solicitarEquipo(revisionActual, equipoActual, tramoActual);
+        String tipo = eq.getTipoEquipo();
+        Defecto dRm, dRn;
+        if(tipo.equals(Aplicacion.CT)) { // Consulta si es CT
+            dRm = dbRevisiones.solicitarDefecto(equipoActual, "T53D", tramoActual);
+            dRn = dbRevisiones.solicitarDefecto(equipoActual, "T62D", tramoActual);
+        } else { // Consulta si es PT
+            dRm = dbRevisiones.solicitarDefecto(equipoActual, "T53C", tramoActual);
+            dRn = dbRevisiones.solicitarDefecto(equipoActual, "T62C", tramoActual);
+        }
+        Double rm, rn, rmn, rc;
         try {
             switch (num) {
                 case 1:
-                    rm = Integer.parseInt(dRm.getMedida());
-                    rn = Integer.parseInt(dRn.getMedida());
-                    rmn = Integer.parseInt(etMedida.getText().toString());
+                    rm = Double.parseDouble(dRm.getMedida());
+                    rn = Double.parseDouble(dRn.getMedida());
+                    rmn = Double.parseDouble(etMedida.getText().toString());
                     break;
                 case 2:
-                    rm = Integer.parseInt(dRm.getMedidaTr2());
-                    rn = Integer.parseInt(dRn.getMedidaTr2());
-                    rmn = Integer.parseInt(etMedidaTrafo2.getText().toString());
+                    rm = Double.parseDouble(dRm.getMedidaTr2());
+                    rn = Double.parseDouble(dRn.getMedidaTr2());
+                    rmn = Double.parseDouble(etMedidaTrafo2.getText().toString());
                     break;
                 case 3:
-                    rm = Integer.parseInt(dRm.getMedidaTr3());
-                    rn = Integer.parseInt(dRn.getMedidaTr3());
-                    rmn = Integer.parseInt(etMedidaTrafo3.getText().toString());
+                    rm = Double.parseDouble(dRm.getMedidaTr3());
+                    rn = Double.parseDouble(dRn.getMedidaTr3());
+                    rmn = Double.parseDouble(etMedidaTrafo3.getText().toString());
                     break;
                 default:
                     return "";

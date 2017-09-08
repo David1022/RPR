@@ -18,7 +18,7 @@ public class MostrarDefectos extends AppCompatActivity implements FrgListadoDefe
     private DBGlobal dbGlobal;
     private DBRevisiones dbRevisiones;
     private FrgListadoDefectos frgListadoDefectos;
-    private String revisionActual, equipoActual, tramoActual;
+    private String revisionActual, equipoActual, tramoActual, grupoDefectoActual;
     public static Vector<ListaDef> listaAMostrar;
     public static Vector<Defecto> registroDefectos;
 
@@ -30,6 +30,7 @@ public class MostrarDefectos extends AppCompatActivity implements FrgListadoDefe
         this.revisionActual = Aplicacion.revisionActual;
         this.equipoActual = Aplicacion.equipoActual;
         this.tramoActual = Aplicacion.tramoActual;
+        this.grupoDefectoActual = Aplicacion.grupoDefectoActual;
         dbGlobal = new DBGlobal(this);
         dbRevisiones = new DBRevisiones(this);
 
@@ -58,7 +59,13 @@ public class MostrarDefectos extends AppCompatActivity implements FrgListadoDefe
         frgListadoDefectos = (FrgListadoDefectos) getSupportFragmentManager().findFragmentById(R.id.FrgListadoDefectos);
         // Se asigna listener para escuchar clicks sobre el listado
         frgListadoDefectos.setGrupoDefectoListener(this);
-
+        if ((grupoDefectoActual != null) && (!grupoDefectoActual.equals(""))) {
+            actualizarListaDefectosAMostrar(grupoDefectoActual);
+        } else {
+            actualizarListaDefectosAMostrar("A");
+        }
+        registroDefectos = dbRevisiones.solicitarDefectosRegistrados(revisionActual, equipoActual, tramoActual);
+        refrescarFragment();
     }
 
     @Override
@@ -70,6 +77,7 @@ public class MostrarDefectos extends AppCompatActivity implements FrgListadoDefe
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        Aplicacion.grupoDefectoActual = "";
         Intent intent = new Intent(this, MostrarEquipos.class);
         startActivity(intent);
         finish();
@@ -83,7 +91,11 @@ public class MostrarDefectos extends AppCompatActivity implements FrgListadoDefe
     }
 
     public void actualizarListaDefectosAMostrar(String grupo) {
-        String codigoGrupo = grupo.substring((grupo.lastIndexOf("(") + 1), grupo.lastIndexOf(")"));
+        String codigoGrupo = grupo;
+        if(codigoGrupo.contains("(") && codigoGrupo.contains(")")) {
+            codigoGrupo = grupo.substring((grupo.lastIndexOf("(") + 1), grupo.lastIndexOf(")"));
+        }
+        Aplicacion.grupoDefectoActual = codigoGrupo;
         listaAMostrar = dbGlobal.solicitarListaDef(Aplicacion.tipoActual, codigoGrupo);
     }
 

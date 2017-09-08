@@ -29,11 +29,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
 
-/* TODO:
- *
- * Mostrar las rutas
- * Si no se encuentran equipos no trasladar las coordenadas del KML de lectura
- */
 public class Aplicacion extends Application {
 
     public static final String DIRECTORIO_SALIDA_BD = "/RPR/OUTPUT/";
@@ -56,7 +51,11 @@ public class Aplicacion extends Application {
     public static String tipoActual;
     public static String defectoActual;
     public static String tramoActual;
+    public static String grupoDefectoActual;
     private static Context contexto;
+
+    public static int ANCHOFOTO = 100;
+    public static int ALTOFOTO = 100;
 
     public static String[] listaTitulosRevisiones = {"Nombre", "Estado", "Inspector1", "Inspector2", "Colegiado", "Equipo usado",
             "Metodologia", "Código Nipsa", "Numero de Trabajo", "Código Inspección"};
@@ -849,8 +848,6 @@ public class Aplicacion extends Application {
         texto.append("</Folder>\n"); // Cierre carpeta apoyos
 
         texto.append("</Folder>\n"); // Cierre carpeta "Posición elementos"
-        // Trazas
-        // TODO Incluir los tramos
         // Cierre archivo KML
         texto.append("</Document>");
         texto.append("</kml>");
@@ -873,7 +870,8 @@ public class Aplicacion extends Application {
                 Apoyo ct = listaCDs.elementAt(i);
                 texto.append("<Placemark>\n<visibility>1</visibility>\n"); // Apertura equipo
                 texto.append("<name>" + ct.getNombreEquipo() + "</name>\n"); // Nombre equipo
-                texto.append("<description>" + ct.getObservaciones() + "</description>"); // Descripción
+                texto.append(incluirDescripcion(ct));
+                //texto.append("<description>" + ct.getObservaciones() + "</description>"); // Descripción
                 texto.append("<Style>\n<IconStyle>\n<color>ff0000ff</color>\n<scale>1.1</scale>\n" +
                         "<Icon>\n<href>http://maps.google.com/mapfiles/kml/paddle/C.png</href>\n</Icon>\n</IconStyle>\n" +
                         "<ListStyle>\n<ItemIcon>\n<href>http://maps.google.com/mapfiles/kml/paddle/C-lv.png</href>\n" +
@@ -904,9 +902,12 @@ public class Aplicacion extends Application {
                                             apoyo.getNombreEquipo(), apoyo.getCodigoTramo());
                 texto.append("<Placemark>\n<visibility>1</visibility>\n"); // Apertura equipo
                 texto.append("<name>" + apoyo.getNombreEquipo() + "</name>\n"); // Nombre equipo
+                texto.append(incluirDescripcion(apoyo));
+/*
                 texto.append("<description>Material: " + apoyo.getMaterial() +
                         "\nTraza/Tramo: " + apoyo.getCodigoTramo() + "\nObservaciones: " +
                         equipo.getObservaciones() + "</description>\n"); // Descripción
+*/
                 texto.append("<Style>\n<IconStyle>\n<color>ff0000ff</color>\n<scale>1.1</scale>\n<Icon>\n" +
                         "<href>http://maps.google.com/mapfiles/kml/paddle/A.png</href>\n</Icon>\n</IconStyle>\n" +
                         "<ListStyle>\n<ItemIcon>\n<href>http://maps.google.com/mapfiles/kml/paddle/A-lv.png</href>\n" +
@@ -935,7 +936,8 @@ public class Aplicacion extends Application {
                 Apoyo ct = listaCDs.elementAt(i);
                 texto.append("<Placemark>\n<visibility>1</visibility>\n"); // Apertura equipo
                 texto.append("<name>" + ct.getNombreEquipo() + "</name>\n"); // Nombre equipo
-                texto.append("<description>" + ct.getObservaciones() + "</description>"); // Descripción
+                texto.append(incluirDescripcion(ct));
+                //texto.append("<description>" + ct.getObservaciones() + "</description>"); // Descripción
                 texto.append("<Style>\n<IconStyle>\n<color>ff00ffff</color>\n<scale>1.1</scale>\n" +
                         "<Icon>\n<href>Iconos/ct_yellow.png</href>\n</Icon>\n</IconStyle>\n" +
                         "<ListStyle>\n<ItemIcon>\n<href>http://maps.google.com/mapfiles/kml/paddle/C-lv.png</href>\n" +
@@ -966,9 +968,12 @@ public class Aplicacion extends Application {
                         apoyo.getNombreEquipo(), apoyo.getCodigoTramo());
                 texto.append("<Placemark>\n<visibility>1</visibility>\n"); // Apertura equipo
                 texto.append("<name>" + apoyo.getNombreEquipo() + "</name>\n"); // Nombre equipo
+                texto.append(incluirDescripcion(apoyo));
+/*
                 texto.append("<description>Material: " + apoyo.getMaterial() +
                         "\nTraza/Tramo: " + apoyo.getCodigoTramo() + "\nObservaciones: " +
                         equipo.getObservaciones() + "</description>\n"); // Descripción
+*/
                 texto.append("<Style>\n<IconStyle>\n<color>ff00ffff</color>\n<scale>1.1</scale>\n<Icon>\n" +
                         "<href>Iconos/apoyo_yellow.png</href>\n</Icon>\n</IconStyle>\n" +
                         "<ListStyle>\n<ItemIcon>\n<href>http://maps.google.com/mapfiles/kml/paddle/A-lv.png</href>\n" +
@@ -997,7 +1002,8 @@ public class Aplicacion extends Application {
                 Apoyo ct = listaCDs.elementAt(i);
                 texto.append("<Placemark>\n<visibility>1</visibility>\n"); // Apertura equipo
                 texto.append("<name>" + ct.getNombreEquipo() + "</name>\n"); // Nombre equipo
-                texto.append("<description>" + ct.getObservaciones() + "</description>"); // Descripción
+                texto.append(incluirDescripcion(ct));
+                //texto.append("<description>" + ct.getObservaciones() + "</description>"); // Descripción
                 texto.append("<Style>\n<IconStyle>\n<color>ffff0000</color>\n<scale>1.1</scale>\n" +
                         "<Icon>\n<href>http://maps.google.com/mapfiles/kml/paddle/C.png</href>\n</Icon>\n</IconStyle>\n" +
                         "<ListStyle>\n<ItemIcon>\n<href>http://maps.google.com/mapfiles/kml/paddle/C-lv.png</href>\n" +
@@ -1028,9 +1034,12 @@ public class Aplicacion extends Application {
                         apoyo.getNombreEquipo(), apoyo.getCodigoTramo());
                 texto.append("<Placemark>\n<visibility>1</visibility>\n"); // Apertura equipo
                 texto.append("<name>" + apoyo.getNombreEquipo() + "</name>\n"); // Nombre equipo
+                texto.append(incluirDescripcion(apoyo));
+/*
                 texto.append("<description>Material: " + apoyo.getMaterial() +
                         "\nTraza/Tramo: " + apoyo.getCodigoTramo() + "\nObservaciones: " +
                         equipo.getObservaciones() + "</description>\n"); // Descripción
+*/
                 texto.append("<Style>\n<IconStyle>\n<color>ffff0000</color>\n<scale>1.1</scale>\n<Icon>\n" +
                         "<href>http://maps.google.com/mapfiles/kml/paddle/A.png</href>\n</Icon>\n</IconStyle>\n" +
                         "<ListStyle>\n<ItemIcon>\n<href>http://maps.google.com/mapfiles/kml/paddle/A-lv.png</href>\n" +
@@ -1061,7 +1070,8 @@ public class Aplicacion extends Application {
                 texto.append("<name>" + ct.getNombreEquipo() + "</name>\n"); // Nombre equipo
                 Equipo equipo = dbRevisiones.solicitarEquipo(revision, ct.getNombreEquipo(), ct.getCodigoTramo());
                 if (equipo != null) {
-                    texto.append("<description>" + equipo.getObservaciones() + "</description>"); // Descripción
+                    texto.append(incluirDescripcion(ct));
+                    //texto.append("<description>" + equipo.getObservaciones() + "</description>"); // Descripción
                 }
                 texto.append("<Style>\n<IconStyle>\n<color>ff00ff00</color>\n<scale>1.1</scale>\n" +
                         "<Icon>\n<href>http://maps.google.com/mapfiles/kml/paddle/C.png</href>\n</Icon>\n</IconStyle>\n" +
@@ -1094,9 +1104,12 @@ public class Aplicacion extends Application {
                         apoyo.getNombreEquipo(), apoyo.getCodigoTramo());
                 texto.append("<Placemark>\n<visibility>0</visibility>\n"); // Apertura apoyo
                 texto.append("<name>" + apoyo.getNombreEquipo() + "</name>\n"); // Nombre apoyo
+                texto.append(incluirDescripcion(apoyo));
+/*
                 texto.append("<description>Material: " + apoyo.getMaterial() +
                         "\nTraza/Tramo: " + apoyo.getCodigoTramo() + "\nObservaciones: " +
                         equipo.getObservaciones() + "</description>\n"); // Descripción
+*/
                 texto.append("<Style>\n<IconStyle>\n<color>ff00ff00</color>\n<scale>1.1</scale>\n<Icon>\n" +
                         "<href>http://maps.google.com/mapfiles/kml/paddle/A.png</href>\n</Icon>\n</IconStyle>\n" +
                         "<ListStyle>\n<ItemIcon>\n<href>http://maps.google.com/mapfiles/kml/paddle/A-lv.png</href>\n" +
@@ -1105,6 +1118,36 @@ public class Aplicacion extends Application {
                         apoyo.getLatitud() + ",0 </coordinates>\n</Point>\n");
                 texto.append("</Placemark>\n"); // Cierre equipo
             }
+        }
+
+        return texto.toString();
+    }
+
+    /**
+     * Se incluye la descripción y fotos (si las hubiera) en el equipo
+     * @param apoyo
+     * @return
+     */
+    public static String incluirDescripcion(Apoyo apoyo){
+        StringBuffer texto = new StringBuffer();
+        DBRevisiones dbRevisiones = new DBRevisiones(contexto);
+        Equipo equipo = dbRevisiones.solicitarEquipo(apoyo.getNombreRevision(),
+                apoyo.getNombreEquipo(), apoyo.getCodigoTramo());
+
+        // TODO: Modificar observaciones en función del tipo de apoyo
+        texto.append("<description>\n<![CDATA[<div align=\"left\">\n<p>Observaciones:"
+                + apoyo.getObservaciones() + "</p>\n"); // Se incluyen las observaciones
+        // Se incluyen las fotos si hay
+        if (!equipo.getDocumentosAsociar().equals("")) {
+            texto.append("<table>\n<tr>\n<td>\n");
+            texto.append("<img src=\"" + equipo.getDocumentosAsociar()); // Se asocia la foto
+            texto.append("\" width=\"" + ANCHOFOTO + "\" height=\"" + ALTOFOTO + "\">"); // Se asigna alto y ancho a la foto
+            if (!equipo.getDescripcionDocumentos().equals("")) {
+                texto.append("<td>");
+                texto.append("<img src=\"" + equipo.getDocumentosAsociar()); // Se asocia la foto
+                texto.append("\" width=\"" + ANCHOFOTO + "\" height=\"" + ALTOFOTO + "\">"); // Se asigna alto y ancho a la foto
+            }
+            texto.append("</td>\n</tr>\n</table>\n</div>\n</div>]]>\n</description>\n");
         }
 
         return texto.toString();
@@ -1225,7 +1268,6 @@ public class Aplicacion extends Application {
     }
 
     public static void moverFotos(Revision revision){
-        // TODO: Mover fotos
         String rutaEntrada = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/";
         File f = recuperarArchivo(rutaEntrada, revision.getNombre());
 

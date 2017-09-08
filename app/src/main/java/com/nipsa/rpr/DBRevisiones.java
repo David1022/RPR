@@ -201,20 +201,24 @@ public class DBRevisiones extends SQLiteOpenHelper {
             // Se determina cual será el nombre del apoyo en función de si es Apoyo o CT
             String nombreApoyo = "";
             String d = datos.get(0).toString();
+            String tipo;
             switch (d){
                 case "L": // Si es LAMT
                     nombreApoyo = datos.get(6); // Se asigna el nombre de la columna EquipoApoyo
                     if (!nombreApoyo.equals("")) hayDatos = true;
+                    tipo = Aplicacion.LAMT;
                     break;
                 case "Z": // Si es CT
                     nombreApoyo = datos.get(1); // Se asigna el nombre de la columna CodigoBDE (CT)
                     if (!nombreApoyo.equals("")) hayDatos = true;
+                    tipo = Aplicacion.CT;
                     break;
                 default:
+                    tipo = "";
                     break;
             }
             if (hayDatos) {
-                instruccion.append(", '" + nombreApoyo + "', '', '', '', '')");
+                instruccion.append(", '" + nombreApoyo + "', '', '', '', '" + tipo + "')");
                 SQLiteDatabase db = getWritableDatabase();
                 db.execSQL(instruccion.toString());
             }
@@ -1816,7 +1820,10 @@ public class DBRevisiones extends SQLiteOpenHelper {
                 for (int i=1; i<cursor.getColumnCount(); i++) {
                     inst.append(", '" + cursor.getString(i) + "'");
                 }
-                if (tabla.equals(TABLA_DEFECTOS)) inst.append(", ''");
+                // TODO: Eliminar para versiones nuevas, solo sirve para tablas viejas que no tienen el campo PaTUnidas
+                if (tabla.equals(TABLA_DEFECTOS)) {
+                    inst.append(", ''");
+                }//
                 inst.append(")");
                 SQLiteDatabase db = getWritableDatabase();
                 try {
