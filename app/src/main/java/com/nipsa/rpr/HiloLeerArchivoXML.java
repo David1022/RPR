@@ -98,11 +98,11 @@ public class HiloLeerArchivoXML extends AsyncTask<File, Object, Object>{
         File archivoCoord = Aplicacion.recuperarArchivo(ruta, nombreKML);
         //Si se encuentra el archivo KML con el mismo nombre que el XML se leerá
         if (archivoCoord != null) {
-            LectorCoord lector = new LectorCoord(nombreRevision);
+            LectorCoord lector = new LectorCoord(nombreRevision, MostrarRevisiones.contexto);
             lector.leer(archivoCoord);
 
         } else { // Si no se encuentra se muestra un mensaje por pantalla para informar al usuario
-            Aplicacion.print("No se ha encontrado archivo KML asociado a la revision " + nombreRevision);
+            //Aplicacion.print("No se ha encontrado archivo KML asociado a la revision " + nombreRevision);
         }
 
     }

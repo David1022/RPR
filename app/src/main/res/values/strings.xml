@@ -142,5 +142,6 @@
     <string name="nuevas_coordenadas">Tomar nuevas coordenadas</string>
     <!-- ____________________ Textos pantalla FotosDefecto ____________________ -->
     <string name="titulo_fotos_defecto">Fotos del defecto:</string>
+    <string name="title_activity_maps">Map</string>
 
 </resources>

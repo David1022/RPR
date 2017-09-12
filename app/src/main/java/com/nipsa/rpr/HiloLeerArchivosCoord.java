@@ -35,7 +35,7 @@ public class HiloLeerArchivosCoord extends AsyncTask<File, Object, Object>{
     protected Object doInBackground(File... archivo) {
         String nombreRevision = archivo[0].getName();
         nombreRevision = nombreRevision.substring(0, nombreRevision.indexOf("."));
-        LectorCoord lector = new LectorCoord(nombreRevision);
+        LectorCoord lector = new LectorCoord(nombreRevision, MostrarRevisiones.contexto);
         lector.leer(archivo[0]);
 
         return null;

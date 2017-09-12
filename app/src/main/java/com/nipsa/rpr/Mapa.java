@@ -120,8 +120,7 @@ public class Mapa extends AppCompatActivity implements OnMapReadyCallback, Googl
                                 "Material: " + apoyo.getMaterial() + "\n" +
                                 "Tramo: " + apoyo.getCodigoTramo();
                 } else {
-                    sSnippet = "Tipo instalación: " + equipo.getTipoEquipo() + "\n" +
-                            "Tramo: " + apoyo.getCodigoTramo();
+                    sSnippet = apoyo.getObservaciones();
                 }
                 marker.snippet(sSnippet);
                 Cursor cursor = dbRevisiones.solicitarItem(DBRevisiones.TABLA_EQUIPOS, "TipoInstalacion",

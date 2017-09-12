@@ -12,22 +12,33 @@ import java.io.InputStreamReader;
 
 public class LectorCoord {
 
+    private Context contexto;
+    private DBRevisiones dbRevisiones;
+
     private final String FOLDER_START = "<Folder>";
     private final String FOLDER_END = "</Folder>";
     private final String NAME_START = "<name>";
     private final String PLACEMARK_START = "<Placemark>";
+    private final String DESCRIPTION_START = "<description>";
+    private final String DESCRIPTION_END = "</description>";
     private final String PLACEMARK_END = "</Placemark>";
     private final String COORDINATES_START = "<coordinates>";
     private final String COORDINATES_END = "</coordinates>";
 
-    private boolean esFolder, esPlacemark;
+    private boolean esFolder, esPlacemark, esDescription;
     private String tipo, nombre, nombreRevision;
+    private StringBuffer descripcion;
 
 
-    public LectorCoord (String revision) {
+    public LectorCoord (String revision, Context contexto) {
+
+        this.contexto = contexto;
+        this.dbRevisiones = new DBRevisiones(this.contexto);
 
         this.esFolder = false;
         this.esPlacemark = false;
+        this.esDescription = true;
+        descripcion = new StringBuffer();
         this.tipo = "";
         this.nombreRevision = revision;
         this.nombre = "";
@@ -64,6 +75,19 @@ public class LectorCoord {
                     esPlacemark = true;
                     texto = in.readLine();
                     continue;
+                } else if (texto.contains(DESCRIPTION_START)) {
+                    esDescription = true;
+                    descripcion.setLength(0);
+                    descripcion.append(texto + "\n");
+                    texto = in.readLine();
+                    continue;
+                } else if (texto.contains(DESCRIPTION_END)) {
+                    esDescription = false;
+                    descripcion.append(texto);
+                    dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_APOYOS, "Observaciones",
+                            leerNombre(descripcion.toString()), nombreRevision, nombre, "");
+                    texto = in.readLine();
+                    continue;
                 } else if (texto.contains(PLACEMARK_END)) {
                     esPlacemark = false;
                     nombre = "";
@@ -89,6 +113,9 @@ public class LectorCoord {
                     texto = in.readLine();
                     continue;
                 } else {
+                    if (esDescription) {
+                        descripcion.append(texto + "\n");
+                    }
                     texto = in.readLine();
                 }
             }
