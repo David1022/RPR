@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -26,9 +28,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.util.List;
 import java.util.Vector;
 
-public class Mapa extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
+public class Mapa extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener,
+                                                            GoogleMap.OnPolylineClickListener{
 
     private Context contexto;
     private GoogleMap mapa;
@@ -37,10 +41,9 @@ public class Mapa extends AppCompatActivity implements OnMapReadyCallback, Googl
     private Vector<Tramo> listaTramos;
     private DBRevisiones dbRevisiones;
     private LatLng posicionActual = new LatLng(41.382521, 2.177171); // Posición por defecto
+    private MarkerOptions markerProv;
     Double lat = null;
     Double lng = null;
-
-    //SELECT COUNT(Latitud), _id, NombreRevision, NombreTramo, Longitud, Latitud FROM Tramos GROUP BY Latitud, Longitud HAVING COUNT (Latitud<2) ORDER BY _id
 
     /**
      * Llamado al crear la vista. Se Inicializan la Toolbar, el fragment del mapa y la lista de apoyos
@@ -61,7 +64,6 @@ public class Mapa extends AppCompatActivity implements OnMapReadyCallback, Googl
         // Se recogen los apoyos a mostrar
         dbRevisiones = new DBRevisiones(this);
         listaApoyos = dbRevisiones.solicitarListaApoyos(Aplicacion.revisionActual);
-        listaTramos = dbRevisiones.solicitarListaTramosCoord(Aplicacion.revisionActual);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -199,11 +201,17 @@ public class Mapa extends AppCompatActivity implements OnMapReadyCallback, Googl
         }
 
         //Se recorre la lista de tramos para visualizar los tramos
-        //mapa.addPolyline(incluirTramos());
+        Integer maxOrden = dbRevisiones.solicitarNumTramos(Aplicacion.revisionActual);
+        for(Integer i=1; i<=maxOrden; i++) {
+            //String codigoTramo = dbRevisiones.solicitarCodigoTramo(Aplicacion.revisionActual, i);
+            //mapa.addPolyline(incluirTramos(i)).setTag(codigoTramo);
+            mapa.addPolyline(incluirTramos(i));
+        }
 
         // Se centra la visualización del mapa en la posición actual y el nivel de zoom
         mapa.moveCamera(CameraUpdateFactory.newLatLngZoom(posicionActual,NIVEL_ZOOM));
         mapa.setOnInfoWindowClickListener(this);
+        mapa.setOnPolylineClickListener(this);
 
         // Si hay permisos para acceder a la "localizacion" se activan las siguientes opciones
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -253,19 +261,32 @@ public class Mapa extends AppCompatActivity implements OnMapReadyCallback, Googl
         }
     }
 
-    private PolylineOptions incluirTramos() {
+    @Override
+    public void onPolylineClick(Polyline polyline) {
+        Aplicacion.print(polyline.getTag().toString());
+    }
+
+    /**
+     * Dibuja la polylinea que representa el tramo en cuestión
+     * @param i
+     * @return
+     */
+    private PolylineOptions incluirTramos(Integer i) {
         PolylineOptions polOptions = new PolylineOptions();
+        listaTramos = dbRevisiones.solicitarListaTramosCoord(Aplicacion.revisionActual, i);
 
         if ((listaTramos.size() > 0) && (listaTramos != null)) {
-            for (int i=0; i<listaTramos.size(); i++) {
-                Tramo tr = listaTramos.get(i);
+            for (int j=0; j<listaTramos.size(); j++) {
+                Tramo tr = listaTramos.get(j);
                 Double lng, lat;
                 lng = Double.parseDouble(tr.getLng());
                 lat = Double.parseDouble(tr.getLat());
                 polOptions.add(new LatLng(lat, lng));
             }
         }
-        polOptions.width(5);
+
+        polOptions.clickable(true);
+        polOptions.width(10);
         polOptions.color(getResources().getColor(R.color.azul));
 
         return polOptions;

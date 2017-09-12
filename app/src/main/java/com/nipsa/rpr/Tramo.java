@@ -1,20 +1,24 @@
 package com.nipsa.rpr;
 
-import com.google.android.gms.maps.model.LatLng;
-
-/**
- * Created by David.Mendano on 01/08/2017.
- */
-
 public class Tramo {
 
+    private Integer orden;
     private String revision, tramo, lng, lat;
 
-    public Tramo (String revision, String tramo, String lng, String lat) {
+    public Tramo (Integer orden, String revision, String tramo, String lng, String lat) {
+        this.orden = orden;
         this.revision = revision;
         this.tramo = tramo;
         this.lng = lng;
         this.lat = lat;
+    }
+
+    public Integer getOrden() {
+        return orden;
+    }
+
+    public void setOrden(Integer orden) {
+        this.orden = orden;
     }
 
     public String getRevision() {

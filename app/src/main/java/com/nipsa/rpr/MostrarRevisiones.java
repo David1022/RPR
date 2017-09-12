@@ -1,17 +1,11 @@
 package com.nipsa.rpr;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Environment;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContentResolverCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -19,27 +13,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TextView;
 
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.URL;
 import java.util.Vector;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 public class MostrarRevisiones extends AppCompatActivity implements FrgListadoRevisiones.RevisionListener,
                                                                         DialogInterface.OnDismissListener{
@@ -167,7 +143,7 @@ public class MostrarRevisiones extends AppCompatActivity implements FrgListadoRe
             dbRevisiones.incluirRevision(nombreRevision, Aplicacion.ESTADO_PENDIENTE);
 
             // Se lee el archivo XML
-            HiloLeerArchivoXML hilo = new HiloLeerArchivoXML();
+            HiloLeerArchivos hilo = new HiloLeerArchivos();
             hilo.execute(archivo);
 
             Aplicacion.revisionActual = nombreRevision;
@@ -325,9 +301,10 @@ public class MostrarRevisiones extends AppCompatActivity implements FrgListadoRe
      * @param latitud
      * @param revision
      */
-    public static void actualizarCoordenadasTramo (String longitud, String latitud, String revision, String tramo) {
+    public static void actualizarCoordenadasTramo (String orden, String longitud,
+                                                    String latitud, String revision, String tramo) {
 
-        dbRevisiones.incluirTramo(revision, tramo, longitud, latitud);
+        dbRevisiones.incluirTramo(orden, revision, tramo, longitud, latitud);
 
     }
 

@@ -52,7 +52,7 @@ public class DBRevisiones extends SQLiteOpenHelper {
                                                     "Longitud", "EsDefecto", "Corregido", "FechaCorreccion", "Tramo",
                                                     "MedidaTr2", "MedidaTr3", "PaTUnidas"};
 
-    private final String[] COL_TABLA_TRAMOS = {"_id", "NombreRevision", "NombreTramo", "Longitud", "Latitud"};
+    private final String[] COL_TABLA_TRAMOS = {"_id", "Orden", "NombreRevision", "NombreTramo", "Longitud", "Latitud"};
 
     public DBRevisiones(Context contexto) {
         super(contexto, DATABASE_NAME, null, 1);
@@ -111,8 +111,8 @@ public class DBRevisiones extends SQLiteOpenHelper {
 
             // Se crea la tabla de tramos
             StringBuffer instruccionCrearTablaTramos = new StringBuffer("CREATE TABLE " + TABLA_TRAMOS
-                    + (" (_id INTEGER PRIMARY KEY AUTOINCREMENT"));
-            for (int i=1; i<COL_TABLA_TRAMOS.length; i++) {
+                    + (" (_id INTEGER PRIMARY KEY AUTOINCREMENT, Orden INTEGER"));
+            for (int i=2; i<COL_TABLA_TRAMOS.length; i++) {
                 instruccionCrearTablaTramos.append(", " + COL_TABLA_TRAMOS[i] + " TEXT");
             }
             instruccionCrearTablaTramos.append(")");
@@ -258,9 +258,9 @@ public class DBRevisiones extends SQLiteOpenHelper {
      * @param lng
      * @param lat
      */
-    public void incluirTramo (String revision, String tramo, String lng, String lat) {
-        String instruccion = "INSERT INTO " + TABLA_TRAMOS + " VALUES ( null, '" + revision +
-                                "' ,'" + tramo + "' ,'" + lng + "' ,'" + lat + "')";
+    public void incluirTramo (String orden, String revision, String tramo, String lng, String lat) {
+        String instruccion = "INSERT INTO " + TABLA_TRAMOS + " VALUES ( null, '" + orden + "', '" + revision +
+                                "', '" + tramo + "', '" + lng + "', '" + lat + "')";
         try {
             SQLiteDatabase db = getWritableDatabase();
             db.execSQL(instruccion);
@@ -846,7 +846,33 @@ public class DBRevisiones extends SQLiteOpenHelper {
      * @param revision
      * @return lista de coordenadas de tramos pertenecientes a la revisión pasada por parámetro
      */
-    public Vector<Tramo> solicitarListaTramosCoord (String revision) {
+    public Vector<Tramo> solicitarListaTramosCoord (String revision, Integer orden) {
+        Vector<Tramo> resultado = new Vector<Tramo>();
+        Vector<String> datosFila = new Vector<String>();
+        Cursor cursor = null;
+        String instruccion = "SELECT * FROM Tramos WHERE NombreRevision = '" + revision + "' " +
+                                "AND Orden = '" + orden + "' ORDER BY _id ASC";
+        try {
+            SQLiteDatabase db = getReadableDatabase();
+            cursor = db.rawQuery(instruccion, null);
+            if((cursor != null) && (cursor.moveToFirst())) {
+                do{
+                    datosFila.clear();
+                    Tramo tramo = new Tramo(cursor.getInt(1), cursor.getString(2),
+                            cursor.getString(3), cursor.getString(4), cursor.getString(5));
+                    resultado.add(tramo);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            Log.e(Aplicacion.TAG, "Error al solicitar tramo: " + e.toString());
+        } finally {
+            if(cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return resultado;
+/*
         Vector<Tramo> resultado = new Vector<Tramo>();
         Vector<String> datosFila = new Vector<String>();
 
@@ -870,7 +896,26 @@ public class DBRevisiones extends SQLiteOpenHelper {
         }
 
         return resultado;
+*/
 
+    }
+
+    public Integer solicitarNumTramos (String revision) {
+        Cursor cursor = null;
+        Integer maxOrden = 0;
+        String instruccion = "SELECT MAX(Orden) FROM Tramos WHERE NombreRevision = '" + revision + "'";
+
+        try {
+            SQLiteDatabase db = getReadableDatabase();
+            cursor = db.rawQuery(instruccion, null);
+            cursor.moveToFirst();
+            maxOrden = cursor.getInt(0);
+        } catch (Exception e) {
+            Log.e(Aplicacion.TAG, "Error al convertir numero máximo tramos: " + e.toString());
+            maxOrden = 0;
+        } finally {
+            return maxOrden;
+        }
     }
 
     /**

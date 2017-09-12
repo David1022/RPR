@@ -28,6 +28,7 @@ public class LectorCoord {
     private boolean esFolder, esPlacemark, esDescription;
     private String tipo, nombre, nombreRevision;
     private StringBuffer descripcion;
+    private Integer ordenTramo;
 
 
     public LectorCoord (String revision, Context contexto) {
@@ -42,6 +43,7 @@ public class LectorCoord {
         this.tipo = "";
         this.nombreRevision = revision;
         this.nombre = "";
+        this.ordenTramo = 0;
 
     }
 
@@ -67,6 +69,9 @@ public class LectorCoord {
                             nombre = data;
                         } else {
                             tipo = data;
+                            if (tipo.equalsIgnoreCase("tramostraza")) {
+
+                            }
                         }
                     }
                     texto = in.readLine();
@@ -76,16 +81,20 @@ public class LectorCoord {
                     texto = in.readLine();
                     continue;
                 } else if (texto.contains(DESCRIPTION_START)) {
-                    esDescription = true;
-                    descripcion.setLength(0);
-                    descripcion.append(texto + "\n");
+                    if (esPlacemark) {
+                        esDescription = true;
+                        descripcion.setLength(0);
+                        descripcion.append(texto + "\n");
+                    }
                     texto = in.readLine();
                     continue;
                 } else if (texto.contains(DESCRIPTION_END)) {
-                    esDescription = false;
-                    descripcion.append(texto);
-                    dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_APOYOS, "Observaciones",
-                            leerNombre(descripcion.toString()), nombreRevision, nombre, "");
+                    if (esPlacemark) {
+                        esDescription = false;
+                        descripcion.append(texto);
+                        dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_APOYOS, "Observaciones",
+                                leerNombre(descripcion.toString()), nombreRevision, nombre, "");
+                    }
                     texto = in.readLine();
                     continue;
                 } else if (texto.contains(PLACEMARK_END)) {
@@ -100,15 +109,17 @@ public class LectorCoord {
                         lat = leerLat(texto);
                         MostrarRevisiones.actualizarCoordenadasEquipo(lng, lat, nombre);
                     } else if (tipo.equalsIgnoreCase("tramostraza")) {
+                        ordenTramo++;
                         texto = texto.substring(texto.indexOf(">") + 1);
-                        while (!texto.equals(COORDINATES_END)) {
+                        do {
                             lng = texto.substring(0, texto.indexOf(","));
                             texto = texto.substring(texto.indexOf(",") + 1);
                             lat = texto.substring(0, texto.indexOf(","));
                             texto = texto.substring(texto.indexOf(",") + 1);
-                            MostrarRevisiones.actualizarCoordenadasTramo(lng, lat, nombreRevision, nombre);
+                            MostrarRevisiones.actualizarCoordenadasTramo(ordenTramo.toString(), lng,
+                                                                            lat, nombreRevision, nombre);
                             texto = texto.substring(2);
-                        }
+                        }while (!texto.equals(COORDINATES_END));
                     }
                     texto = in.readLine();
                     continue;

@@ -882,6 +882,11 @@ public class FrgDetalleEquipo extends Fragment {
                         revisionActual, equipoActual, tramoActual);
                 // Se borran los posibles defectos que pudiera haber asociados al equipo
                 dbRevisiones.borrarDefectosEquipo(revisionActual, equipoActual, tramoActual);
+                // Se actualiza el número de trabajo del equipo
+                Revision rev = dbRevisiones.solicitarRevision(Aplicacion.revisionActual);
+                dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_EQUIPOS, "TrabajoInspeccion",
+                        rev.getNumTrabajo(), revisionActual, equipoActual, tramoActual);
+
                 refrescarActividad();
             }
         });
