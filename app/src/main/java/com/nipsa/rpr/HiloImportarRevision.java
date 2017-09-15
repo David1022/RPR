@@ -18,7 +18,7 @@ public class HiloImportarRevision extends AsyncTask <TextView, Object, Object>{
         super.onPreExecute();
         pd = new ProgressDialog(MostrarRevisiones.contexto);
         pd.setTitle("Espere por favor");
-        pd.setMessage("Leyendo base de datos...");
+        pd.setMessage("Leyendo base de datos\nEsta acción puede tardar unos minutos...");
         pd.setCancelable(false);
         pd.setIndeterminate(true);
         pd.show();

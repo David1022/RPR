@@ -17,7 +17,7 @@ public class HiloBackup extends AsyncTask<Revision, Object, Object> {
 
         pd = new ProgressDialog(MostrarRevisiones.contexto);
         pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        pd.setMessage("Generando archivos...");
+        pd.setMessage("Generando archivos\nEsta acción puede tardar unos minutos...");
         pd.setCancelable(false);
         pd.setIndeterminate(true);
         pd.show();

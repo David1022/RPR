@@ -428,7 +428,7 @@ public class Auxiliar {
                     "   <Font ss:FontName=\"Arial\" x:Family=\"Swiss\"/>\n"+
                     "  </Style>\n"+
                     " </Styles>\n";
-    public static final String ENCABEZADO_XML_HOJA1 =
+    public static final String ENCABEZADO_XML_HOJA1_A =
             "   <Column ss:StyleID=\"s64\" ss:AutoFitWidth=\"0\" ss:Width=\"51\"/>\n"+
                     "   <Column ss:StyleID=\"s64\" ss:AutoFitWidth=\"0\" ss:Width=\"68.25\"/>\n"+
                     "   <Column ss:StyleID=\"s64\" ss:AutoFitWidth=\"0\" ss:Width=\"126.75\"/>\n"+
@@ -474,7 +474,9 @@ public class Auxiliar {
                     "    <Cell ss:StyleID=\"s71\"/>\n"+
                     "   </Row>\n"+
                     "   <Row ss:AutoFitHeight=\"0\" ss:Height=\"17.25\" ss:StyleID=\"s72\">\n"+
-                    "    <Cell ss:MergeAcross=\"25\" ss:StyleID=\"s73\"><Data ss:Type=\"String\">CARGA DE INSPECCIONES DE TRAZAS Y CD´s FVC187</Data></Cell>\n"+
+                    "    <Cell ss:MergeAcross=\"25\" ss:StyleID=\"s73\"><Data ss:Type=\"String\">CARGA DE INSPECCIONES DE TRAZAS Y CD´s ";
+    public static final String ENCABEZADO_XML_HOJA1_B =
+                    "</Data></Cell>\n"+
                     "    <Cell ss:StyleID=\"s73\"/>\n"+
                     "    <Cell ss:StyleID=\"s73\"/>\n"+
                     "   </Row>\n"+
@@ -580,7 +582,7 @@ public class Auxiliar {
                     "    <Cell ss:StyleID=\"s91\"><Data ss:Type=\"String\">TPL</Data></Cell>\n"+
                     "    <Cell ss:StyleID=\"s91\"><Data ss:Type=\"String\">Km. Aéreos</Data></Cell>\n"+
                     "   </Row>\n";
-    public static final String ENCABEZADO_XML_HOJA2 =
+    public static final String ENCABEZADO_XML_HOJA2_A =
             " <Worksheet ss:Name=\"UNIDADES_REV_APOYO_1.xls\">\n" +
                     "  <Table ss:ExpandedColumnCount=\"33\" " +
                     //"ss:ExpandedRowCount=\"43\" " +
@@ -638,7 +640,9 @@ public class Auxiliar {
                     "    <Cell ss:Index=\"2\" ss:StyleID=\"s73\"/>\n" +
                     "    <Cell ss:StyleID=\"s73\"/>\n" +
                     "    <Cell ss:StyleID=\"s73\"/>\n" +
-                    "    <Cell ss:Index=\"6\" ss:StyleID=\"s73\"><Data ss:Type=\"String\">CARGA DE APOYOS DE INSPECCIONES DE TRAZAS Y CD´s FVC187</Data></Cell>\n" +
+                    "    <Cell ss:Index=\"6\" ss:StyleID=\"s73\"><Data ss:Type=\"String\">CARGA DE APOYOS DE INSPECCIONES DE TRAZAS Y CD´s ";
+    public static final String ENCABEZADO_XML_HOJA2_B =
+                    "</Data></Cell>\n" +
                     "    <Cell ss:StyleID=\"s73\"/>\n" +
                     "    <Cell ss:StyleID=\"s73\"/>\n" +
                     "    <Cell ss:StyleID=\"s73\"/>\n" +

@@ -31,7 +31,7 @@ public class HiloLeerArchivos extends AsyncTask<File, Object, Object>{
 
         pd = new ProgressDialog(MostrarRevisiones.contexto);
         pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        pd.setMessage("Leyendo archivos...");
+        pd.setMessage("Leyendo archivos\nEsta acción puede tardar unos minutos...");
         pd.setCancelable(false);
         pd.setIndeterminate(true);
         pd.show();

@@ -204,7 +204,8 @@ public class Mapa extends AppCompatActivity implements OnMapReadyCallback, Googl
         Integer maxOrden = dbRevisiones.solicitarNumTramos(Aplicacion.revisionActual);
         for(Integer i=1; i<=maxOrden; i++) {
             //String codigoTramo = dbRevisiones.solicitarCodigoTramo(Aplicacion.revisionActual, i);
-            //mapa.addPolyline(incluirTramos(i)).setTag(codigoTramo);
+
+            mapa.addPolyline(incluirTramos(i)).setTag("Prueba");
             mapa.addPolyline(incluirTramos(i));
         }
 
@@ -263,7 +264,14 @@ public class Mapa extends AppCompatActivity implements OnMapReadyCallback, Googl
 
     @Override
     public void onPolylineClick(Polyline polyline) {
-        Aplicacion.print(polyline.getTag().toString());
+        try {
+            String s = polyline.getTag().toString();
+            if(s != null) {
+                Aplicacion.print(polyline.getTag().toString());
+            }
+        } catch (Exception e) {
+
+        }
     }
 
     /**

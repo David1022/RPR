@@ -320,7 +320,6 @@ public class DBBackup extends SQLiteOpenHelper{
         }
 
         return cursor;
-
     }
 
     /**

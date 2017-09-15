@@ -345,7 +345,9 @@ public class Aplicacion extends Application {
                 //"ss:ExpandedRowCount=\"41\" x:FullColumns=\"1\"\n"+
                 "   x:FullRows=\"1\" ss:StyleID=\"s64\" ss:DefaultColumnWidth=\"60\"\n"+
                 "   ss:DefaultRowHeight=\"11.25\">\n");
-        texto.append(Auxiliar.ENCABEZADO_XML_HOJA1);
+        texto.append(Auxiliar.ENCABEZADO_XML_HOJA1_A);
+        texto.append(revision);
+        texto.append(Auxiliar.ENCABEZADO_XML_HOJA1_B);
         if (cEquipos != null && cEquipos.moveToFirst()) {
             do {
                 // De cada equipo se toman los defectos/medidas asociados
@@ -484,7 +486,7 @@ public class Aplicacion extends Application {
                             }
                             texto.append("</Row>\n");
                         }
-                        // Si además tiene medida se incluye también
+                // Si además tiene medida se incluye también
                         boolean hayMedida = (!def.getMedida().equals(""));
                         if (hayMedida) {
                             texto.append("<Row>\n");
@@ -689,7 +691,9 @@ public class Aplicacion extends Application {
 
         // Hoja 2: Apoyos (Características Apoyos)
         Cursor cApoyos = dbRevisiones.solicitarDatosTodosApoyos(revision);
-        texto.append(Auxiliar.ENCABEZADO_XML_HOJA2);
+        texto.append(Auxiliar.ENCABEZADO_XML_HOJA2_A);
+        texto.append(revision);
+        texto.append(Auxiliar.ENCABEZADO_XML_HOJA2_B);
         if (cApoyos != null && cApoyos.moveToFirst()) {
             do {
                 texto.append("<Row>\n");
@@ -698,6 +702,9 @@ public class Aplicacion extends Application {
                     texto.append("<Cell ss:StyleID=\"s79\">");
                     texto.append("<Data ss:Type=\"String\">");
                     switch (i) {
+                        case 2: // Se aprovecha el campo para guardar las observaciones del kml de entrada y no se han de imprimir en el excel de salida
+                            texto.append("");
+                            break;
                         case 5: // Se toma una columna menos pues la primera columna se genera vacía
                             int col = cApoyos.getColumnIndex("TipoInstalacion");
                             String tipo = cApoyos.getString(col);
@@ -871,7 +878,6 @@ public class Aplicacion extends Application {
                 texto.append("<Placemark>\n<visibility>1</visibility>\n"); // Apertura equipo
                 texto.append("<name>" + ct.getNombreEquipo() + "</name>\n"); // Nombre equipo
                 texto.append(incluirDescripcion(ct));
-                //texto.append("<description>" + ct.getObservaciones() + "</description>"); // Descripción
                 texto.append("<Style>\n<IconStyle>\n<color>ff0000ff</color>\n<scale>1.1</scale>\n" +
                         "<Icon>\n<href>http://maps.google.com/mapfiles/kml/paddle/C.png</href>\n</Icon>\n</IconStyle>\n" +
                         "<ListStyle>\n<ItemIcon>\n<href>http://maps.google.com/mapfiles/kml/paddle/C-lv.png</href>\n" +
@@ -1147,8 +1153,9 @@ public class Aplicacion extends Application {
                 texto.append("<img src=\"" + equipo.getDocumentosAsociar()); // Se asocia la foto
                 texto.append("\" width=\"" + ANCHOFOTO + "\" height=\"" + ALTOFOTO + "\">"); // Se asigna alto y ancho a la foto
             }
-            texto.append("</td>\n</tr>\n</table>\n</div>\n</div>]]>\n</description>\n");
+            texto.append("</td>\n</tr>\n</table>\n");
         }
+        texto.append("</div>]]>\n</description>\n");
 
         return texto.toString();
     }

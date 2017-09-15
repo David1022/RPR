@@ -872,33 +872,14 @@ public class DBRevisiones extends SQLiteOpenHelper {
         }
 
         return resultado;
-/*
-        Vector<Tramo> resultado = new Vector<Tramo>();
-        Vector<String> datosFila = new Vector<String>();
-
-        resultado.clear();
-        String instruccion = "SELECT * FROM " + TABLA_TRAMOS + " WHERE NombreRevision = '" + revision + "' AND _id " +
-                                "NOT IN (SELECT _id FROM " + TABLA_TRAMOS + " GROUP BY Latitud, Longitud " +
-                                "HAVING COUNT (Latitud)>1) ORDER BY _id";
-        try {
-            SQLiteDatabase db = getReadableDatabase();
-            Cursor cursor = db.rawQuery(instruccion, null);
-            while (cursor.moveToNext()) {
-                datosFila.clear();
-                Tramo tramo = new Tramo(cursor.getString(1), cursor.getString(2),
-                                            cursor.getString(3), cursor.getString(4));
-                resultado.add(tramo);
-            }
-            cursor.close();
-        } catch (Exception e) {
-            Log.e(Aplicacion.TAG, "Error al solicitar lista de tramos: " + e.toString());
-            return null;
-        }
-
-        return resultado;
-*/
-
     }
+
+/*
+    public String solicitarCodigoTramo (String revision, Integer orden) {
+        Cursor cursor = null;
+        String instruccion = "SELECT "
+    }
+*/
 
     public Integer solicitarNumTramos (String revision) {
         Cursor cursor = null;
@@ -1397,7 +1378,6 @@ public class DBRevisiones extends SQLiteOpenHelper {
         try {
             SQLiteDatabase db = getReadableDatabase();
             Cursor cursor = solicitarDatosDefectosPorRevision(revision);
-            //cursor = db.rawQuery(instruccion, null);
             if ((cursor != null) && cursor.moveToFirst()) {
                 do {
                     String equipo = cursor.getString(1);
@@ -1866,12 +1846,14 @@ public class DBRevisiones extends SQLiteOpenHelper {
                     inst.append(", '" + cursor.getString(i) + "'");
                 }
                 // TODO: Eliminar para versiones nuevas, solo sirve para tablas viejas que no tienen el campo PaTUnidas
+                inst.append(")");
+                SQLiteDatabase db = getWritableDatabase();
+                try {/*
                 if (tabla.equals(TABLA_DEFECTOS)) {
                     inst.append(", ''");
                 }//
-                inst.append(")");
-                SQLiteDatabase db = getWritableDatabase();
-                try {
+*/
+
                     db.execSQL(inst.toString());
                 } catch (SQLException e) {
                     Log.e(Aplicacion.TAG, "Error al incluir elemento: " + e.toString());

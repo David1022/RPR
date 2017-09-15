@@ -29,7 +29,7 @@ public class HiloFinalizarRevision extends AsyncTask<Revision, Object, Object> {
 
         pd = new ProgressDialog(MostrarRevisiones.contexto);
         pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        pd.setMessage("Generando archivos y moviendo fotos...");
+        pd.setMessage("Generando archivos y moviendo fotos\nEsta acción puede tardar unos minutos...");
         pd.setCancelable(false);
         pd.setIndeterminate(true);
         pd.show();
