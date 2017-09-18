@@ -489,6 +489,7 @@ public class Aplicacion extends Application {
                 // Si además tiene medida se incluye también
                         boolean hayMedida = (!def.getMedida().equals(""));
                         if (hayMedida) {
+                            boolean hayRc = false;
                             texto.append("<Row>\n");
                             for (int j=1; j<=28; j++) {
                                 String fecha, imagen;
@@ -512,6 +513,9 @@ public class Aplicacion extends Application {
                                         texto.append("<Cell ss:StyleID=\"s79\">");
                                         texto.append("<Data ss:Type=\"String\">");
                                         texto.append(equivalenciaMedidaCodigo(def.getCodigoDefecto(), def.getPatUnidas()));
+                                        if (def.getCodigoDefecto().equals("T55D") || def.getCodigoDefecto().equals("T55C")) {
+                                            hayRc = true;
+                                        }
                                         break;
                                     case 12: // Se incluye la medida en lugar de las ocurrencias
                                         texto.append("<Cell ss:StyleID=\"s79\">");
@@ -550,10 +554,14 @@ public class Aplicacion extends Application {
                                 texto.append("</Cell>\n");
                             }
                             texto.append("</Row>\n");
+                            if (hayRc) {
+                                incluirRc();
+                            }
                         }
                         // Si además tiene medida de Tr2 se incluye también
                         boolean hayMedidaTr2 = (!def.getMedidaTr2().equals(""));
                         if (hayMedidaTr2) {
+                            boolean hayRc = false;
                             texto.append("<Row>\n");
                             for (int j=1; j<=28; j++) {
                                 String fecha, imagen;
@@ -577,6 +585,10 @@ public class Aplicacion extends Application {
                                         texto.append("<Cell ss:StyleID=\"s79\">");
                                         texto.append("<Data ss:Type=\"String\">");
                                         texto.append(equivalenciaMedidaCodigo(def.getCodigoDefecto(), def.getPatUnidas()));
+                                        if (def.getCodigoDefecto().equals("T55D") || def.getCodigoDefecto().equals("T55C")) {
+                                            hayRc = true;
+                                        }
+
                                         break;
                                     case 12: // Se incluye la medida en lugar de las ocurrencias
                                         texto.append("<Cell ss:StyleID=\"s79\">");
@@ -615,10 +627,14 @@ public class Aplicacion extends Application {
                                 texto.append("</Cell>\n");
                             }
                             texto.append("</Row>\n");
+                            if(hayRc) {
+                                incluirRc();
+                            }
                         }
                         // Si además tiene medida de Tr3 se incluye también
                         boolean hayMedidaTr3 = (!def.getMedidaTr3().equals(""));
                         if (hayMedidaTr3) {
+                            boolean hayRc = false;
                             texto.append("<Row>\n");
                             for (int j=1; j<=28; j++) {
                                 String fecha, imagen;
@@ -642,6 +658,9 @@ public class Aplicacion extends Application {
                                         texto.append("<Cell ss:StyleID=\"s79\">");
                                         texto.append("<Data ss:Type=\"String\">");
                                         texto.append(equivalenciaMedidaCodigo(def.getCodigoDefecto(), def.getPatUnidas()));
+                                        if (def.getCodigoDefecto().equals("T55D") || def.getCodigoDefecto().equals("T55C")) {
+                                            hayRc = true;
+                                        }
                                         break;
                                     case 12: // Se incluye la medida en lugar de las ocurrencias
                                         texto.append("<Cell ss:StyleID=\"s79\">");
@@ -680,6 +699,9 @@ public class Aplicacion extends Application {
                                 texto.append("</Cell>\n");
                             }
                             texto.append("</Row>\n");
+                            if (hayRc) {
+                                incluirRc();
+                            }
                         }
                     }
                 }
@@ -780,6 +802,11 @@ public class Aplicacion extends Application {
         return texto.toString();
     }
 
+    //TODO: Incluir una fila mas para el Rc en caso de ser necesario
+    public static String incluirRc() {
+        return "";
+    }
+
     /**
      * Genera el archivo KML con los datos recogidos hasta ese momento
      *
@@ -795,7 +822,7 @@ public class Aplicacion extends Application {
             fos.close();
         } catch (Exception e) {
             Log.e ("Error RPR: ", e.toString());
-            Aplicacion.print("ErrorRPR: Error al generar el archivo KML" + e.toString());
+            //Aplicacion.print("ErrorRPR: Error al generar el archivo KML" + e.toString());
         }
 
     }
@@ -1108,21 +1135,18 @@ public class Aplicacion extends Application {
                 Apoyo apoyo = listaApoyos.elementAt(i);
                 Equipo equipo = dbRevisiones.solicitarEquipo(apoyo.getNombreRevision(),
                         apoyo.getNombreEquipo(), apoyo.getCodigoTramo());
-                texto.append("<Placemark>\n<visibility>0</visibility>\n"); // Apertura apoyo
-                texto.append("<name>" + apoyo.getNombreEquipo() + "</name>\n"); // Nombre apoyo
-                texto.append(incluirDescripcion(apoyo));
-/*
-                texto.append("<description>Material: " + apoyo.getMaterial() +
-                        "\nTraza/Tramo: " + apoyo.getCodigoTramo() + "\nObservaciones: " +
-                        equipo.getObservaciones() + "</description>\n"); // Descripción
-*/
-                texto.append("<Style>\n<IconStyle>\n<color>ff00ff00</color>\n<scale>1.1</scale>\n<Icon>\n" +
-                        "<href>http://maps.google.com/mapfiles/kml/paddle/A.png</href>\n</Icon>\n</IconStyle>\n" +
-                        "<ListStyle>\n<ItemIcon>\n<href>http://maps.google.com/mapfiles/kml/paddle/A-lv.png</href>\n" +
-                        "</ItemIcon>\n</ListStyle>\n</Style>\n"); // Estilo
-                texto.append("<Point>\n<gx:drawOrder>1</gx:drawOrder>\n<coordinates>" + apoyo.getLongitud() + "," +
-                        apoyo.getLatitud() + ",0 </coordinates>\n</Point>\n");
-                texto.append("</Placemark>\n"); // Cierre equipo
+                if (equipo != null) {
+                    texto.append("<Placemark>\n<visibility>0</visibility>\n"); // Apertura apoyo
+                    texto.append("<name>" + apoyo.getNombreEquipo() + "</name>\n"); // Nombre apoyo
+                    texto.append(incluirDescripcion(apoyo));
+                    texto.append("<Style>\n<IconStyle>\n<color>ff00ff00</color>\n<scale>1.1</scale>\n<Icon>\n" +
+                            "<href>http://maps.google.com/mapfiles/kml/paddle/A.png</href>\n</Icon>\n</IconStyle>\n" +
+                            "<ListStyle>\n<ItemIcon>\n<href>http://maps.google.com/mapfiles/kml/paddle/A-lv.png</href>\n" +
+                            "</ItemIcon>\n</ListStyle>\n</Style>\n"); // Estilo
+                    texto.append("<Point>\n<gx:drawOrder>1</gx:drawOrder>\n<coordinates>" + apoyo.getLongitud() + "," +
+                            apoyo.getLatitud() + ",0 </coordinates>\n</Point>\n");
+                    texto.append("</Placemark>\n"); // Cierre equipo
+                }
             }
         }
 

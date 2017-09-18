@@ -50,7 +50,7 @@ public class DBRevisiones extends SQLiteOpenHelper {
     private final String[] COL_TABLA_DEFECTOS = {"_id", "NombreEquipo", "NombreRevision", "CodigoDefecto", "Foto1",
                                                     "Foto2", "Medida", "Observaciones", "Ocurrencias", "Latitud",
                                                     "Longitud", "EsDefecto", "Corregido", "FechaCorreccion", "Tramo",
-                                                    "MedidaTr2", "MedidaTr3", "PaTUnidas"};
+                                                    "MedidaTr2", "MedidaTr3", "PaTUnidas", "Rc1", "Rc2", "Rc3"};
 
     private final String[] COL_TABLA_TRAMOS = {"_id", "Orden", "NombreRevision", "NombreTramo", "Longitud", "Latitud"};
 
@@ -447,7 +447,7 @@ public class DBRevisiones extends SQLiteOpenHelper {
             String instruccion = "INSERT INTO " + TABLA_DEFECTOS +
                                     " VALUES ( null, '" + nombreEquipo + "', '" + nombreRevision + "', '"
                                     + codigoDefecto + "', '', '' , '', '', '', '', '', '', '', '', '" + tramo +
-                                    "', '', '', '')";
+                                    "', '', '', '', '', '', '')";
             SQLiteDatabase db = getWritableDatabase();
             db.execSQL(instruccion);
         } catch (Exception e) {
@@ -1846,14 +1846,15 @@ public class DBRevisiones extends SQLiteOpenHelper {
                     inst.append(", '" + cursor.getString(i) + "'");
                 }
                 // TODO: Eliminar para versiones nuevas, solo sirve para tablas viejas que no tienen el campo PaTUnidas
+/*
+                if (tabla.equals(TABLA_DEFECTOS)) {
+                    inst.append(", ''"); // Sólo medidaPaT
+                    inst.append(", '', '', ''"); // Con medidas Rc guardadas en BDD
+                }
+*/
                 inst.append(")");
                 SQLiteDatabase db = getWritableDatabase();
-                try {/*
-                if (tabla.equals(TABLA_DEFECTOS)) {
-                    inst.append(", ''");
-                }//
-*/
-
+                try {
                     db.execSQL(inst.toString());
                 } catch (SQLException e) {
                     Log.e(Aplicacion.TAG, "Error al incluir elemento: " + e.toString());

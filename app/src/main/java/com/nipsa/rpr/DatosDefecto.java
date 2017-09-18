@@ -138,6 +138,7 @@ public class DatosDefecto extends AppCompatActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     tvRc1.setText(calcularRc(1));
+
                 }
             }
         });
@@ -894,8 +895,20 @@ public class DatosDefecto extends AppCompatActivity {
         dbRevisiones.actualizarItemDefecto(defectoActual, "Medida", etMedida.getText().toString());
         dbRevisiones.actualizarItemDefecto(defectoActual, "MedidaTr2", etMedidaTrafo2.getText().toString());
         dbRevisiones.actualizarItemDefecto(defectoActual, "MedidaTr3", etMedidaTrafo3.getText().toString());
+        dbRevisiones.actualizarItemDefecto(defectoActual, "Rc1", tvRc1.getText().toString());
+        dbRevisiones.actualizarItemDefecto(defectoActual, "Rc2", recuperarMedida(tvRc2));
+        dbRevisiones.actualizarItemDefecto(defectoActual, "Rc3", recuperarMedida(tvRc3));
         dbRevisiones.actualizarItemDefecto(defectoActual, "Observaciones", etObservaciones.getText().toString());
 
+    }
+
+    private String recuperarMedida(TextView tv) {
+        String medida = tv.getText().toString();
+        if (medida.contains(":")) {
+            medida = medida.substring(medida.lastIndexOf(":") + 2);
+        }
+
+        return medida;
     }
 
     /**

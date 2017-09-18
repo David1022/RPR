@@ -7,9 +7,9 @@ public class Defecto {
     private int id;
     private String nombreEquipo, nombreRevision, codigoDefecto, foto1, foto2;
     //private double medida, medidaTr2, medidaTr3;
-    private String observaciones, ocurrencias, latitud, longitud, esDefecto,
-                    corregido, fechaCorreccion, tramo;
-    private String medida, medidaTr2, medidaTr3, patUnidas;
+    private String observaciones, ocurrencias, latitud, longitud, esDefecto;
+    private String corregido, fechaCorreccion, tramo, medida, medidaTr2;
+    private String medidaTr3, patUnidas, Rc1, Rc2, Rc3;
 
     public Defecto () {
 
@@ -23,13 +23,6 @@ public class Defecto {
         setFoto1(datos.elementAt(3));
         setFoto2(datos.elementAt(4));
         setMedida(datos.elementAt(5));
-/*
-        try {
-            setMedida(Double.parseDouble(datos.elementAt(5)));
-        } catch (Exception e) {
-            setMedida(0d);
-        }
-*/
         setObservaciones(datos.elementAt(6));
         setOcurrencias(datos.elementAt(7));
         setLatitud(datos.elementAt(8));
@@ -41,21 +34,9 @@ public class Defecto {
         setMedidaTr2(datos.elementAt(14));
         setMedidaTr3(datos.elementAt(15));
         setPatUnidas(datos.elementAt(16));
-
-/*
-        try {
-            setMedidaTr2(Double.parseDouble(datos.elementAt(14)));
-        } catch (Exception e) {
-            setMedidaTr2(0d);
-        }
-*/
-/*
-        try {
-            setMedidaTr3(Double.parseDouble(datos.elementAt(15)));
-        } catch (Exception e) {
-            setMedidaTr3(0d);
-        }
-*/
+        setRc1(datos.elementAt(17));
+        setRc2(datos.elementAt(18));
+        setRc3(datos.elementAt(19));
 
     }
 
@@ -201,5 +182,29 @@ public class Defecto {
 
     public void setPatUnidas(String patUnidas) {
         this.patUnidas = patUnidas;
+    }
+
+    public String getRc1() {
+        return Rc1;
+    }
+
+    public void setRc1(String rc1) {
+        Rc1 = rc1;
+    }
+
+    public String getRc2() {
+        return Rc2;
+    }
+
+    public void setRc2(String rc2) {
+        Rc2 = rc2;
+    }
+
+    public String getRc3() {
+        return Rc3;
+    }
+
+    public void setRc3(String rc3) {
+        Rc3 = rc3;
     }
 }
