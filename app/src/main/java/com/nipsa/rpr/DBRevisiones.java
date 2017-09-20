@@ -574,6 +574,31 @@ public class DBRevisiones extends SQLiteOpenHelper {
         return defecto;
     }
 
+    public Defecto solicitarDefecto (String revision, String nombreEquipo, String codigDefecto, String codigoTramo) {
+        Defecto defecto = null;
+        Vector <String> datosDefecto = new Vector<String>();
+        String tramo = recuperarNumDeTramo(codigoTramo);
+        String instruccion = "SELECT * FROM '" + TABLA_DEFECTOS + "' WHERE  NombreRevision = '" +
+                revision + "' AND NombreEquipo = '" + nombreEquipo +
+                "' AND CodigoDefecto = '" + codigDefecto + "' AND Tramo LIKE '%" + tramo + "%'";
+        try {
+            SQLiteDatabase db = getReadableDatabase();
+            Cursor cursor = db.rawQuery(instruccion, null);
+            if ((cursor != null) && (cursor.getCount() > 0)) {
+                cursor.moveToFirst();
+                for (int i=1; i<cursor.getColumnCount(); i++){
+                    datosDefecto.add(cursor.getString(i));
+                }
+                defecto = new Defecto(cursor.getInt(0), datosDefecto);
+            }
+            cursor.close();
+        } catch (Exception e) {
+            return null;
+        }
+
+        return defecto;
+    }
+
     /**
      *
      * @param tabla
@@ -1388,9 +1413,11 @@ public class DBRevisiones extends SQLiteOpenHelper {
                         DBGlobal dbGlobal = new DBGlobal(contexto);
                         String tipoDef = dbGlobal.solicitarItem(codigoDefecto, "CorreccioInmediata");
                         if (tipoDef.equalsIgnoreCase(Aplicacion.SI)) {
-                            if (!apoyoEstaEnVector(apoyo, listaApoyos)) {
+                            String obs = codigoDefecto + ": " + dbGlobal.solicitarDescripcionPorCodigo(codigoDefecto);
+                            apoyo.setObservaciones(obs);
+//                            if (!apoyoEstaEnVector(apoyo, listaApoyos)) {
                                 listaApoyos.add(apoyo);
-                            }
+//                            }
                         }
                     }
                 } while (cursor.moveToNext());
@@ -1423,9 +1450,11 @@ public class DBRevisiones extends SQLiteOpenHelper {
                         DBGlobal dbGlobal = new DBGlobal(contexto);
                         String tipoDef = dbGlobal.solicitarItem(codigoDefecto, "CorreccioInmediata");
                         if (tipoDef.equalsIgnoreCase(Aplicacion.SI)) {
-                            if (!apoyoEstaEnVector(apoyo, listaApoyos)) {
+                            String obs = codigoDefecto + ": " + dbGlobal.solicitarDescripcionPorCodigo(codigoDefecto);
+                            apoyo.setObservaciones(obs);
+//                            if (!apoyoEstaEnVector(apoyo, listaApoyos)) {
                                 listaApoyos.add(apoyo);
-                            }
+//                            }
                         }
                     }
                 } while (cursor.moveToNext());
@@ -1458,9 +1487,11 @@ public class DBRevisiones extends SQLiteOpenHelper {
                         DBGlobal dbGlobal = new DBGlobal(contexto);
                         String tipoDef = dbGlobal.solicitarItem(codigoDefecto, "DefectesEstrategics");
                         if (tipoDef.equalsIgnoreCase(Aplicacion.SI)) {
-                            if (!apoyoEstaEnVector(apoyo, listaApoyos)) {
+                            String obs = codigoDefecto + ": " + dbGlobal.solicitarDescripcionPorCodigo(codigoDefecto);
+                            apoyo.setObservaciones(obs);
+//                            if (!apoyoEstaEnVector(apoyo, listaApoyos)) {
                                 listaApoyos.add(apoyo);
-                            }
+//                            }
                         }
                     }
                 } while (cursor.moveToNext());
@@ -1493,9 +1524,11 @@ public class DBRevisiones extends SQLiteOpenHelper {
                         DBGlobal dbGlobal = new DBGlobal(contexto);
                         String tipoDef = dbGlobal.solicitarItem(codigoDefecto, "DefectesEstrategics");
                         if (tipoDef.equalsIgnoreCase(Aplicacion.SI)) {
-                            if (!apoyoEstaEnVector(apoyo, listaApoyos)) {
+                            String obs = codigoDefecto + ": " + dbGlobal.solicitarDescripcionPorCodigo(codigoDefecto);
+                            apoyo.setObservaciones(obs);
+//                            if (!apoyoEstaEnVector(apoyo, listaApoyos)) {
                                 listaApoyos.add(apoyo);
-                            }
+//                            }
                         }
                     }
                 } while (cursor.moveToNext());
@@ -1527,9 +1560,15 @@ public class DBRevisiones extends SQLiteOpenHelper {
                     if (apoyo.getTipoInstalacion().equals("Z")) {
                         DBGlobal dbGlobal = new DBGlobal(contexto);
                         if (dbGlobal.esNoEstrategico(codigoDefecto)) {
-                            if (!apoyoEstaEnVector(apoyo, listaApoyos)) {
+                            Defecto def = solicitarDefecto(revision, equipo, codigoDefecto, tramo);
+                            // En el campo observaciones del apoyo se incluyen los datos que se quieren mostrar:
+                            // CodigoDefecto, DescripcionCodigoDefecto y FotosDefecto
+                            String obs = codigoDefecto + ": " + def.getObservaciones() +
+                                    "---" + def.getFoto1() + "---" + def.getFoto2();
+                            apoyo.setObservaciones(obs);
+//                            if (!apoyoEstaEnVector(apoyo, listaApoyos)) {
                                 listaApoyos.add(apoyo);
-                            }
+//                            }
                         }
                     }
                 } while (cursor.moveToNext());
@@ -1561,9 +1600,11 @@ public class DBRevisiones extends SQLiteOpenHelper {
                     if (apoyo.getTipoInstalacion().equals("L")) {
                         DBGlobal dbGlobal = new DBGlobal(contexto);
                         if (dbGlobal.esNoEstrategico(codigoDefecto)) {
-                            if (!apoyoEstaEnVector(apoyo, listaApoyos)) {
+                            String obs = codigoDefecto + ": " + dbGlobal.solicitarDescripcionPorCodigo(codigoDefecto);
+                            apoyo.setObservaciones(obs);
+//                            if (!apoyoEstaEnVector(apoyo, listaApoyos)) {
                                 listaApoyos.add(apoyo);
-                            }
+//                            }
                         }
                     }
                 } while (cursor.moveToNext());
@@ -1845,7 +1886,7 @@ public class DBRevisiones extends SQLiteOpenHelper {
                 for (int i=1; i<cursor.getColumnCount(); i++) {
                     inst.append(", '" + cursor.getString(i) + "'");
                 }
-                // TODO: Eliminar para versiones nuevas, solo sirve para tablas viejas que no tienen el campo PaTUnidas
+                // TODO: Eliminar para versiones nuevas, solo sirve para tablas viejas que no tienen el campo PaTUnidas y Rc
 /*
                 if (tabla.equals(TABLA_DEFECTOS)) {
                     inst.append(", ''"); // Sólo medidaPaT

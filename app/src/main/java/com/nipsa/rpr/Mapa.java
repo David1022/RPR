@@ -116,14 +116,16 @@ public class Mapa extends AppCompatActivity implements OnMapReadyCallback, Googl
                 // Se asignan las características del marcador
                 MarkerOptions marker = new MarkerOptions().position(pos);
                 marker.title(apoyo.getNombreEquipo());
-                String sSnippet;
-                if (equipo.getTipoInstalcion().equals("L")) {
-                    sSnippet = "Tipo instalación: " + equipo.getTipoEquipo() + "\n" +
+                String sSnippet = "";
+                if(equipo != null) {
+                    if (equipo.getTipoInstalcion().equals("L")) {
+                        sSnippet = "Tipo instalación: " + equipo.getTipoEquipo() + "\n" +
                                 "Material: " + apoyo.getMaterial() + "\n" +
                                 "Tramo: " + apoyo.getCodigoTramo();
-                } else {
-                    sSnippet = apoyo.getObservaciones() + "\n" +
+                    } else {
+                        sSnippet = apoyo.getObservaciones() + "\n" +
                                 "Tramo: " + apoyo.getCodigoTramo();
+                    }
                 }
                 marker.snippet(sSnippet);
                 Cursor cursor = dbRevisiones.solicitarItem(DBRevisiones.TABLA_EQUIPOS, "TipoInstalacion",
@@ -248,7 +250,9 @@ public class Mapa extends AppCompatActivity implements OnMapReadyCallback, Googl
     @Override
     public void onInfoWindowClick(Marker marker) {
         String tramo = marker.getSnippet();
-        tramo = tramo.substring(tramo.lastIndexOf("Tramo: ") + 7);
+        if (tramo.contains("Tramo: ")) {
+            tramo = tramo.substring(tramo.lastIndexOf("Tramo: ") + 7);
+        }
         //tramo = tramo.substring(tramo.indexOf(" ") + 1);
         Equipo equipo = dbRevisiones.solicitarEquipo(Aplicacion.revisionActual, marker.getTitle(), tramo);
         if (equipo != null){
@@ -259,7 +263,7 @@ public class Mapa extends AppCompatActivity implements OnMapReadyCallback, Googl
             startActivity(intent);
             finish();
         } else {
-            Aplicacion.print("Selecciona un apoyo");
+            Aplicacion.print("El equipo no se encuentra en el listado, selecciona otro equipo");
         }
     }
 

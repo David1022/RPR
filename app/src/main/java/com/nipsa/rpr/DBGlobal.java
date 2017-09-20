@@ -61,7 +61,7 @@ public class DBGlobal extends SQLiteOpenHelper {
         Vector<ListaDef> resultado = new Vector<ListaDef>();
         Cursor cursor = null;
         String instruccion = "SELECT * FROM " + TABLA_DEFECTOS + " WHERE InstalacionTipo = '" + tipo + "' AND " +
-                                    "CodigoEndesa2012 LIKE '" + grupo + "%'";
+                                    "CodigoEndesa2012 LIKE '" + grupo + "%' ORDER BY CodigoEndesa2012";
 
         try {
             SQLiteDatabase db = getReadableDatabase();

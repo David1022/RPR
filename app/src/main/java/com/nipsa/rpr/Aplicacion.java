@@ -555,7 +555,7 @@ public class Aplicacion extends Application {
                             }
                             texto.append("</Row>\n");
                             if (hayRc) {
-                                incluirRc();
+                                incluirRc(texto, cEquipos, def, "TR1");
                             }
                         }
                         // Si además tiene medida de Tr2 se incluye también
@@ -628,7 +628,7 @@ public class Aplicacion extends Application {
                             }
                             texto.append("</Row>\n");
                             if(hayRc) {
-                                incluirRc();
+                                incluirRc(texto, cEquipos, def, "TR2");
                             }
                         }
                         // Si además tiene medida de Tr3 se incluye también
@@ -700,7 +700,7 @@ public class Aplicacion extends Application {
                             }
                             texto.append("</Row>\n");
                             if (hayRc) {
-                                incluirRc();
+                                incluirRc(texto, cEquipos, def, "TR3");
                             }
                         }
                     }
@@ -802,8 +802,72 @@ public class Aplicacion extends Application {
         return texto.toString();
     }
 
-    //TODO: Incluir una fila mas para el Rc en caso de ser necesario
-    public static String incluirRc() {
+    public static String incluirRc(StringBuffer texto, Cursor cursor, Defecto def, String trafo) {
+        // TODO: En versiones antiguas quitar si da problemas o genera archivos erróneos
+        texto.append("<Row>\n");
+        for (int j=1; j<=28; j++) {
+            String fecha, imagen;
+            switch (j){
+                case 4: // Como es CT no se pone el tramo
+                    texto.append("<Cell ss:StyleID=\"s79\">");
+                    texto.append("<Data ss:Type=\"String\">");
+                    texto.append("");
+                    break;
+                case 8: // Se corrige la fecha para que tenga el formato pedido por EDE
+                    texto.append("<Cell ss:StyleID=\"s79\">");
+                    texto.append("<Data ss:Type=\"String\">");
+                    fecha = cursor.getString(j);
+                    texto.append(corregirFecha(fecha));
+                    break;
+                case 9: // Se incluye el codigo de la medida en lugar del codigo del defecto
+                    texto.append("<Cell ss:StyleID=\"s79\">");
+                    texto.append("<Data ss:Type=\"String\">");
+                    texto.append("1013");
+                    break;
+                case 12: // Se incluye la medida en lugar de las ocurrencias
+                    texto.append("<Cell ss:StyleID=\"s79\">");
+                    texto.append("<Data ss:Type=\"String\">");
+                    String rc;
+                    if (trafo.equals("TR1")) {
+                        rc = def.getRc1();
+                    } else if (trafo.equals("TR2")) {
+                        rc = def.getRc2();
+                    } else {
+                        rc = def.getRc3();
+                    }
+                    texto.append(rc);
+                    break;
+                case 23: // Se incluyen las observaciones del defecto además de las del equipo
+                    texto.append("<Cell ss:StyleID=\"s79\">");
+                    texto.append("<Data ss:Type=\"String\">");
+                    texto.append("TR1");
+                    if (!def.getObservaciones().equals("")) {
+                        texto.append(": " + def.getObservaciones());
+                    }
+                    break;
+                case 24: // Se incluye también el vínculo a la foto en las medidas
+                    imagen = def.getFoto1();
+                    texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"" + imagen + "\">");
+                    texto.append("<Data ss:Type=\"String\">");
+                    texto.append(imagen);
+                    break;
+                case 25: // Se incluye también el vínculo a la foto en las medidas
+                    imagen = def.getFoto2();
+                    texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"" + imagen + "\">");
+                    texto.append("<Data ss:Type=\"String\">");
+                    texto.append(imagen);
+                    break;
+                default:
+                    texto.append("<Cell ss:StyleID=\"s79\">");
+                    texto.append("<Data ss:Type=\"String\">");
+                    texto.append(cursor.getString(j));
+                    break;
+            }
+            texto.append("</Data>");
+            texto.append("</Cell>\n");
+        }
+        texto.append("</Row>\n");
+
         return "";
     }
 
@@ -822,7 +886,6 @@ public class Aplicacion extends Application {
             fos.close();
         } catch (Exception e) {
             Log.e ("Error RPR: ", e.toString());
-            //Aplicacion.print("ErrorRPR: Error al generar el archivo KML" + e.toString());
         }
 
     }
@@ -1165,8 +1228,20 @@ public class Aplicacion extends Application {
                 apoyo.getNombreEquipo(), apoyo.getCodigoTramo());
 
         // TODO: Modificar observaciones en función del tipo de apoyo
-        texto.append("<description>\n<![CDATA[<div align=\"left\">\n<p>Observaciones:"
-                + apoyo.getObservaciones() + "</p>\n"); // Se incluyen las observaciones
+        // Observaciones incluye los datos a mostrar separados por "---";
+        String datosObs = apoyo.getObservaciones();
+        String obs, foto1, foto2;
+        if (datosObs.contains("---")) {
+            obs = datosObs.substring(0, datosObs.indexOf("---"));
+            foto1 = obs.substring((obs.indexOf("---") + 3), obs.lastIndexOf("---"));
+            foto2 = obs.substring(obs.lastIndexOf("---") + 3);
+        } else {
+            obs = datosObs;
+            foto1 = "";
+            foto2 = "";
+        }
+        texto.append("<description>\n<![CDATA[<div align=\"left\">\n<p>"
+                + obs + "\n</p>\n"); // Se incluyen las observaciones
         // Se incluyen las fotos si hay
         if (!equipo.getDocumentosAsociar().equals("")) {
             texto.append("<table>\n<tr>\n<td>\n");
@@ -1174,7 +1249,7 @@ public class Aplicacion extends Application {
             texto.append("\" width=\"" + ANCHOFOTO + "\" height=\"" + ALTOFOTO + "\">"); // Se asigna alto y ancho a la foto
             if (!equipo.getDescripcionDocumentos().equals("")) {
                 texto.append("<td>");
-                texto.append("<img src=\"" + equipo.getDocumentosAsociar()); // Se asocia la foto
+                texto.append("<img src=\"" + equipo.getDescripcionDocumentos()); // Se asocia la foto
                 texto.append("\" width=\"" + ANCHOFOTO + "\" height=\"" + ALTOFOTO + "\">"); // Se asigna alto y ancho a la foto
             }
             texto.append("</td>\n</tr>\n</table>\n");
@@ -1289,9 +1364,10 @@ public class Aplicacion extends Application {
                         "DocumentosAsociar", "NombreEquipo", apoyo.getNombreEquipo());
                  if (cFoto != null && cFoto.moveToFirst()) {
                      String foto = cFoto.getString(0);
-                    texto.append(foto + ";\\n");
+                    texto.append(foto + ";");
                     cFoto.close();
                  }
+                texto.append("\\n");
             }
         }
 
@@ -1414,7 +1490,7 @@ public class Aplicacion extends Application {
                 }
                 break;
             case "T55D":
-                medida = "1013";
+                medida = "1014";
                 break;
             case "T62D":
                 medida = "1011";
@@ -1423,7 +1499,7 @@ public class Aplicacion extends Application {
                 medida = "1012";
                 break;
             case "T55C":
-                medida = "1013";
+                medida = "1014";
                 break;
             case "T62C":
                 medida = "1011";
