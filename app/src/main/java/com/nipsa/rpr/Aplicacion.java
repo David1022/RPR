@@ -1164,11 +1164,10 @@ public class Aplicacion extends Application {
                 Apoyo ct = listaCDs.elementAt(i);
                 texto.append("<Placemark>\n<visibility>0</visibility>\n"); // Apertura equipo
                 texto.append("<name>" + ct.getNombreEquipo() + "</name>\n"); // Nombre equipo
-                Equipo equipo = dbRevisiones.solicitarEquipo(revision, ct.getNombreEquipo(), ct.getCodigoTramo());
-                if (equipo != null) {
+//                Equipo equipo = dbRevisiones.solicitarEquipo(revision, ct.getNombreEquipo(), ct.getCodigoTramo());
+//                if (equipo != null) {
                     texto.append(incluirDescripcion(ct));
-                    //texto.append("<description>" + equipo.getObservaciones() + "</description>"); // Descripción
-                }
+//                }
                 texto.append("<Style>\n<IconStyle>\n<color>ff00ff00</color>\n<scale>1.1</scale>\n" +
                         "<Icon>\n<href>http://maps.google.com/mapfiles/kml/paddle/C.png</href>\n</Icon>\n</IconStyle>\n" +
                         "<ListStyle>\n<ItemIcon>\n<href>http://maps.google.com/mapfiles/kml/paddle/C-lv.png</href>\n" +
@@ -1196,9 +1195,9 @@ public class Aplicacion extends Application {
         if (listaApoyos != null) {
             for (int i=0; i<listaApoyos.size(); i++) {
                 Apoyo apoyo = listaApoyos.elementAt(i);
-                Equipo equipo = dbRevisiones.solicitarEquipo(apoyo.getNombreRevision(),
-                        apoyo.getNombreEquipo(), apoyo.getCodigoTramo());
-                if (equipo != null) {
+//                Equipo equipo = dbRevisiones.solicitarEquipo(apoyo.getNombreRevision(),
+//                        apoyo.getNombreEquipo(), apoyo.getCodigoTramo());
+//                if (equipo != null) {
                     texto.append("<Placemark>\n<visibility>0</visibility>\n"); // Apertura apoyo
                     texto.append("<name>" + apoyo.getNombreEquipo() + "</name>\n"); // Nombre apoyo
                     texto.append(incluirDescripcion(apoyo));
@@ -1209,7 +1208,7 @@ public class Aplicacion extends Application {
                     texto.append("<Point>\n<gx:drawOrder>1</gx:drawOrder>\n<coordinates>" + apoyo.getLongitud() + "," +
                             apoyo.getLatitud() + ",0 </coordinates>\n</Point>\n");
                     texto.append("</Placemark>\n"); // Cierre equipo
-                }
+//                }
             }
         }
 
@@ -1233,8 +1232,8 @@ public class Aplicacion extends Application {
         String obs, foto1, foto2;
         if (datosObs.contains("---")) {
             obs = datosObs.substring(0, datosObs.indexOf("---"));
-            foto1 = obs.substring((obs.indexOf("---") + 3), obs.lastIndexOf("---"));
-            foto2 = obs.substring(obs.lastIndexOf("---") + 3);
+            foto1 = datosObs.substring((datosObs.indexOf("---") + 3), datosObs.lastIndexOf("---"));
+            foto2 = datosObs.substring(datosObs.lastIndexOf("---") + 3);
         } else {
             obs = datosObs;
             foto1 = "";
@@ -1243,13 +1242,13 @@ public class Aplicacion extends Application {
         texto.append("<description>\n<![CDATA[<div align=\"left\">\n<p>"
                 + obs + "\n</p>\n"); // Se incluyen las observaciones
         // Se incluyen las fotos si hay
-        if (!equipo.getDocumentosAsociar().equals("")) {
+        if (!foto1.equals("")) {
             texto.append("<table>\n<tr>\n<td>\n");
-            texto.append("<img src=\"" + equipo.getDocumentosAsociar()); // Se asocia la foto
+            texto.append("<img src=\"" + foto1); // Se asocia la foto
             texto.append("\" width=\"" + ANCHOFOTO + "\" height=\"" + ALTOFOTO + "\">"); // Se asigna alto y ancho a la foto
-            if (!equipo.getDescripcionDocumentos().equals("")) {
+            if (!foto2.equals("")) {
                 texto.append("<td>");
-                texto.append("<img src=\"" + equipo.getDescripcionDocumentos()); // Se asocia la foto
+                texto.append("<img src=\"" + foto2); // Se asocia la foto
                 texto.append("\" width=\"" + ANCHOFOTO + "\" height=\"" + ALTOFOTO + "\">"); // Se asigna alto y ancho a la foto
             }
             texto.append("</td>\n</tr>\n</table>\n");
@@ -1491,6 +1490,7 @@ public class Aplicacion extends Application {
                 break;
             case "T55D":
                 medida = "1014";
+//                medida = "1013";
                 break;
             case "T62D":
                 medida = "1011";
@@ -1500,6 +1500,7 @@ public class Aplicacion extends Application {
                 break;
             case "T55C":
                 medida = "1014";
+//                medida = "1013";
                 break;
             case "T62C":
                 medida = "1011";

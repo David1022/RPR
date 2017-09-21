@@ -1413,10 +1413,14 @@ public class DBRevisiones extends SQLiteOpenHelper {
                         DBGlobal dbGlobal = new DBGlobal(contexto);
                         String tipoDef = dbGlobal.solicitarItem(codigoDefecto, "CorreccioInmediata");
                         if (tipoDef.equalsIgnoreCase(Aplicacion.SI)) {
-                            String obs = codigoDefecto + ": " + dbGlobal.solicitarDescripcionPorCodigo(codigoDefecto);
+                            Defecto def = solicitarDefecto(revision, equipo, codigoDefecto, tramo);
+                            // En el campo observaciones del apoyo se incluyen los datos que se quieren mostrar:
+                            // CodigoDefecto, DescripcionCodigoDefecto y FotosDefecto
+                            String obs = codigoDefecto + ": " + def.getObservaciones() +
+                                    "---" + def.getFoto1() + "---" + def.getFoto2();
                             apoyo.setObservaciones(obs);
 //                            if (!apoyoEstaEnVector(apoyo, listaApoyos)) {
-                                listaApoyos.add(apoyo);
+                            listaApoyos.add(apoyo);
 //                            }
                         }
                     }
@@ -1450,10 +1454,14 @@ public class DBRevisiones extends SQLiteOpenHelper {
                         DBGlobal dbGlobal = new DBGlobal(contexto);
                         String tipoDef = dbGlobal.solicitarItem(codigoDefecto, "CorreccioInmediata");
                         if (tipoDef.equalsIgnoreCase(Aplicacion.SI)) {
-                            String obs = codigoDefecto + ": " + dbGlobal.solicitarDescripcionPorCodigo(codigoDefecto);
+                            Defecto def = solicitarDefecto(revision, equipo, codigoDefecto, tramo);
+                            // En el campo observaciones del apoyo se incluyen los datos que se quieren mostrar:
+                            // CodigoDefecto, DescripcionCodigoDefecto y FotosDefecto
+                            String obs = codigoDefecto + ": " + def.getObservaciones() +
+                                    "---" + def.getFoto1() + "---" + def.getFoto2();
                             apoyo.setObservaciones(obs);
 //                            if (!apoyoEstaEnVector(apoyo, listaApoyos)) {
-                                listaApoyos.add(apoyo);
+                            listaApoyos.add(apoyo);
 //                            }
                         }
                     }
@@ -1487,10 +1495,14 @@ public class DBRevisiones extends SQLiteOpenHelper {
                         DBGlobal dbGlobal = new DBGlobal(contexto);
                         String tipoDef = dbGlobal.solicitarItem(codigoDefecto, "DefectesEstrategics");
                         if (tipoDef.equalsIgnoreCase(Aplicacion.SI)) {
-                            String obs = codigoDefecto + ": " + dbGlobal.solicitarDescripcionPorCodigo(codigoDefecto);
+                            Defecto def = solicitarDefecto(revision, equipo, codigoDefecto, tramo);
+                            // En el campo observaciones del apoyo se incluyen los datos que se quieren mostrar:
+                            // CodigoDefecto, DescripcionCodigoDefecto y FotosDefecto
+                            String obs = codigoDefecto + ": " + def.getObservaciones() +
+                                    "---" + def.getFoto1() + "---" + def.getFoto2();
                             apoyo.setObservaciones(obs);
 //                            if (!apoyoEstaEnVector(apoyo, listaApoyos)) {
-                                listaApoyos.add(apoyo);
+                            listaApoyos.add(apoyo);
 //                            }
                         }
                     }
@@ -1524,10 +1536,14 @@ public class DBRevisiones extends SQLiteOpenHelper {
                         DBGlobal dbGlobal = new DBGlobal(contexto);
                         String tipoDef = dbGlobal.solicitarItem(codigoDefecto, "DefectesEstrategics");
                         if (tipoDef.equalsIgnoreCase(Aplicacion.SI)) {
-                            String obs = codigoDefecto + ": " + dbGlobal.solicitarDescripcionPorCodigo(codigoDefecto);
+                            Defecto def = solicitarDefecto(revision, equipo, codigoDefecto, tramo);
+                            // En el campo observaciones del apoyo se incluyen los datos que se quieren mostrar:
+                            // CodigoDefecto, DescripcionCodigoDefecto y FotosDefecto
+                            String obs = codigoDefecto + ": " + def.getObservaciones() +
+                                    "---" + def.getFoto1() + "---" + def.getFoto2();
                             apoyo.setObservaciones(obs);
 //                            if (!apoyoEstaEnVector(apoyo, listaApoyos)) {
-                                listaApoyos.add(apoyo);
+                            listaApoyos.add(apoyo);
 //                            }
                         }
                     }
@@ -1600,10 +1616,14 @@ public class DBRevisiones extends SQLiteOpenHelper {
                     if (apoyo.getTipoInstalacion().equals("L")) {
                         DBGlobal dbGlobal = new DBGlobal(contexto);
                         if (dbGlobal.esNoEstrategico(codigoDefecto)) {
-                            String obs = codigoDefecto + ": " + dbGlobal.solicitarDescripcionPorCodigo(codigoDefecto);
+                            Defecto def = solicitarDefecto(revision, equipo, codigoDefecto, tramo);
+                            // En el campo observaciones del apoyo se incluyen los datos que se quieren mostrar:
+                            // CodigoDefecto, DescripcionCodigoDefecto y FotosDefecto
+                            String obs = codigoDefecto + ": " + def.getObservaciones() +
+                                    "---" + def.getFoto1() + "---" + def.getFoto2();
                             apoyo.setObservaciones(obs);
 //                            if (!apoyoEstaEnVector(apoyo, listaApoyos)) {
-                                listaApoyos.add(apoyo);
+                            listaApoyos.add(apoyo);
 //                            }
                         }
                     }
@@ -1618,6 +1638,7 @@ public class DBRevisiones extends SQLiteOpenHelper {
         return listaApoyos;
     }
 
+/*
     private boolean apoyoEstaEnVector(Apoyo apoyo, Vector<Apoyo> lista) {
         boolean estaEnVector = false;
         for (int i=0; i<lista.size(); i++) {
@@ -1630,6 +1651,7 @@ public class DBRevisiones extends SQLiteOpenHelper {
 
         return estaEnVector;
     }
+*/
 
     /**
      * Solicita una lista (vector) con todos los CTs de una revisión (excluye apoyos)
@@ -1652,6 +1674,11 @@ public class DBRevisiones extends SQLiteOpenHelper {
                     datosFila.add(cursor.getString(i));
                 }
                 Apoyo apoyo = new Apoyo(cursor.getInt(0), datosFila);
+                Equipo equipo = solicitarEquipo(apoyo.getNombreRevision(), apoyo.getNombreEquipo(),
+                                    apoyo.getCodigoTramo());
+                String obs = apoyo.getObservaciones() + "---" + equipo.getDocumentosAsociar() + "---"
+                                + equipo.getDescripcionDocumentos();
+                apoyo.setObservaciones(obs);
                 resultado.add(apoyo);
             }
             cursor.close();
@@ -1684,6 +1711,11 @@ public class DBRevisiones extends SQLiteOpenHelper {
                     datosFila.add(cursor.getString(i));
                 }
                 Apoyo apoyo = new Apoyo(cursor.getInt(0), datosFila);
+                Equipo equipo = solicitarEquipo(apoyo.getNombreRevision(), apoyo.getNombreEquipo(),
+                        apoyo.getCodigoTramo());
+                String obs = apoyo.getObservaciones() + "---" + equipo.getDocumentosAsociar() + "---"
+                        + equipo.getDescripcionDocumentos();
+                apoyo.setObservaciones(obs);
                 resultado.add(apoyo);
             }
             cursor.close();
@@ -1889,7 +1921,7 @@ public class DBRevisiones extends SQLiteOpenHelper {
                 // TODO: Eliminar para versiones nuevas, solo sirve para tablas viejas que no tienen el campo PaTUnidas y Rc
 /*
                 if (tabla.equals(TABLA_DEFECTOS)) {
-                    inst.append(", ''"); // Sólo medidaPaT
+//                    inst.append(", ''"); // Sólo medidaPaT
                     inst.append(", '', '', ''"); // Con medidas Rc guardadas en BDD
                 }
 */
