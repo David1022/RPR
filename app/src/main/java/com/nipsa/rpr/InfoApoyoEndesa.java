@@ -13,13 +13,13 @@ public class InfoApoyoEndesa {
     private Double longitud, latitud;
     private String datum;
 
-    private final String INTERNATIONAL11924 = "international11924";
-    private final String WGS84 = "wgs84";
+    public static final String INTERNATIONAL11924 = "international11924";
+    public static final String WGS84 = "wgs84";
 
-    private final Double A_EQUATORIAL_RADIUS_ED50 = 6378388d; // Equatorial Radius for International (ED50)
-    private final Double B_EQUATORIAL_RADIUS_ED50 = 6356911.9; // Equatorial Radius for International (ED50)
-    private final Double A_EQUATORIAL_RADIUS_WGS84 = 6378137d; // Equatorial Radius for International (WGS84)
-    private final Double B_EQUATORIAL_RADIUS_WGS84 = 6356752.314245; // Equatorial Radius for International (WGS84)
+    private static final Double A_EQUATORIAL_RADIUS_ED50 = 6378388d; // Equatorial Radius for International (ED50)
+    private static final Double B_EQUATORIAL_RADIUS_ED50 = 6356911.9; // Equatorial Radius for International (ED50)
+    private static final Double A_EQUATORIAL_RADIUS_WGS84 = 6378137d; // Equatorial Radius for International (WGS84)
+    private static final Double B_EQUATORIAL_RADIUS_WGS84 = 6356752.314245; // Equatorial Radius for International (WGS84)
 
 
     public InfoApoyoEndesa(){
@@ -49,7 +49,7 @@ public class InfoApoyoEndesa {
         this.datum = datum;
     }
 
-    public Double atn2 (Double y, Double x) {
+    public static Double atn2 (Double y, Double x) {
         Double atn2;
 
         if (x > 0) {
@@ -78,7 +78,7 @@ public class InfoApoyoEndesa {
      * @param rotZ
      * @return
      */
-    public InfoApoyoEndesa transformarDatum(InfoApoyoEndesa coord, String newDatum, Integer tranX, Integer tranY,
+    public static InfoApoyoEndesa transformarDatum (InfoApoyoEndesa coord, String newDatum, Integer tranX, Integer tranY,
                                             Integer tranZ, Integer escala, Double rotX, Double rotY, Double rotZ) {
         Double a_old, b_old, e2_old, x_old, y_old, z_old, phi_old, lambda_old;
         Double a_new, b_new, e2_new, x_new, y_new, z_new, phi_new, lambda_new;
@@ -91,7 +91,7 @@ public class InfoApoyoEndesa {
         e2_new = 0d;
         // Se verifica que los sistema de coordenadas de las coordenadas que se pasan y donde queremos
         // llegar son diferentes, en caso contrario se sale
-        if (coord.getDatum() == newDatum) {
+        if (coord.getDatum().equals(newDatum)) {
             return null;
         }
 
@@ -103,7 +103,7 @@ public class InfoApoyoEndesa {
         } else if (coord.getDatum().equals(WGS84)) {
             a_old = A_EQUATORIAL_RADIUS_WGS84; // Equatorial Radius for WGS84
             b_old = B_EQUATORIAL_RADIUS_WGS84; // Equatorial Radius for WGS84
-            e2_old = (Math.pow(a_old, 2) - Math.pow(b_old, 2)) / Math.pow(a_old, 2);
+            e2_old = ((Math.pow(a_old, 2) - Math.pow(b_old, 2)) / Math.pow(a_old, 2));
         }
 
         // Se obtienen el resto de variable
@@ -149,6 +149,97 @@ public class InfoApoyoEndesa {
         result.setLatitud(phi_new);
         result.setLongitud(lambda_new);
         result.setDatum(newDatum);
+
+        return result;
+    }
+
+    /**
+     *
+     * @param coord84
+     * @return
+     */
+    public static InfoApoyoEndesa converToGPS84toGPS50 (InfoApoyoEndesa coord84) {
+        Integer tx, ty, tz, s;
+        Double rx, ry, rz;
+
+        tx = 87;
+        ty = 98;
+        tz = 121;
+        s= 0;
+        rx = 0 * Math.PI / 180;
+        ry = 0 * Math.PI / 180;
+        rz = 0 * Math.PI / 180;
+
+        return transformarDatum(coord84, INTERNATIONAL11924, tx, ty, tz, s, rx, ry, rz);
+    }
+
+    public static InfoApoyoEndesaUTM convertToGPSToUTM (InfoApoyoEndesa coord50) {
+        InfoApoyoEndesaUTM result = new InfoApoyoEndesaUTM();
+
+        int r = (int) (((coord50.getLongitud() + 180) / 6) + 1);
+        result.setHuso((double) r);
+
+        // Definimos las variables
+        Double escala = 0.9996;
+        Double n0 = 0d;
+        Double e0 = 500000d;
+        Double phi0 = 0d;
+        Double lambda0 = (result.getHuso() - 1) * 6 - 180 + 3;
+
+        Double originalLat = phi0;
+        Double originalLong = lambda0 * Math.PI / 180;
+
+        Double lat = coord50.getLatitud() * Math.PI / 180;
+        Double sinLat = Math.sin(lat);
+        Double cosLat = Math.cos(lat);
+        Double tanLat = Math.tan(lat);
+        Double tanLatSq = Math.pow(tanLat, 2);
+
+        Double lon = coord50.getLongitud() * Math.PI / 180;
+
+        Double a = 0d;
+        Double b = 0d;
+        Double e2 = 0d;
+
+        // Verificamos que coord50 sean ED50
+        if (coord50.getDatum().equals(INTERNATIONAL11924)) {
+            a = A_EQUATORIAL_RADIUS_ED50; // Equatorial Radius for International (ED50)
+            b = B_EQUATORIAL_RADIUS_ED50; // Equatorial Radius for International (ED50)
+            e2 = (Math.pow(a, 2) - Math.pow(b, 2)) / Math.pow(a, 2); // Square eccentricity for International (ED50)
+        }
+
+        Double n = (a - b) / (a + b);
+        Double nSq = Math.pow(n, 2);
+        Double nCu = Math.pow(n, 3);
+
+        Double v = a * escala * Math.pow((1 - e2 * Math.pow(sinLat, 2)), -0.5);
+        Double p = a * escala * (1 - e2) * Math.pow((1 - e2 * Math.pow(sinLat, 2)), -1.5);
+        Double hSq = (v / p) - 1;
+
+        Double latPlusOrigin = lat + originalLat;
+        Double latMinusOrigin = lat - originalLat;
+
+        Double longMinusOrigin = lon - originalLong;
+
+        Double m = b * escala * ((1 + n + 1.25 * (nSq + nCu)) * latMinusOrigin
+                - (3 * (n + nSq) + 2.625 * nCu) * Math.sin(latMinusOrigin) * Math.cos(latPlusOrigin)
+                + 1.875 * (nSq + nCu) * Math.sin(2 * latMinusOrigin) * Math.cos(2 * latPlusOrigin)
+                - (35 / 24 * nCu * Math.sin(3 * latMinusOrigin) * Math.cos(3 * latPlusOrigin)));
+
+        Double I = m + n0;
+        Double II = v / 2 * sinLat * cosLat;
+        Double III = v /24 * sinLat * Math.pow(cosLat, 3) * (5 - tanLatSq + Math.pow(tanLatSq, 2));
+        Double IIIA = 0d;
+        Double IV = v * cosLat;
+        Double VV = v / 6 * Math.pow(cosLat,3) * (v / p - tanLatSq);
+        Double VI = v / 120 * Math.pow(cosLat, 5) * (5 - 18 * tanLatSq + Math.pow(tanLatSq, 2) + 14 * hSq - 58
+                * tanLatSq * hSq);
+
+        Double utmX = e0 + IV * longMinusOrigin + VV * Math.pow(longMinusOrigin, 3) + VI * Math.pow(longMinusOrigin, 5);
+        Double utmY = I + II * Math.pow(longMinusOrigin, 2) + III * Math.pow(longMinusOrigin, 4) + IIIA *
+                Math.pow(longMinusOrigin, 6);
+        result.setUTMx(utmX);
+        result.setUTMy(utmY);
 
         return result;
     }

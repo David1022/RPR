@@ -29,6 +29,7 @@ public class HiloFinalizarRevision extends AsyncTask<Revision, Object, Object> {
 
         pd = new ProgressDialog(MostrarRevisiones.contexto);
         pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        pd.setTitle("Espere por favor");
         pd.setMessage("Generando archivos y moviendo fotos\nEsta acción puede tardar unos minutos...");
         pd.setCancelable(false);
         pd.setIndeterminate(true);
@@ -44,11 +45,19 @@ public class HiloFinalizarRevision extends AsyncTask<Revision, Object, Object> {
     protected Object doInBackground(Revision[] revision) {
         String nombreRevision = revision[0].getNombre();
 
+//        pd.setMessage("Backup");
         Aplicacion.backupBaseDatos();
+//        pd.setMessage("Coord");
+        Aplicacion.convertirCoordenadasApoyos(nombreRevision);
+//        pd.setMessage("XML");
         Aplicacion.generarXML(nombreRevision);
+//        pd.setMessage("KMZ");
         Aplicacion.generarKML(nombreRevision);
+//        pd.setMessage("TXT Equipos");
         Aplicacion.generarArchivoEquiposTXT(nombreRevision);
+//        pd.setMessage("TXT Defectos");
         Aplicacion.generarArchivoDefectosTXT(nombreRevision);
+//        pd.setMessage("Moviendo Fotos");
         Aplicacion.moverFotos(revision[0]);
 
         return null;

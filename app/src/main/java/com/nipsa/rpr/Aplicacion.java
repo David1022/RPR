@@ -16,6 +16,7 @@ import android.app.Application;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Environment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -1522,6 +1523,55 @@ public class Aplicacion extends Application {
         }
 
         return resultado;
+    }
+
+    public static void convertirCoordenadasApoyos (String revision) {
+        DBRevisiones dbRevisiones = new DBRevisiones(contexto);
+        Vector<Apoyo> listaApoyos = dbRevisiones.solicitarListaApoyos(revision);
+
+        try {
+            for (int i=0; i<listaApoyos.size(); i++) {
+                Apoyo apoyo = listaApoyos.elementAt(i);
+
+                // Conversión de las coordenadas
+                // ***************************************************************************************
+                Double lat, lng;
+                try {
+                    lat = Double.parseDouble(apoyo.getLatitud());
+                    lng = Double.parseDouble(apoyo.getLongitud());
+                } catch (NumberFormatException e) {
+                    Log.e (TAG, "(convertirCoordenadas) Error al convertir coordenadas a Double: " + e.toString());
+                    lat = 0d;
+                    lng = 0d;
+                }
+                InfoApoyoEndesa puntoGPS84 = new InfoApoyoEndesa();
+
+                puntoGPS84.setDatum(InfoApoyoEndesa.WGS84);
+                puntoGPS84.setLatitud(lat);
+                puntoGPS84.setLongitud(lng);
+
+                // se convierten las coordenadas de WGS84 a ED50
+                InfoApoyoEndesa puntoGPS50 = InfoApoyoEndesa.converToGPS84toGPS50(puntoGPS84);
+                puntoGPS50.setDatum(InfoApoyoEndesa.INTERNATIONAL11924);
+
+                // Se convierten las coordenadas de ED50 a UTM
+                InfoApoyoEndesaUTM puntoUTM = InfoApoyoEndesa.convertToGPSToUTM(puntoGPS50);
+                // ***************************************************************************************
+
+                // Actualizaación de datos en el apoyo correspondiente
+                dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_APOYOS, "CoordenadaXUTMApoyo",
+                                                        puntoUTM.getUTMx().toString(), apoyo.getNombreRevision(),
+                                                        apoyo.getNombreEquipo(), apoyo.getCodigoTramo());
+                dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_APOYOS, "CoordenadaYUTMApoyo",
+                        puntoUTM.getUTMy().toString(), apoyo.getNombreRevision(),
+                        apoyo.getNombreEquipo(), apoyo.getCodigoTramo());
+                dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_APOYOS, "HusoApoyo", puntoUTM.getHuso().toString(),
+                            apoyo.getNombreRevision(), apoyo.getNombreEquipo(), apoyo.getCodigoTramo());
+            }
+        } catch (Exception e) {
+            Log.e (TAG, "(convertirCoordenadas) Error al convertir coordenadas: " + e.toString());
+        }
+
     }
 
 }

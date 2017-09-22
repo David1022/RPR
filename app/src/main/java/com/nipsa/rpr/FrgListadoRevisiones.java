@@ -74,6 +74,7 @@ public class FrgListadoRevisiones extends Fragment {
         bNuevaRevision.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                calcularCoord();
                 lanzarDialogoNuevaRevision();
             }
         });
