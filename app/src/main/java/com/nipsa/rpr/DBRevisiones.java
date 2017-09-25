@@ -52,7 +52,8 @@ public class DBRevisiones extends SQLiteOpenHelper {
                                                     "Longitud", "EsDefecto", "Corregido", "FechaCorreccion", "Tramo",
                                                     "MedidaTr2", "MedidaTr3", "PaTUnidas", "Rc1", "Rc2", "Rc3"};
 
-    private final String[] COL_TABLA_TRAMOS = {"_id", "Orden", "NombreRevision", "NombreTramo", "Longitud", "Latitud"};
+    private final String[] COL_TABLA_TRAMOS = {"_id", "Orden", "NombreRevision", "NombreTramo", "Longitud",
+                                                    "Latitud", "Color"};
 
     public DBRevisiones(Context contexto) {
         super(contexto, DATABASE_NAME, null, 1);
@@ -258,9 +259,9 @@ public class DBRevisiones extends SQLiteOpenHelper {
      * @param lng
      * @param lat
      */
-    public void incluirTramo (String orden, String revision, String tramo, String lng, String lat) {
+    public void incluirTramo (String orden, String revision, String tramo, String lng, String lat, String color) {
         String instruccion = "INSERT INTO " + TABLA_TRAMOS + " VALUES ( null, '" + orden + "', '" + revision +
-                                "', '" + tramo + "', '" + lng + "', '" + lat + "')";
+                                "', '" + tramo + "', '" + lng + "', '" + lat + "', '" + color + "')";
         try {
             SQLiteDatabase db = getWritableDatabase();
             db.execSQL(instruccion);
@@ -884,7 +885,7 @@ public class DBRevisiones extends SQLiteOpenHelper {
                 do{
                     datosFila.clear();
                     Tramo tramo = new Tramo(cursor.getInt(1), cursor.getString(2),
-                            cursor.getString(3), cursor.getString(4), cursor.getString(5));
+                            cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6));
                     resultado.add(tramo);
                 } while (cursor.moveToNext());
             }
@@ -930,21 +931,28 @@ public class DBRevisiones extends SQLiteOpenHelper {
      * @param nombreEquipo
      * @return
      */
-    public Vector<String> solicitarDefectosAsociadosPorEquipo (String nombreRevision,
+    public Vector<Defecto> solicitarDefectosAsociadosPorEquipo (String nombreRevision,
                                                                     String nombreEquipo, String codigoTramo) {
-        Vector<String> listaDefectos = new Vector<String>();
+        Vector<Defecto> listaDefectos = new Vector<Defecto>();
+        Vector<String> datosFila = new Vector<String>();
         String tramo = recuperarNumDeTramo(codigoTramo);
         listaDefectos.clear();
         String instruccion = "SELECT * FROM " + TABLA_DEFECTOS + " WHERE NombreRevision = '" + nombreRevision +
-                                "' AND NombreEquipo = '" + nombreEquipo + "' AND Tramo LIKE '%" + tramo + "%'";
+                                "' AND NombreEquipo = '" + nombreEquipo + "' AND Tramo LIKE '%" + tramo + "%'" +
+                                " AND (EsDefecto = 'Si' OR Medida != '') GROUP BY CodigoDefecto" +
+                                " ORDER BY CodigoDefecto";
         try {
             SQLiteDatabase db = getReadableDatabase();
             Cursor cursor = db.rawQuery(instruccion, null);
-            while (cursor.moveToNext()) {
-                String esDefecto = cursor.getString(11);
-                if (esDefecto.equals(Aplicacion.SI)) {
-                    listaDefectos.add(cursor.getString(3));
-                }
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    datosFila.clear();
+                    for (int i=1; i<cursor.getColumnCount(); i++ ){
+                        datosFila.add(cursor.getString(i));
+                    }
+                    Defecto defecto = new Defecto(cursor.getInt(0), datosFila);
+                    listaDefectos.add(defecto);
+                } while (cursor.moveToNext());
             }
             cursor.close();
         } catch (Exception e) {
@@ -1246,7 +1254,8 @@ public class DBRevisiones extends SQLiteOpenHelper {
     public Cursor solicitarDatosEquipos (String revision){
         Cursor cursor = null;
 
-        String instruccion = "SELECT * FROM " + TABLA_EQUIPOS + " WHERE NombreRevision = '" + revision + "'";
+        String instruccion = "SELECT * FROM " + TABLA_EQUIPOS + " WHERE NombreRevision = '" + revision + "'" +
+                                " ORDER BY TipoInstalacion, CodigoTramo, NombreEquipo";
         try {
             SQLiteDatabase db = getReadableDatabase();
             cursor = db.rawQuery(instruccion, null);
@@ -1270,7 +1279,8 @@ public class DBRevisiones extends SQLiteOpenHelper {
         Vector<String> datosFila = new Vector<String>();
         String instruccion = "SELECT * FROM " + TABLA_DEFECTOS + " WHERE NombreRevision = '" + revision +
                                 "' AND NombreEquipo = '" + equipo + "' AND Tramo LIKE '%" + tramo + "%' AND " +
-                                " (EsDefecto = '" + Aplicacion.SI + "' OR Medida != '')";
+                                " (EsDefecto = '" + Aplicacion.SI + "' OR Medida != '') GROUP BY CodigoDefecto" +
+                                " ORDER BY CodigoDefecto";
 
         try {
             SQLiteDatabase db = getReadableDatabase();

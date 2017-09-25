@@ -21,12 +21,13 @@ public class LectorCoord {
     private final String PLACEMARK_START = "<Placemark>";
     private final String DESCRIPTION_START = "<description>";
     private final String DESCRIPTION_END = "</description>";
+    private final String COLOR_START = "<color>";
     private final String PLACEMARK_END = "</Placemark>";
     private final String COORDINATES_START = "<coordinates>";
     private final String COORDINATES_END = "</coordinates>";
 
     private boolean esFolder, esPlacemark, esDescription;
-    private String tipo, nombre, nombreRevision;
+    private String tipo, nombre, nombreRevision, color;
     private StringBuffer descripcion;
     private Integer ordenTramo;
 
@@ -43,6 +44,7 @@ public class LectorCoord {
         this.tipo = "";
         this.nombreRevision = revision;
         this.nombre = "";
+        this.color = "";
         this.ordenTramo = 0;
 
     }
@@ -63,7 +65,7 @@ public class LectorCoord {
                     texto = in.readLine();
                     continue;
                 } else if (texto.startsWith(NAME_START)) {
-                    String data = leerNombre(texto);
+                    String data = leerDato(texto);
                     if (esFolder) {
                         if (esPlacemark) {
                             nombre = data;
@@ -93,7 +95,13 @@ public class LectorCoord {
                         esDescription = false;
                         descripcion.append(texto);
                         dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_APOYOS, "Observaciones",
-                                leerNombre(descripcion.toString()), nombreRevision, nombre, "");
+                                leerDato(descripcion.toString()), nombreRevision, nombre, "");
+                    }
+                    texto = in.readLine();
+                    continue;
+                } else if (texto.startsWith(COLOR_START)) {
+                    if (esPlacemark = true) {
+                        color = leerDato(texto);
                     }
                     texto = in.readLine();
                     continue;
@@ -117,7 +125,7 @@ public class LectorCoord {
                             lat = texto.substring(0, texto.indexOf(","));
                             texto = texto.substring(texto.indexOf(",") + 1);
                             MostrarRevisiones.actualizarCoordenadasTramo(ordenTramo.toString(), lng,
-                                                                            lat, nombreRevision, nombre);
+                                                                            lat, nombreRevision, nombre, color);
                             texto = texto.substring(2);
                         }while (!texto.equals(COORDINATES_END));
                     }
@@ -137,7 +145,7 @@ public class LectorCoord {
 
     }
 
-    private String leerNombre (String texto) {
+    private String leerDato (String texto) {
 
         return texto.substring((texto.indexOf(">") + 1), texto.lastIndexOf("<"));
 

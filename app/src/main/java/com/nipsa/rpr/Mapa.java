@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Vector;
 
@@ -290,17 +291,20 @@ public class Mapa extends AppCompatActivity implements OnMapReadyCallback, Googl
 
         if ((listaTramos.size() > 0) && (listaTramos != null)) {
             for (int j=0; j<listaTramos.size(); j++) {
-                Tramo tr = listaTramos.get(j);
+                Tramo tramo = listaTramos.get(j);
                 Double lng, lat;
-                lng = Double.parseDouble(tr.getLng());
-                lat = Double.parseDouble(tr.getLat());
+                int color = Integer.parseInt(tramo.getColor());
+                lng = Double.parseDouble(tramo.getLng());
+                lat = Double.parseDouble(tramo.getLat());
                 polOptions.add(new LatLng(lat, lng));
+
+                polOptions.color(color);
             }
         }
 
         polOptions.clickable(true);
         polOptions.width(10);
-        polOptions.color(getResources().getColor(R.color.azul));
+//        polOptions.color(getResources().getColor(R.color.azul));
 
         return polOptions;
     }

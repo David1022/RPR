@@ -3,14 +3,15 @@ package com.nipsa.rpr;
 public class Tramo {
 
     private Integer orden;
-    private String revision, tramo, lng, lat;
+    private String revision, tramo, lng, lat, color;
 
-    public Tramo (Integer orden, String revision, String tramo, String lng, String lat) {
+    public Tramo (Integer orden, String revision, String tramo, String lng, String lat, String color) {
         this.orden = orden;
         this.revision = revision;
         this.tramo = tramo;
         this.lng = lng;
         this.lat = lat;
+        this.color = color;
     }
 
     public Integer getOrden() {
@@ -51,5 +52,13 @@ public class Tramo {
 
     public void setLat(String lat) {
         this.lat = lat;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 }

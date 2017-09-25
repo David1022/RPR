@@ -9,7 +9,7 @@
         style="@style/texto_pop_up"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="20"
+        android:layout_weight="15"
         android:gravity="center_horizontal" />
 
     <TextView
@@ -17,7 +17,15 @@
         style="@style/texto_pop_up"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="80"
+        android:layout_weight="70"
         android:gravity="left" />
+
+    <TextView
+        android:id="@+id/itemMedida"
+        style="@style/texto_pop_up"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="15"
+        android:gravity="center_horizontal" />
 
 </LinearLayout>

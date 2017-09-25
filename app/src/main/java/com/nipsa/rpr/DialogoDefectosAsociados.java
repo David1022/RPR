@@ -22,7 +22,7 @@ public class DialogoDefectosAsociados extends DialogFragment {
     public DBGlobal dbGlobal;
     private String revisionActual, equipoActual, tramoActual;
     public ListView lstListado;
-    public Vector<String> defAsociados;
+    public Vector<Defecto> defAsociados;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -56,12 +56,11 @@ public class DialogoDefectosAsociados extends DialogFragment {
 
     }
 
-    class AdaptadorDefectosAsociados extends ArrayAdapter<String> {
+    class AdaptadorDefectosAsociados extends ArrayAdapter<Defecto> {
 
         Activity context;
 
         AdaptadorDefectosAsociados(Fragment context) {
-            //super(context.getActivity(), R.layout.listitem_grupo_defectos, defAsociados);
             super(context.getActivity(), R.layout.listitem_defectos_asociados, defAsociados);
 
             this.context = context.getActivity();
@@ -75,12 +74,29 @@ public class DialogoDefectosAsociados extends DialogFragment {
                 item = inflater.inflate(R.layout.listitem_defectos_asociados, null);
             }
 
-            String codigo = defAsociados.elementAt(position);
+            Defecto def = defAsociados.elementAt(position);
+            String codigo = def.getCodigoDefecto();
             String descripcion = dbGlobal.solicitarDescripcionPorCodigo(codigo);
+            String medida = def.getMedida();
+
             TextView textoCodigo = (TextView) item.findViewById(R.id.itemCodigoDefecto);
             TextView textoDescripcion = (TextView) item.findViewById(R.id.itemDescripcionDefecto);
+            TextView textoMedida = (TextView) item.findViewById(R.id.itemMedida);
+
             textoCodigo.setText(codigo);
             textoDescripcion.setText(descripcion);
+            textoMedida.setText(medida);
+
+            if (def.getEsDefecto().equals(Aplicacion.SI)) {
+                textoCodigo.setTextColor(getResources().getColor(R.color.rojo));
+                textoDescripcion.setTextColor(getResources().getColor(R.color.rojo));
+                textoMedida.setTextColor(getResources().getColor(R.color.rojo));
+            } else {
+                textoCodigo.setTextColor(getResources().getColor(R.color.negro));
+                textoDescripcion.setTextColor(getResources().getColor(R.color.negro));
+                textoMedida.setTextColor(getResources().getColor(R.color.negro));
+
+            }
 
             return(item);
         }

@@ -302,9 +302,9 @@ public class MostrarRevisiones extends AppCompatActivity implements FrgListadoRe
      * @param revision
      */
     public static void actualizarCoordenadasTramo (String orden, String longitud,
-                                                    String latitud, String revision, String tramo) {
+                                                    String latitud, String revision, String tramo, String color) {
 
-        dbRevisiones.incluirTramo(orden, revision, tramo, longitud, latitud);
+        dbRevisiones.incluirTramo(orden, revision, tramo, longitud, latitud, color);
 
     }
 
