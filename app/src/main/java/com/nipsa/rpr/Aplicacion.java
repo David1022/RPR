@@ -721,7 +721,7 @@ public class Aplicacion extends Application {
             do {
                 texto.append("<Row>\n");
                 texto.append("<Cell ss:StyleID=\"s79\"><Data ss:Type=\"String\"></Data></Cell>\n");
-                for (int i=1; i<=18; i++) {
+                for (int i=1; i<=16; i++) {
                     texto.append("<Cell ss:StyleID=\"s79\">");
                     texto.append("<Data ss:Type=\"String\">");
                     switch (i) {
@@ -1102,7 +1102,7 @@ public class Aplicacion extends Application {
                 texto.append(incluirDescripcion(ct));
                 //texto.append("<description>" + ct.getObservaciones() + "</description>"); // Descripción
                 texto.append("<Style>\n<IconStyle>\n<color>ffff0000</color>\n<scale>1.1</scale>\n" +
-                        "<Icon>\n<href>http://maps.google.com/mapfiles/kml/paddle/C.png</href>\n</Icon>\n</IconStyle>\n" +
+                        "<Icon>\n<href>Iconos/ct_blue.png</href>\n</Icon>\n</IconStyle>\n" +
                         "<ListStyle>\n<ItemIcon>\n<href>http://maps.google.com/mapfiles/kml/paddle/C-lv.png</href>\n" +
                         "</ItemIcon>\n</ListStyle>\n</Style>\n"); // Estilo
                 texto.append("<Point>\n<gx:drawOrder>1</gx:drawOrder>\n<coordinates>" +
@@ -1138,7 +1138,7 @@ public class Aplicacion extends Application {
                         equipo.getObservaciones() + "</description>\n"); // Descripción
 */
                 texto.append("<Style>\n<IconStyle>\n<color>ffff0000</color>\n<scale>1.1</scale>\n<Icon>\n" +
-                        "<href>http://maps.google.com/mapfiles/kml/paddle/A.png</href>\n</Icon>\n</IconStyle>\n" +
+                        "<href>Iconos/apoyo_blue.png</href>\n</Icon>\n</IconStyle>\n" +
                         "<ListStyle>\n<ItemIcon>\n<href>http://maps.google.com/mapfiles/kml/paddle/A-lv.png</href>\n" +
                         "</ItemIcon>\n</ListStyle>\n</Style>\n"); // Estilo
                 texto.append("<Point>\n<gx:drawOrder>1</gx:drawOrder>\n<coordinates>" +
@@ -1248,7 +1248,7 @@ public class Aplicacion extends Application {
             texto.append("<img src=\"" + foto1); // Se asocia la foto
             texto.append("\" width=\"" + ANCHOFOTO + "\" height=\"" + ALTOFOTO + "\">"); // Se asigna alto y ancho a la foto
             if (!foto2.equals("")) {
-                texto.append("<td>");
+                texto.append("<td>\n");
                 texto.append("<img src=\"" + foto2); // Se asocia la foto
                 texto.append("\" width=\"" + ANCHOFOTO + "\" height=\"" + ALTOFOTO + "\">"); // Se asigna alto y ancho a la foto
             }
@@ -1540,7 +1540,8 @@ public class Aplicacion extends Application {
                     lat = Double.parseDouble(apoyo.getLatitud());
                     lng = Double.parseDouble(apoyo.getLongitud());
                 } catch (NumberFormatException e) {
-                    Log.e (TAG, "(convertirCoordenadas) Error al convertir coordenadas a Double: " + e.toString());
+                    Log.e (TAG, "(Aplicacion.convertirCoordenadas) Error al convertir coordenadas a Double:" +
+                            " " + e.toString());
                     lat = 0d;
                     lng = 0d;
                 }
@@ -1559,13 +1560,19 @@ public class Aplicacion extends Application {
                 // ***************************************************************************************
 
                 // Actualizaación de datos en el apoyo correspondiente
+                // Se redondean los datos paraº darle el formato solicitado por Endesa
+                Long x, y, huso;
+                x = Math.round(puntoUTM.getUTMx());
+                y = Math.round(puntoUTM.getUTMy());
+                huso = Math.round(puntoUTM.getHuso());
+
                 dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_APOYOS, "CoordenadaXUTMApoyo",
-                                                        puntoUTM.getUTMx().toString(), apoyo.getNombreRevision(),
+                                                        x.toString(), apoyo.getNombreRevision(),
                                                         apoyo.getNombreEquipo(), apoyo.getCodigoTramo());
                 dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_APOYOS, "CoordenadaYUTMApoyo",
-                        puntoUTM.getUTMy().toString(), apoyo.getNombreRevision(),
+                        y.toString(), apoyo.getNombreRevision(),
                         apoyo.getNombreEquipo(), apoyo.getCodigoTramo());
-                dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_APOYOS, "HusoApoyo", puntoUTM.getHuso().toString(),
+                dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_APOYOS, "HusoApoyo", huso.toString(),
                             apoyo.getNombreRevision(), apoyo.getNombreEquipo(), apoyo.getCodigoTramo());
             }
         } catch (Exception e) {

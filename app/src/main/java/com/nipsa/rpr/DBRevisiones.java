@@ -7,6 +7,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Switch;
 
 import java.util.Vector;
 import java.util.concurrent.Exchanger;
@@ -25,6 +26,8 @@ public class DBRevisiones extends SQLiteOpenHelper {
     private final int NUM_COL_EQUIPOS = 28;
     private final int NUM_COL_APOYOS = 18;
     private final int NUM_COL_APOYOS_NO_REVISABLES = 2;
+    private final int NUM_COL_DEFECTOS = 21;
+    private final int NUM_COL_TRAMOS = 7;
 
     private final String[] COL_TABLA_REVISIONES = {"_id" , "Nombre", "Estado", "Inspector1", "Inspector2",
                                                     "Colegiado", "EquipoUsado", "Metodologia", "CodigoNipsa", "NumeroTrabajo",
@@ -50,7 +53,8 @@ public class DBRevisiones extends SQLiteOpenHelper {
     private final String[] COL_TABLA_DEFECTOS = {"_id", "NombreEquipo", "NombreRevision", "CodigoDefecto", "Foto1",
                                                     "Foto2", "Medida", "Observaciones", "Ocurrencias", "Latitud",
                                                     "Longitud", "EsDefecto", "Corregido", "FechaCorreccion", "Tramo",
-                                                    "MedidaTr2", "MedidaTr3", "PaTUnidas", "Rc1", "Rc2", "Rc3"};
+                                                    "MedidaTr2", "MedidaTr3", "PaTUnidas", "Rc1", "Rc2",
+                                                    "Rc3"};
 
     private final String[] COL_TABLA_TRAMOS = {"_id", "Orden", "NombreRevision", "NombreTramo", "Longitud",
                                                     "Latitud", "Color"};
@@ -1883,7 +1887,7 @@ public class DBRevisiones extends SQLiteOpenHelper {
             incluirElementos(nombreRevision, TABLA_EQUIPOS);
             incluirElementos(nombreRevision, TABLA_APOYOS);
             incluirElementos(nombreRevision, TABLA_NO_REVISABLE);
-            //incluirElementos(nombreRevision, TABLA_TRAMOS);
+            incluirElementos(nombreRevision, TABLA_TRAMOS);
             incluirElementos(nombreRevision, TABLA_DEFECTOS);
 
     }
@@ -1929,12 +1933,24 @@ public class DBRevisiones extends SQLiteOpenHelper {
                     inst.append(", '" + cursor.getString(i) + "'");
                 }
                 // TODO: Eliminar para versiones nuevas, solo sirve para tablas viejas que no tienen el campo PaTUnidas y Rc
-/*
-                if (tabla.equals(TABLA_DEFECTOS)) {
+                int numCol = cursor.getColumnCount();
+                switch (tabla) {
+                    case TABLA_DEFECTOS:
 //                    inst.append(", ''"); // Sólo medidaPaT
-                    inst.append(", '', '', ''"); // Con medidas Rc guardadas en BDD
+//                    inst.append(", '', '', ''"); // Con medidas Rc guardadas en BDD
+                        for (int i=0; i<(NUM_COL_DEFECTOS-numCol); i++) {
+                            inst.append(", ''");
+                        }
+                        break;
+                    case TABLA_TRAMOS:
+                        for (int i=0; i<(NUM_COL_TRAMOS-numCol); i++) {
+                            inst.append(", ''");
+                        }
+                        break;
+                    default:
+                        break;
                 }
-*/
+
                 inst.append(")");
                 SQLiteDatabase db = getWritableDatabase();
                 try {

@@ -34,6 +34,7 @@ public class HiloBackup extends AsyncTask<Revision, Object, Object> {
         String nombreRevision = revision[0].getNombre();
 
         Aplicacion.backupBaseDatos();
+        Aplicacion.convertirCoordenadasApoyos(nombreRevision);
         Aplicacion.generarBackupRevision(nombreRevision);
         Aplicacion.generarXML(nombreRevision);
         Aplicacion.generarKML(nombreRevision);

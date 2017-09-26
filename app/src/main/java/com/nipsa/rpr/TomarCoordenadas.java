@@ -158,11 +158,8 @@ public class TomarCoordenadas extends AppCompatActivity implements OnMapReadyCal
         if(markerOptions != null) {
             markerOptions.draggable(true);
             // Se pone el color del marcador en funcion del estado del Equipo
-            Cursor cursor = dbRevisiones.solicitarItem(DBRevisiones.TABLA_EQUIPOS,
-                    "Estado", "NombreEquipo", apoyoActual.getNombreEquipo());
-            cursor.moveToFirst();
-            String estado = cursor.getString(0);
-            switch (estado) {
+            Equipo equipo = dbRevisiones.solicitarEquipo(revisionActual, equipoActual, tramoActual);
+            switch (equipo.getEstado()) {
                 case Aplicacion.ESTADO_PENDIENTE:
                     markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
                     break;

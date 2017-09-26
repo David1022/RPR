@@ -209,8 +209,9 @@ public class Mapa extends AppCompatActivity implements OnMapReadyCallback, Googl
         for(Integer i=1; i<=maxOrden; i++) {
             //String codigoTramo = dbRevisiones.solicitarCodigoTramo(Aplicacion.revisionActual, i);
 
+            // TODO: Incluir el nombre del tramo
             mapa.addPolyline(incluirTramos(i)).setTag("Prueba");
-            mapa.addPolyline(incluirTramos(i));
+//            mapa.addPolyline(incluirTramos(i));
         }
 
         // Se centra la visualización del mapa en la posición actual y el nivel de zoom
@@ -293,7 +294,12 @@ public class Mapa extends AppCompatActivity implements OnMapReadyCallback, Googl
             for (int j=0; j<listaTramos.size(); j++) {
                 Tramo tramo = listaTramos.get(j);
                 Double lng, lat;
-                int color = Integer.parseInt(tramo.getColor());
+                int color;
+                try {
+                    color = Integer.parseInt(tramo.getColor());
+                } catch (Exception e) {
+                    color = getResources().getColor(R.color.azul);
+                }
                 lng = Double.parseDouble(tramo.getLng());
                 lat = Double.parseDouble(tramo.getLat());
                 polOptions.add(new LatLng(lat, lng));

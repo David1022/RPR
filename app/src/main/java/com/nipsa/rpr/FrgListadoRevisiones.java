@@ -172,13 +172,22 @@ public class FrgListadoRevisiones extends Fragment {
     public void copiarIconosKML (Revision revision) {
         String rutaSalida = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) +
                                 "/RPR/OUTPUT/" + revision.getNombre() + "/Iconos/";
+
         InputStream isCT, isApoyo;
         isCT = getResources().openRawResource(R.raw.ct_yellow);
-        isApoyo = getResources().openRawResource(R.raw.apoyo_yellow);
         String nombreArchivoSalida = "ct_yellow.png";
         copiarImagenFromRawToMemory(rutaSalida, isCT, nombreArchivoSalida);
 
+        isApoyo = getResources().openRawResource(R.raw.apoyo_yellow);
         nombreArchivoSalida = "apoyo_yellow.png";
+        copiarImagenFromRawToMemory(rutaSalida, isApoyo, nombreArchivoSalida);
+
+        isCT = getResources().openRawResource(R.raw.ct_blue);
+        nombreArchivoSalida = "ct_blue.png";
+        copiarImagenFromRawToMemory(rutaSalida, isCT, nombreArchivoSalida);
+
+        isApoyo = getResources().openRawResource(R.raw.apoyo_blue);
+        nombreArchivoSalida = "apoyo_blue.png";
         copiarImagenFromRawToMemory(rutaSalida, isApoyo, nombreArchivoSalida);
 
     }
