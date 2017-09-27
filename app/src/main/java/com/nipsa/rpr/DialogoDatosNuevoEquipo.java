@@ -78,6 +78,12 @@ public class DialogoDatosNuevoEquipo extends DialogFragment {
         builder.setView(vista)
                 .setCancelable(false)
                 .setIcon(R.drawable.logo_nipsa)
+                .setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
                 .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -102,6 +108,10 @@ public class DialogoDatosNuevoEquipo extends DialogFragment {
                                 }
                                 // Se incluyen los datos del nuevo equipo en la tabla Equipos
                                 dbRevisiones.incluirNuevoEquipo(Aplicacion.revisionActual, nombreEquipo, tipoInst, textoTramo);
+                                if (tipoInst.equals("L")) {
+                                    dbRevisiones.actualizarItemEquipoApoyoActual(DBRevisiones.TABLA_EQUIPOS,
+                                            "CodigoBDE", Aplicacion.revisionActual);
+                                }
                                 dbRevisiones.actualizarItemEquipoApoyoActual(DBRevisiones.TABLA_EQUIPOS, "TipoEquipo", textoTipo);
                                 dbRevisiones.actualizarItemEquipoApoyoActual(DBRevisiones.TABLA_EQUIPOS, "TipoInstalacion", tipoInst);
                                 // Se incluyen los datos del nuevo equipo en la tabla Apoyos

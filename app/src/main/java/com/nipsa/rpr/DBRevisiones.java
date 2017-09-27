@@ -2,6 +2,7 @@ package com.nipsa.rpr;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -602,6 +603,23 @@ public class DBRevisiones extends SQLiteOpenHelper {
         }
 
         return defecto;
+    }
+
+    public String solicitarNombreTramo (Integer i){
+        String nombreTramo = "";
+        String inst = "SELECT NombreTramo FROM Tramos WHERE Orden = " + i ;
+        try {
+            SQLiteDatabase db = getReadableDatabase();
+            Cursor cursor = db.rawQuery(inst, null);
+            if ((cursor != null) && (cursor.moveToFirst())) {
+                nombreTramo = cursor.getString(0);
+            }
+        } catch (Exception e) {
+            Log.e (Aplicacion.TAG, "(DBRevisiones.solicitarNombreTramo) Error al solicitar nombre de Tramo: " +
+                    e. toString());
+        } finally {
+            return nombreTramo;
+        }
     }
 
     /**
@@ -1317,7 +1335,8 @@ public class DBRevisiones extends SQLiteOpenHelper {
      */
     public Cursor solicitarDatosTodosApoyos (String revision){
         Cursor cursor = null;
-        String instruccion = "SELECT * FROM " + TABLA_APOYOS + " WHERE NombreRevision = '" + revision + "'";
+        String instruccion = "SELECT * FROM " + TABLA_APOYOS + " WHERE NombreRevision = '" + revision +
+                                "' ORDER BY TipoInstalacion, CodigoTramo, CodigoApoyo, NombreInstalacion";
 
         try {
             SQLiteDatabase db = getReadableDatabase();

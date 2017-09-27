@@ -129,50 +129,45 @@ public class Mapa extends AppCompatActivity implements OnMapReadyCallback, Googl
                     }
                 }
                 marker.snippet(sSnippet);
-                Cursor cursor = dbRevisiones.solicitarItem(DBRevisiones.TABLA_EQUIPOS, "TipoInstalacion",
-                        "NombreEquipo", apoyo.getNombreEquipo());
-                if (cursor.moveToFirst()) {
-                    String tipo = cursor.getString(0);
-                    cursor = dbRevisiones.solicitarItem(DBRevisiones.TABLA_EQUIPOS,
-                            "Estado", "NombreEquipo", apoyo.getNombreEquipo());
-                    if (cursor.moveToFirst()) {
-                        String estado = cursor.getString(0);
-                        // Se asigna el icono y el color del marcador ( https://mapicons.mapsmarker.com/about/iconos-para-mapas/ )
-                        if (tipo.equals("L")) {
-                            switch (estado) {
-                                case Aplicacion.ESTADO_PENDIENTE:
-                                    marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                                    break;
-                                case Aplicacion.ESTADO_EN_CURSO:
-                                    marker.icon((BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
-                                    break;
-                                case Aplicacion.ESTADO_FINALIZADA:
-                                    marker.icon((BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-                                    break;
-                                default:
-                                    marker.icon((BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-                                    break;
-                            }
-                        } else {
-                            switch (estado) {
-                                case Aplicacion.ESTADO_PENDIENTE:
-                                    marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.home_red));
-                                    break;
-                                case Aplicacion.ESTADO_EN_CURSO:
-                                    marker.icon((BitmapDescriptorFactory.fromResource(R.drawable.home_orange)));
-                                    break;
-                                case Aplicacion.ESTADO_FINALIZADA:
-                                    marker.icon((BitmapDescriptorFactory.fromResource(R.drawable.home_green)));
-                                    break;
-                                default:
-                                    marker.icon((BitmapDescriptorFactory.fromResource(R.drawable.home_blue)));
-                                    break;
-                            }
+                Equipo eq = dbRevisiones.solicitarEquipo(apoyo.getNombreRevision(), apoyo.getNombreEquipo(),
+                        apoyo.getCodigoTramo());
+                if (eq != null) {
+                    String tipo = eq.getTipoInstalcion();
+                    String estado = eq.getEstado();
+                    // Se asigna el icono y el color del marcador ( https://mapicons.mapsmarker.com/about/iconos-para-mapas/ )
+                    if (tipo.equals("L")) {
+                        switch (estado) {
+                            case Aplicacion.ESTADO_PENDIENTE:
+                                marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                                break;
+                            case Aplicacion.ESTADO_EN_CURSO:
+                                marker.icon((BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+                                break;
+                            case Aplicacion.ESTADO_FINALIZADA:
+                                marker.icon((BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                                break;
+                            default:
+                                marker.icon((BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                                break;
+                        }
+                    } else {
+                        switch (estado) {
+                            case Aplicacion.ESTADO_PENDIENTE:
+                                marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.home_red));
+                                break;
+                            case Aplicacion.ESTADO_EN_CURSO:
+                                marker.icon((BitmapDescriptorFactory.fromResource(R.drawable.home_orange)));
+                                break;
+                            case Aplicacion.ESTADO_FINALIZADA:
+                                marker.icon((BitmapDescriptorFactory.fromResource(R.drawable.home_green)));
+                                break;
+                            default:
+                                marker.icon((BitmapDescriptorFactory.fromResource(R.drawable.home_blue)));
+                                break;
                         }
                     }
                 }
 
-                cursor.close();
                 mapa.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
                     @Override
                     public View getInfoWindow(Marker marker) {
@@ -207,11 +202,8 @@ public class Mapa extends AppCompatActivity implements OnMapReadyCallback, Googl
         //Se recorre la lista de tramos para visualizar los tramos
         Integer maxOrden = dbRevisiones.solicitarNumTramos(Aplicacion.revisionActual);
         for(Integer i=1; i<=maxOrden; i++) {
-            //String codigoTramo = dbRevisiones.solicitarCodigoTramo(Aplicacion.revisionActual, i);
-
-            // TODO: Incluir el nombre del tramo
-            mapa.addPolyline(incluirTramos(i)).setTag("Prueba");
-//            mapa.addPolyline(incluirTramos(i));
+            String tramo = dbRevisiones.solicitarNombreTramo(i);
+            mapa.addPolyline(incluirTramos(i)).setTag(tramo);
         }
 
         // Se centra la visualización del mapa en la posición actual y el nivel de zoom
@@ -255,7 +247,6 @@ public class Mapa extends AppCompatActivity implements OnMapReadyCallback, Googl
         if (tramo.contains("Tramo: ")) {
             tramo = tramo.substring(tramo.lastIndexOf("Tramo: ") + 7);
         }
-        //tramo = tramo.substring(tramo.indexOf(" ") + 1);
         Equipo equipo = dbRevisiones.solicitarEquipo(Aplicacion.revisionActual, marker.getTitle(), tramo);
         if (equipo != null){
             // Se asigna como equipo actual el equipo sobre el que se ha presionado
@@ -274,7 +265,7 @@ public class Mapa extends AppCompatActivity implements OnMapReadyCallback, Googl
         try {
             String s = polyline.getTag().toString();
             if(s != null) {
-                Aplicacion.print(polyline.getTag().toString());
+                Aplicacion.printCenter(polyline.getTag().toString());
             }
         } catch (Exception e) {
 
@@ -310,7 +301,6 @@ public class Mapa extends AppCompatActivity implements OnMapReadyCallback, Googl
 
         polOptions.clickable(true);
         polOptions.width(10);
-//        polOptions.color(getResources().getColor(R.color.azul));
 
         return polOptions;
     }

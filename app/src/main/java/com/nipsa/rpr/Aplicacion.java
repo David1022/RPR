@@ -18,6 +18,8 @@ import android.database.Cursor;
 import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
 import android.widget.Toast;
 
 import java.io.File;
@@ -53,6 +55,7 @@ public class Aplicacion extends Application {
     public static String defectoActual;
     public static String tramoActual;
     public static String grupoDefectoActual;
+    public static String tituloRevision;
     private static Context contexto;
 
     public static int ANCHOFOTO = 100;
@@ -85,6 +88,14 @@ public class Aplicacion extends Application {
      */
     public static void print (String texto) {
         Toast.makeText(contexto, texto, Toast.LENGTH_LONG).show();
+    }
+
+    public static void printCenter (String texto) {
+        Toast t = Toast.makeText(contexto, texto, Toast.LENGTH_SHORT);
+        t.setGravity(Gravity.CENTER, 0, 0);
+        View view = t.getView();
+        view.setBackgroundColor(contexto.getResources().getColor(R.color.rojo));
+        t.show();
     }
 
     /**
@@ -339,11 +350,11 @@ public class Aplicacion extends Application {
             nombreHoja = nombreHoja.substring(0, 29);
         }
 
-        // Hoja 1: Equipos (Equipos de la revisión)
         Cursor cEquipos = dbRevisiones.solicitarDatosEquipos(revision);
+
+        // Hoja 1: Equipos (Equipos de la revisión)
         texto.append(" <Worksheet ss:Name=\"" + nombreHoja + "\">\n");
         texto.append("  <Table ss:ExpandedColumnCount=\"32\" " +
-                //"ss:ExpandedRowCount=\"41\" x:FullColumns=\"1\"\n"+
                 "   x:FullRows=\"1\" ss:StyleID=\"s64\" ss:DefaultColumnWidth=\"60\"\n"+
                 "   ss:DefaultRowHeight=\"11.25\">\n");
         texto.append(Auxiliar.ENCABEZADO_XML_HOJA1_A);
@@ -1000,11 +1011,6 @@ public class Aplicacion extends Application {
                 texto.append("<Placemark>\n<visibility>1</visibility>\n"); // Apertura equipo
                 texto.append("<name>" + apoyo.getNombreEquipo() + "</name>\n"); // Nombre equipo
                 texto.append(incluirDescripcion(apoyo));
-/*
-                texto.append("<description>Material: " + apoyo.getMaterial() +
-                        "\nTraza/Tramo: " + apoyo.getCodigoTramo() + "\nObservaciones: " +
-                        equipo.getObservaciones() + "</description>\n"); // Descripción
-*/
                 texto.append("<Style>\n<IconStyle>\n<color>ff0000ff</color>\n<scale>1.1</scale>\n<Icon>\n" +
                         "<href>http://maps.google.com/mapfiles/kml/paddle/A.png</href>\n</Icon>\n</IconStyle>\n" +
                         "<ListStyle>\n<ItemIcon>\n<href>http://maps.google.com/mapfiles/kml/paddle/A-lv.png</href>\n" +
@@ -1559,21 +1565,29 @@ public class Aplicacion extends Application {
                 InfoApoyoEndesaUTM puntoUTM = InfoApoyoEndesa.convertToGPSToUTM(puntoGPS50);
                 // ***************************************************************************************
 
-                // Actualizaación de datos en el apoyo correspondiente
-                // Se redondean los datos paraº darle el formato solicitado por Endesa
+                /*Actualizaación de datos en el apoyo correspondiente
+                    Se redondean los datos para darle el formato solicitado por Endesa*/
                 Long x, y, huso;
-                x = Math.round(puntoUTM.getUTMx());
-                y = Math.round(puntoUTM.getUTMy());
                 huso = Math.round(puntoUTM.getHuso());
+                /*En caso de que las coordenadas sean (0, 0) no se convierten a UTM al entenderse que
+                    nos e han recogido coordenadas y evitar así que se haga una conversión incoherente*/
+                if((lat == 0) && (lng == 0)) {
+                    x = 0L;
+                    y = 0L;
+                } else { // Si las coordenadas son diferentes de (0, 0) se realiza la conversión a UTM
+                    x = Math.round(puntoUTM.getUTMx());
+                    y = Math.round(puntoUTM.getUTMy());
+                }
 
+                // Se guardan las coordenadas en la BDD
                 dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_APOYOS, "CoordenadaXUTMApoyo",
-                                                        x.toString(), apoyo.getNombreRevision(),
-                                                        apoyo.getNombreEquipo(), apoyo.getCodigoTramo());
+                        x.toString(), apoyo.getNombreRevision(),
+                        apoyo.getNombreEquipo(), apoyo.getCodigoTramo());
                 dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_APOYOS, "CoordenadaYUTMApoyo",
                         y.toString(), apoyo.getNombreRevision(),
                         apoyo.getNombreEquipo(), apoyo.getCodigoTramo());
                 dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_APOYOS, "HusoApoyo", huso.toString(),
-                            apoyo.getNombreRevision(), apoyo.getNombreEquipo(), apoyo.getCodigoTramo());
+                        apoyo.getNombreRevision(), apoyo.getNombreEquipo(), apoyo.getCodigoTramo());
             }
         } catch (Exception e) {
             Log.e (TAG, "(convertirCoordenadas) Error al convertir coordenadas: " + e.toString());

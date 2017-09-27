@@ -227,8 +227,8 @@ public class TomarCoordenadas extends AppCompatActivity implements OnMapReadyCal
             String tabla;
             // Se escoje la tabla en la que guardar las coordenadas en funcion del item que se ha de actualizar (equipo o defecto)
             if (tipo.equals(Aplicacion.EQUIPO)) {
-                dbRevisiones.actualizarItemEquipoApoyoActual(DBRevisiones.TABLA_APOYOS, "Latitud", latitud);
-                dbRevisiones.actualizarItemEquipoApoyoActual(DBRevisiones.TABLA_APOYOS, "Longitud", longitud);
+                dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_APOYOS, "Latitud", latitud, equipoActual);
+                dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_APOYOS, "Longitud", longitud, equipoActual);
             } else {
                 dbRevisiones.actualizarItemDefecto(defectoActual, "Latitud", latitud);
                 dbRevisiones.actualizarItemDefecto(defectoActual, "Longitud", longitud);

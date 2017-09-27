@@ -9,8 +9,8 @@ public class Tramo {
         this.orden = orden;
         this.revision = revision;
         this.tramo = tramo;
-        this.lng = lng;
         this.lat = lat;
+        this.lng = lng;
         this.color = color;
     }
 

@@ -220,7 +220,7 @@ public class DatosDefecto extends AppCompatActivity {
                 desactivarTr3();
             }
         });
-        Equipo equipo = dbRevisiones.solicitarEquipo(revisionActual, equipoActual, tramoActual);
+        final Equipo equipo = dbRevisiones.solicitarEquipo(revisionActual, equipoActual, tramoActual);
         Defecto defecto = dbRevisiones.solicitarDefecto(equipoActual, defectoActual, tramoActual);
         String textoObservaciones = equipo.getObservaciones();
         if (defecto.getObservaciones().equals("")){ // Si aún no se han introducido observaciones
@@ -269,8 +269,6 @@ public class DatosDefecto extends AppCompatActivity {
                 }
                 dbRevisiones.actualizarItemDefecto(Aplicacion.defectoActual, "Corregido", corregido);
                 dbRevisiones.actualizarItemDefecto(Aplicacion.defectoActual, "FechaCorreccion", fechaCorreccion);
-                //dbRevisiones.actualizarItemEquipoApoyo(DBRevisiones.TABLA_EQUIPOS, "FechaCorrecion", fechaCorreccion,
-                //                                            revisionActual, equipoActual, tramoActual);
                 tvDatoFechaCorrecion.setText(fechaCorreccion);
             }
         });
@@ -314,7 +312,7 @@ public class DatosDefecto extends AppCompatActivity {
         // Listeners de los botones
         Button botonAceptar = (Button) findViewById(R.id.botonOkDefecto);
         ImageButton botonTomarFoto = (ImageButton) findViewById(R.id.botonFotosDefecto);
-        ImageButton botonTomarCoordenadas = (ImageButton) findViewById(R.id.botonCoordenadasDefecto);
+        //ImageButton botonTomarCoordenadas = (ImageButton) findViewById(R.id.botonCoordenadasDefecto);
         botonAceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -328,13 +326,17 @@ public class DatosDefecto extends AppCompatActivity {
                 tomarFoto ();
             }
         });
+/*
         botonTomarCoordenadas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                registerForContextMenu(v);
-                openContextMenu(v);
+//                copiarCoordenadasEquipo(equipoActual);
+//                registerForContextMenu(v);
+//                openContextMenu(v);
             }
         });
+*/
+        copiarCoordenadasEquipo(equipoActual);
 
     }
 
@@ -558,11 +560,6 @@ public class DatosDefecto extends AppCompatActivity {
                     etMedida.setFocusable(false);
                     break;
             }
-/*
-            etMedida.setText(defecto.getMedida());
-            etMedidaTrafo2.setText(defecto.getMedidaTr2());
-            etMedidaTrafo3.setText(defecto.getMedidaTr3());
-*/
             etObservaciones.setText(defecto.getObservaciones());
 
             if (defecto.getEsDefecto().equals(Aplicacion.SI)) {
