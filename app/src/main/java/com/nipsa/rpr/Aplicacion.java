@@ -14,6 +14,7 @@ package com.nipsa.rpr;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Environment;
 import android.support.v7.app.AlertDialog;
@@ -501,7 +502,7 @@ public class Aplicacion extends Application {
                 // Si además tiene medida se incluye también
                         boolean hayMedida = (!def.getMedida().equals(""));
                         if (hayMedida) {
-                            boolean hayRc = false;
+                            boolean hayRmn = false;
                             texto.append("<Row>\n");
                             for (int j=1; j<=28; j++) {
                                 String fecha, imagen;
@@ -526,7 +527,9 @@ public class Aplicacion extends Application {
                                         texto.append("<Data ss:Type=\"String\">");
                                         texto.append(equivalenciaMedidaCodigo(def.getCodigoDefecto(), def.getPatUnidas()));
                                         if (def.getCodigoDefecto().equals("T55D") || def.getCodigoDefecto().equals("T55C")) {
-                                            hayRc = true;
+                                            hayRmn = true;
+                                            def = calculosPreviosRmnRc(def, "TR1");
+
                                         }
                                         break;
                                     case 12: // Se incluye la medida en lugar de las ocurrencias
@@ -566,7 +569,7 @@ public class Aplicacion extends Application {
                                 texto.append("</Cell>\n");
                             }
                             texto.append("</Row>\n");
-                            if (hayRc) {
+                            if (hayRmn) {
                                 incluirRc(texto, cEquipos, def, "TR1");
                             }
                         }
@@ -599,6 +602,7 @@ public class Aplicacion extends Application {
                                         texto.append(equivalenciaMedidaCodigo(def.getCodigoDefecto(), def.getPatUnidas()));
                                         if (def.getCodigoDefecto().equals("T55D") || def.getCodigoDefecto().equals("T55C")) {
                                             hayRc = true;
+                                            def = calculosPreviosRmnRc(def, "TR2");
                                         }
 
                                         break;
@@ -672,6 +676,7 @@ public class Aplicacion extends Application {
                                         texto.append(equivalenciaMedidaCodigo(def.getCodigoDefecto(), def.getPatUnidas()));
                                         if (def.getCodigoDefecto().equals("T55D") || def.getCodigoDefecto().equals("T55C")) {
                                             hayRc = true;
+                                            def = calculosPreviosRmnRc(def, "TR3");
                                         }
                                         break;
                                     case 12: // Se incluye la medida en lugar de las ocurrencias
@@ -814,8 +819,142 @@ public class Aplicacion extends Application {
         return texto.toString();
     }
 
-    public static String incluirRc(StringBuffer texto, Cursor cursor, Defecto def, String trafo) {
-        // TODO: En versiones antiguas quitar si da problemas o genera archivos erróneos
+    /**
+     * Método para arreglar Rmn y Rc débido a las modificaciones introducidas en las primeras versiones:
+     * Caso 1: Si no hay Rc significa que la tablet ha recogido el valor de Rc en el campo de Rmn (caso de las
+     * primeras versiones de la app), por lo tanto hay que hacer el cálculo inverso para tomar la Rmn y
+     * "imprimir" Rmn y Rc
+     * Caso 2: Si hay Rc significa que la tablet ha recogido los datos de Rmn y de Rc de forma independiente y
+     * sólo hay que "imprimir" Rmn y Rc en el .xml. En este caso no se realiza ninguna acción en este método
+     *
+     * @param defecto
+     * @param trafo
+     */
+    public static Defecto calculosPreviosRmnRc(Defecto defecto, String trafo){
+        boolean hayRc;
+        Double rm, rn, rmn, rc;
+        Defecto defRm, defRn;
+        DBRevisiones dbRevisiones = new DBRevisiones(contexto);
+
+        // Se recuperan los valores de Rm y Rn para realizar el cálculo de Rmn
+        switch (trafo){
+            case "TR1":
+                try {
+                    // Si se produce excepción significa que no hay ningún valor guardado en Rc o que
+                    // el valor guardado no es correcto. Entonces se calcula Rc y sustituye en el registro (defecto)
+                    rc = Double.parseDouble(defecto.getRc1());
+                } catch (Exception e){
+                    // Se recuperan los registros (defectos) que contienen los valores Rm, Rn del equipo
+                    String codDef = defecto.getCodigoDefecto();
+                    codDef = codDef.replace("55", "53");
+                    defRm = dbRevisiones.solicitarDefecto(defecto.getNombreRevision(), defecto.getNombreEquipo(),
+                            codDef, defecto.getTramo());
+                    codDef = codDef.replace("53", "62");
+                    defRn = dbRevisiones.solicitarDefecto(defecto.getNombreRevision(), defecto.getNombreEquipo(),
+                            codDef, defecto.getTramo());
+                    try {
+                        rm = Double.parseDouble(defRm.getMedida());
+                        rn = Double.parseDouble(defRn.getMedida());
+                        rc = Double.parseDouble(defecto.getMedida());
+                        rmn = (rm + rn - (2*rc));
+                        rmn = redondearA2Decimales(rmn);
+                        defecto.setMedida(rmn.toString());
+                        defecto.setRc1(rc.toString());
+                        dbRevisiones.actualizarItemDefecto(defecto.getNombreRevision(), defecto.getNombreEquipo(),
+                                defecto.getTramo(), defecto.getCodigoDefecto(), "Medida", rmn.toString());
+                        dbRevisiones.actualizarItemDefecto(defecto.getNombreRevision(), defecto.getNombreEquipo(),
+                                defecto.getTramo(), defecto.getCodigoDefecto(), "Rc1", rc.toString());
+                    } catch (Exception ex) {
+
+                    }
+                }
+                break;
+            case "TR2":
+                try {
+                    // Si se produce excepción significa que no hay ningún valor guardado en Rc o que
+                    // el valor guardado no es correcto. Entonces se calcula Rc y sustituye en el registro (defecto)
+                    rc = Double.parseDouble(defecto.getRc2());
+                } catch (Exception e){
+                    // Se recuperan los registros (defectos) que contienen los valores Rm, Rn del equipo
+                    String codDef = defecto.getCodigoDefecto();
+                    codDef = codDef.replace("55", "53");
+                    defRm = dbRevisiones.solicitarDefecto(defecto.getNombreRevision(), defecto.getNombreEquipo(),
+                            codDef, defecto.getTramo());
+                    codDef = codDef.replace("53", "62");
+                    defRn = dbRevisiones.solicitarDefecto(defecto.getNombreRevision(), defecto.getNombreEquipo(),
+                            codDef, defecto.getTramo());
+                    try {
+                        rm = Double.parseDouble(defRm.getMedidaTr2());
+                        rn = Double.parseDouble(defRn.getMedidaTr2());
+                        rc = Double.parseDouble(defecto.getMedidaTr2());
+                        rmn = (rm + rn - (2*rc));
+                        rmn = redondearA2Decimales(rmn);
+                        defecto.setMedidaTr2(rmn.toString());
+                        defecto.setRc2(rc.toString());
+                        dbRevisiones.actualizarItemDefecto(defecto.getNombreRevision(), defecto.getNombreEquipo(),
+                                defecto.getTramo(), defecto.getCodigoDefecto(), "MedidaTr2", rmn.toString());
+                        dbRevisiones.actualizarItemDefecto(defecto.getNombreRevision(), defecto.getNombreEquipo(),
+                                defecto.getTramo(), defecto.getCodigoDefecto(), "Rc2", rc.toString());
+                    } catch (Exception ex) {
+
+                    }
+                }
+                break;
+            case "TR3":
+                try {
+                    // Si se produce excepción significa que no hay ningún valor guardado en Rc o que
+                    // el valor guardado no es correcto. Entonces se calcula Rc y sustituye en el registro (defecto)
+                    rc = Double.parseDouble(defecto.getRc3());
+                } catch (Exception e){
+                    // Se recuperan los registros (defectos) que contienen los valores Rm, Rn del equipo
+                    String codDef = defecto.getCodigoDefecto();
+                    codDef = codDef.replace("55", "53");
+                    defRm = dbRevisiones.solicitarDefecto(defecto.getNombreRevision(), defecto.getNombreEquipo(),
+                            codDef, defecto.getTramo());
+                    codDef = codDef.replace("53", "62");
+                    defRn = dbRevisiones.solicitarDefecto(defecto.getNombreRevision(), defecto.getNombreEquipo(),
+                            codDef, defecto.getTramo());
+                    try {
+                        rm = Double.parseDouble(defRm.getMedidaTr3());
+                        rn = Double.parseDouble(defRn.getMedidaTr3());
+                        rc = Double.parseDouble(defecto.getMedidaTr3());
+                        rmn = (rm + rn - (2*rc));
+                        rmn = redondearA2Decimales(rmn);
+                        defecto.setMedidaTr3(rmn.toString());
+                        defecto.setRc3(rc.toString());
+                        dbRevisiones.actualizarItemDefecto(defecto.getNombreRevision(), defecto.getNombreEquipo(),
+                                defecto.getTramo(), defecto.getCodigoDefecto(), "MedidaTr3", rmn.toString());
+                        dbRevisiones.actualizarItemDefecto(defecto.getNombreRevision(), defecto.getNombreEquipo(),
+                                defecto.getTramo(), defecto.getCodigoDefecto(), "Rc3", rc.toString());
+                    } catch (Exception ex) {
+
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+
+        return defecto;
+    }
+
+    public static Double redondearA2Decimales (Double valor) {
+        valor = valor * 100;
+        double valorRedondeado = Math.round(valor);
+        valor = valorRedondeado / 100;
+
+        return valor;
+    }
+
+    /**
+     *
+     * @param texto
+     * @param cEquipos
+     * @param def
+     * @param trafo
+     * @return
+     */
+    public static String incluirRmn(StringBuffer texto, Cursor cEquipos, Defecto def, String trafo) {
         texto.append("<Row>\n");
         for (int j=1; j<=28; j++) {
             String fecha, imagen;
@@ -828,7 +967,83 @@ public class Aplicacion extends Application {
                 case 8: // Se corrige la fecha para que tenga el formato pedido por EDE
                     texto.append("<Cell ss:StyleID=\"s79\">");
                     texto.append("<Data ss:Type=\"String\">");
-                    fecha = cursor.getString(j);
+                    fecha = cEquipos.getString(j);
+                    texto.append(corregirFecha(fecha));
+                    break;
+                case 9: // Se incluye el codigo de la medida en lugar del codigo del defecto
+                    texto.append("<Cell ss:StyleID=\"s79\">");
+                    texto.append("<Data ss:Type=\"String\">");
+                    texto.append("1014");
+                    break;
+                case 12: // Se incluye la medida en lugar de las ocurrencias
+                    texto.append("<Cell ss:StyleID=\"s79\">");
+                    texto.append("<Data ss:Type=\"String\">");
+                    String rc;
+                    if (trafo.equals("TR1")) {
+                        rc = def.getRc1();
+                    } else if (trafo.equals("TR2")) {
+                        rc = def.getRc2();
+                    } else {
+                        rc = def.getRc3();
+                    }
+                    texto.append(rc);
+                    break;
+                case 23: // Se incluyen las observaciones del defecto además de las del equipo
+                    texto.append("<Cell ss:StyleID=\"s79\">");
+                    texto.append("<Data ss:Type=\"String\">");
+                    texto.append("TR1");
+                    if (!def.getObservaciones().equals("")) {
+                        texto.append(": " + def.getObservaciones());
+                    }
+                    break;
+                case 24: // Se incluye también el vínculo a la foto en las medidas
+                    imagen = def.getFoto1();
+                    texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"" + imagen + "\">");
+                    texto.append("<Data ss:Type=\"String\">");
+                    texto.append(imagen);
+                    break;
+                case 25: // Se incluye también el vínculo a la foto en las medidas
+                    imagen = def.getFoto2();
+                    texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"" + imagen + "\">");
+                    texto.append("<Data ss:Type=\"String\">");
+                    texto.append(imagen);
+                    break;
+                default:
+                    texto.append("<Cell ss:StyleID=\"s79\">");
+                    texto.append("<Data ss:Type=\"String\">");
+                    texto.append(cEquipos.getString(j));
+                    break;
+            }
+            texto.append("</Data>");
+            texto.append("</Cell>\n");
+        }
+        texto.append("</Row>\n");
+
+        return "";
+    }
+
+    /**
+     *
+     * @param texto
+     * @param cEquipos
+     * @param def
+     * @param trafo
+     * @return
+     */
+    public static String incluirRc(StringBuffer texto, Cursor cEquipos, Defecto def, String trafo) {
+        texto.append("<Row>\n");
+        for (int j=1; j<=28; j++) {
+            String fecha, imagen;
+            switch (j){
+                case 4: // Como es CT no se pone el tramo
+                    texto.append("<Cell ss:StyleID=\"s79\">");
+                    texto.append("<Data ss:Type=\"String\">");
+                    texto.append("");
+                    break;
+                case 8: // Se corrige la fecha para que tenga el formato pedido por EDE
+                    texto.append("<Cell ss:StyleID=\"s79\">");
+                    texto.append("<Data ss:Type=\"String\">");
+                    fecha = cEquipos.getString(j);
                     texto.append(corregirFecha(fecha));
                     break;
                 case 9: // Se incluye el codigo de la medida en lugar del codigo del defecto
@@ -872,7 +1087,7 @@ public class Aplicacion extends Application {
                 default:
                     texto.append("<Cell ss:StyleID=\"s79\">");
                     texto.append("<Data ss:Type=\"String\">");
-                    texto.append(cursor.getString(j));
+                    texto.append(cEquipos.getString(j));
                     break;
             }
             texto.append("</Data>");

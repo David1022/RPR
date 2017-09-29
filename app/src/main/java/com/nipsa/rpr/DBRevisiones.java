@@ -1269,6 +1269,31 @@ public class DBRevisiones extends SQLiteOpenHelper {
     }
 
     /**
+     * Actualiza un valor del defecto y equipo pasados por parámetro
+     * @param codigoDefecto
+     * @param columna
+     * @param dato
+     */
+    public void actualizarItemDefecto (String revision, String equipo, String tramo, String codigoDefecto,
+                                        String columna, String dato) {
+        try {
+            SQLiteDatabase db = getWritableDatabase();
+            ContentValues valor = new ContentValues();
+            String clausulaWhere;
+
+            valor.put(columna, dato);
+            clausulaWhere = "NombreRevision = '" + revision + "' AND NombreEquipo = '"
+                    + equipo + "' AND CodigoDefecto = '" + codigoDefecto +
+                    "' AND Tramo LIKE '%" + tramo + "%'";
+            db.update(TABLA_DEFECTOS, valor, clausulaWhere, null);
+        } catch (Exception e) {
+            Log.e(Aplicacion.TAG, e.toString());
+            Aplicacion.print(Aplicacion.TAG + "Error al actualizar defecto: " + Aplicacion.defectoActual);
+        }
+
+    }
+
+    /**
      *
      * @param revision
      * @return cursor con todos los equipos de una revisión

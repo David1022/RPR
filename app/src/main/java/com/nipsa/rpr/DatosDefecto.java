@@ -752,6 +752,7 @@ public class DatosDefecto extends AppCompatActivity {
                     return "";
             }
             rc = ((rm+rn-rmn)/2);
+            rc = Aplicacion.redondearA2Decimales(rc);
         } catch (Exception e) {
                 return "";
         }
