@@ -1,5 +1,6 @@
 package com.nipsa.rpr;
 /**
+ *
  * Abrir terminal e ir a la carpeta
  *              C:\Program Files\Java\jdk1.8.0_111\bin
  * Ejecutar el comando
@@ -14,10 +15,8 @@ package com.nipsa.rpr;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Environment;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -1749,6 +1748,7 @@ public class Aplicacion extends Application {
     public static void convertirCoordenadasApoyos (String revision) {
         DBRevisiones dbRevisiones = new DBRevisiones(contexto);
         Vector<Apoyo> listaApoyos = dbRevisiones.solicitarListaApoyos(revision);
+        int p = 0;
 
         try {
             for (int i=0; i<listaApoyos.size(); i++) {
