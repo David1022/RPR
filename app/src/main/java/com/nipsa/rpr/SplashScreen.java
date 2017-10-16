@@ -42,6 +42,8 @@ public class SplashScreen extends AppCompatActivity {
             fEntrada.mkdirs();
         }
 
+        new ExcelHandler().generateExcelFile();
+
     }
 
     @Override
