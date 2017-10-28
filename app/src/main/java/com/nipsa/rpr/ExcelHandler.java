@@ -59,6 +59,9 @@ public class ExcelHandler {
         }
     }
 
+    public void leerExcel() {
+        // TODO: Leer archivo excel
+    }
     private WritableSheet addData(WritableSheet sheetToFill) throws WriteException, MalformedURLException {
         WritableFont wf = new WritableFont(WritableFont.ARIAL, 10, WritableFont.BOLD, true, UnderlineStyle.SINGLE);
         URL url = new URL("http://www.google.es");

@@ -1,10 +1,13 @@
 package com.nipsa.rpr;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +17,15 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Vector;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+import static android.app.Activity.RESULT_OK;
 
 public class FrgListadoEquipos extends Fragment {
 
@@ -25,6 +36,12 @@ public class FrgListadoEquipos extends Fragment {
     private int mSelected;
     private AdaptadorEquipos mAdapter;
 
+    private final int RESULT_SELECCIONAR_ARCHIVO = 0;
+
+
+    @BindView(R.id.botonNuevaRevision)
+    Button bNuevoEquipo;
+
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
@@ -33,6 +50,8 @@ public class FrgListadoEquipos extends Fragment {
         dbRevisiones = new DBRevisiones(getContext());
         listaAMostrar = dbRevisiones.solicitarListaEquipos(Aplicacion.revisionActual);
         mSelected = -1;
+
+        ButterKnife.bind(this.getActivity());
 
         return v;
 
@@ -72,6 +91,7 @@ public class FrgListadoEquipos extends Fragment {
             }
         }
 
+/*
         Button bNuevoEquipo = (Button) getView().findViewById(R.id.botonNuevoEquipo);
         bNuevoEquipo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +99,7 @@ public class FrgListadoEquipos extends Fragment {
                 incluirNuevoEquipo();
             }
         });
+*/
 
     }
 
@@ -87,6 +108,79 @@ public class FrgListadoEquipos extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+    }
+
+    // .................. Metodos OnClick  ........................................
+
+    @OnClick(R.id.botonNuevaRevision)
+    public void nuevoEquipo(View view) {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("*/*");
+        startActivityForResult(intent, RESULT_SELECCIONAR_ARCHIVO);
+
+    }
+
+    /**
+     * Se tratará el archivo seleccionado para importar una revisión
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RESULT_SELECCIONAR_ARCHIVO) {
+            if(resultCode == RESULT_OK) {
+                listaAMostrar.setSize(0);
+                mSelected = -1;
+                mAdapter.notifyDataSetChanged();
+                if(data != null){
+                    Uri uri = data.getData();
+                    if (esExcel(uri)) {
+                        HiloLeerExcel hilo = new HiloLeerExcel();
+                        hilo.execute();
+
+/*
+                        try {
+                            InputStream is = getContentResolver().openInputStream(uri);
+                            copiarDBAMemoriaInterna(is);
+                            listaAMostrar.setSize(0);
+                            listaAMostrar.addAll(dbBackup.solicitarListaRevisiones());
+                            if((listaAMostrar == null) || (listaAMostrar.size()==0)) {
+                                titulo.setText(getResources().getString(R.string.texto_no_revisiones_a_importar));
+                            } else {
+                                titulo.setText(getResources().getString(R.string.titulo_importar_revision));
+                            }
+                            mSelected = -1;
+                            mAdapter.notifyDataSetChanged();
+                        } catch (IOException e) {
+                            Log.e(Aplicacion.TAG, "Error al leer el archivo: " + e.toString());
+                        }
+*/
+                    } else {
+                        Aplicacion.print("Tipo de archivo no válido. Selecciona un archivo con " +
+                                "extensión *.SQLITE");
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Comprueba que el archivo pasado por parámetro tenga extensión .sqlite
+     * @param uri
+     * @return
+     */
+    private boolean esExcel (Uri uri) {
+        boolean esExcel = false;
+        String s = uri.toString();
+        if(s.contains(".")){
+            s = s.substring(s.lastIndexOf("."));
+            esExcel = s.equalsIgnoreCase(".xls");
+        }
+
+        return esExcel;
     }
 
     // .................. Métodos del Fragment ........................................
