@@ -3,9 +3,6 @@ package com.nipsa.rpr;
 import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.widget.ProgressBar;
-
-import java.net.URI;
 
 
 public class HiloLeerExcel extends AsyncTask<Uri, Object, Object> {
