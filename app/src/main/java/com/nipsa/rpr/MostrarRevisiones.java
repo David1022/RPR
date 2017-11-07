@@ -144,7 +144,8 @@ public class MostrarRevisiones extends AppCompatActivity implements FrgListadoRe
 
             // Se lee el archivo XML
             HiloLeerArchivos hilo = new HiloLeerArchivos();
-            hilo.execute(archivo);
+            Object[] objects = {contexto, archivo};
+            hilo.execute(objects);
 
             Aplicacion.revisionActual = nombreRevision;
 

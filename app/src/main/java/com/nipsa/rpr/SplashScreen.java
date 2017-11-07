@@ -45,10 +45,10 @@ public class SplashScreen extends AppCompatActivity {
             fEntrada.mkdirs();
         }
 
-        new ExcelWriter().generateExcelFile();
-
-        String excelFileName = "excelData.xls";
-        new ExcelReader(this, new File(fEntrada, excelFileName)).readExcelFile();
+//        new ExcelWriter().generateExcelFile();
+//
+//        String excelFileName = "excelData.xls";
+//        new ExcelReader(this, new File(fEntrada, excelFileName)).readExcelFile();
 
     }
 
