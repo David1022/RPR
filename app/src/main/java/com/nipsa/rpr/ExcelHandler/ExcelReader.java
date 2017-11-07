@@ -23,9 +23,9 @@ import jxl.read.biff.BiffException;
 
 public class ExcelReader {
 
-    public static final String MARK_FIRST_SHEET = "Tipo Instalación";
-    public static final String MARK_SECOND_SHEET = "Acción";
-    public static final String MARK_THIRD_SHEET = "Cód. Apoyo / CD";
+    public static final String MARK_FIRST_SHEET = "A9";
+    public static final String MARK_SECOND_SHEET = "A10";
+    public static final String MARK_THIRD_SHEET = "A12";
     public static final String SPACE = " ";
 
     private File mExcelToRead;
@@ -63,7 +63,7 @@ public class ExcelReader {
         for (int i = firstRow; i < totalRows; i++) { // get all the rows
             rowData.clear();
             for (int j = 0; j < sheet.getColumns(); j++) { // for each rows, get all the columns (cells)
-                rowData.add(sheet.getCell(i, j).getContents());
+                rowData.add(sheet.getCell(j, i).getContents());
             }
             mDBRevisiones.incluirEquipo(rowData);
         }
@@ -72,6 +72,7 @@ public class ExcelReader {
 
     private void readSecondSheet(Sheet sheet) {
         Vector<String> rowData = new Vector<String>();
+        // TODO: Comprobar si lee y guarda bien los apoyos
 
         int totalRows = sheet.getRows();
         Cell cell = sheet.getCell(MARK_SECOND_SHEET);
@@ -79,7 +80,7 @@ public class ExcelReader {
         for (int i = firstRow; i < totalRows; i++) { // get all the rows
             rowData.clear();
             for (int j = 1; j < sheet.getColumns(); j++) { // for each rows, get all the columns (cells)
-                rowData.add(sheet.getCell(i, j).getContents());
+                rowData.add(sheet.getCell(j, i).getContents());
             }
             mDBRevisiones.incluirApoyo(rowData);
         }
@@ -96,7 +97,7 @@ public class ExcelReader {
         for (int i = firstRow; i < totalRows; i++) { // get all the rows
             rowData.clear();
             for (int j = 1; j < sheet.getColumns(); j++) { // for each rows, get all the columns (cells)
-                rowData.add(sheet.getCell(i, j).getContents());
+                rowData.add(sheet.getCell(j, i).getContents());
             }
             mDBRevisiones.incluirApoyoNoRevisable(rowData);
         }

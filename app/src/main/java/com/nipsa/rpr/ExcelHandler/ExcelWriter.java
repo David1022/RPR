@@ -103,7 +103,8 @@ public class ExcelWriter {
             WritableWorkbook workbook = Workbook.createWorkbook(xlsFile, workbookSettings);
             // Generate a worksheet
             WritableSheet firstSheet = workbook.createSheet("Hoja de equipos", 0);
-            firstSheet = addFirstSheetData(firstSheet);
+            firstSheet = addDataExample(firstSheet);
+//            firstSheet = addFirstSheetData(firstSheet);
             workbook.write();
             workbook.close();
         } catch (NullPointerException npe) {
@@ -119,7 +120,6 @@ public class ExcelWriter {
     }
 
     private WritableSheet addFirstSheetData (WritableSheet fSheet){
-
 
         return fSheet;
     }
