@@ -22,6 +22,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
 
+import com.nipsa.rpr.ExcelHandler.ExcelWriter;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -286,6 +288,11 @@ public class Aplicacion extends Application {
         }
 
         return archivo;
+    }
+
+    public static void generarExcel(String revision) {
+        String nombreArchivo = revision + ".xls";
+        new ExcelWriter().generateRevisionExcelFile(nombreArchivo);
     }
 
     /**

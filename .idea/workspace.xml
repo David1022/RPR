@@ -15,12 +15,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dbc6bc9a-8d9b-4788-b4de-637e13193704" name="Default" comment="11/09/2017">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/HiloLeerExcel.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/HiloLeerArchivos.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/HiloLeerArchivos.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/MostrarRevisiones.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/MostrarRevisiones.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/SplashScreen.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/SplashScreen.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/Aplicacion.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/Aplicacion.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/ExcelHandler/ExcelWriter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/ExcelHandler/ExcelWriter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/HiloFinalizarRevision.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/HiloFinalizarRevision.java" />
     </list>
     <ignored path="RPR.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -71,7 +68,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ExcelReader.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ExcelReader.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/ExcelHandler/ExcelReader.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="405">
@@ -85,11 +82,21 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="SplashScreen.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/SplashScreen.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="46" column="0" lean-forward="true" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="Aplicacion.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/Aplicacion.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="1546" column="23" lean-forward="false" selection-start-line="1546" selection-start-column="23" selection-end-line="1546" selection-end-column="23" />
+            <state relative-caret-position="161">
+              <caret line="294" column="51" lean-forward="false" selection-start-line="294" selection-start-column="26" selection-end-line="294" selection-end-column="51" />
               <folding />
             </state>
           </provider>
@@ -101,6 +108,18 @@
             <state relative-caret-position="449">
               <caret line="145" column="51" lean-forward="false" selection-start-line="145" selection-start-column="51" selection-end-line="145" selection-end-column="51" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ExcelWriter.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/ExcelHandler/ExcelWriter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="227">
+              <caret line="76" column="20" lean-forward="true" selection-start-line="76" selection-start-column="20" selection-end-line="76" selection-end-column="20" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -2036,13 +2055,14 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/LectorExcel.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/ExcelHandler.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/ExcelHandler/ExcelHandler.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/ExcelHandler/ExcelWriter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/Aplicacion.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/HiloLeerExcel.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/MostrarRevisiones.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/ExcelHandler/ExcelReader.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/HiloLeerArchivos.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/SplashScreen.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/HiloFinalizarRevision.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/Aplicacion.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/ExcelHandler/ExcelWriter.java" />
       </list>
     </option>
   </component>
@@ -2207,7 +2227,7 @@
     <property name="ScreenshotViewer.SavePath" value="$PROJECT_DIR$" />
     <property name="sync.plugin.last.upgrade.timestamp" value="1509456066574" />
     <property name="show.do.not.ask.upgrade.gradle.plugin" value="2.3.3" />
-    <property name="SearchEverywhereHistoryKey" value="ExcelRe&#9;FILE&#9;file:///Users/davidmendano/AndroidStudioProjects/RPR/app/src/main/java/com/nipsa/rpr/ExcelHandler/ExcelReader.java&#10;Spla&#9;FILE&#9;file:///Users/davidmendano/AndroidStudioProjects/RPR/app/src/main/java/com/nipsa/rpr/SplashScreen.java&#10;Hilo&#9;FILE&#9;file:///Users/davidmendano/AndroidStudioProjects/RPR/app/src/main/java/com/nipsa/rpr/HiloLeerArchivos.java&#10;Mostra&#9;FILE&#9;file:///Users/davidmendano/AndroidStudioProjects/RPR/app/src/main/java/com/nipsa/rpr/MostrarRevisiones.java&#10;Exc&#9;FILE&#9;file:///Users/davidmendano/AndroidStudioProjects/RPR/app/src/main/java/com/nipsa/rpr/ExcelHandler/ExcelReader.java&#10;HiloLeer&#9;FILE&#9;file:///Users/davidmendano/AndroidStudioProjects/RPR/app/src/main/java/com/nipsa/rpr/HiloLeerExcel.java" />
+    <property name="SearchEverywhereHistoryKey" value="Spla&#9;FILE&#9;file:///Users/davidmendano/AndroidStudioProjects/RPR/app/src/main/java/com/nipsa/rpr/SplashScreen.java&#10;ExcelWr&#9;FILE&#9;file:///Users/davidmendano/AndroidStudioProjects/RPR/app/src/main/java/com/nipsa/rpr/ExcelHandler/ExcelWriter.java&#10;ExcelRe&#9;FILE&#9;file:///Users/davidmendano/AndroidStudioProjects/RPR/app/src/main/java/com/nipsa/rpr/ExcelHandler/ExcelReader.java&#10;Hilo&#9;FILE&#9;file:///Users/davidmendano/AndroidStudioProjects/RPR/app/src/main/java/com/nipsa/rpr/HiloLeerArchivos.java&#10;Mostra&#9;FILE&#9;file:///Users/davidmendano/AndroidStudioProjects/RPR/app/src/main/java/com/nipsa/rpr/MostrarRevisiones.java&#10;Exc&#9;FILE&#9;file:///Users/davidmendano/AndroidStudioProjects/RPR/app/src/main/java/com/nipsa/rpr/ExcelHandler/ExcelReader.java&#10;HiloLeer&#9;FILE&#9;file:///Users/davidmendano/AndroidStudioProjects/RPR/app/src/main/java/com/nipsa/rpr/HiloLeerExcel.java" />
   </component>
   <component name="RecentsManager">
     <key name="android.template.packageName">
@@ -2307,7 +2327,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1510069150448" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1510074512490" />
       </method>
     </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests">
@@ -2355,7 +2375,7 @@
       </Profilers>
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1510069150449" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1510074512490" />
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -2538,7 +2558,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1510069150449" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1510074512491" />
       </method>
     </configuration>
     <list size="1">
@@ -2589,7 +2609,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="797" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -2603,13 +2622,13 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32947975" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24964234" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24964234" sideWeight="0.47543353" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297568" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24964234" sideWeight="0.5245665" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24964234" sideWeight="0.5245665" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Device File Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39884394" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -2685,7 +2704,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/ExcelHandler/ExcelWriter.java" />
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/LectorCoord.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="555">
@@ -2910,14 +2928,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/ExcelHandler/ExcelWriter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="60" column="9" lean-forward="true" selection-start-line="60" selection-start-column="9" selection-end-line="60" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/TomarCoordenadas.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -2942,34 +2952,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/Aplicacion.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="1546" column="23" lean-forward="false" selection-start-line="1546" selection-start-column="23" selection-end-line="1546" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/HiloLeerExcel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="7" column="13" lean-forward="false" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/SplashScreen.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="46" column="0" lean-forward="true" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/MostrarRevisiones.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="449">
-          <caret line="145" column="51" lean-forward="false" selection-start-line="145" selection-start-column="51" selection-end-line="145" selection-end-column="51" />
           <folding />
         </state>
       </provider>
@@ -2982,6 +2968,48 @@
             <marker date="1510069137000" expanded="false" signature="1641:1649" ph="&lt;~&gt;" />
             <marker date="1510069137000" expanded="false" signature="2268:2276" ph="&lt;~&gt;" />
             <marker date="1510069137000" expanded="false" signature="2860:2868" ph="&lt;~&gt;" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/HiloFinalizarRevision.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="218">
+          <caret line="49" column="46" lean-forward="false" selection-start-line="49" selection-start-column="46" selection-end-line="49" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/MostrarRevisiones.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="449">
+          <caret line="145" column="51" lean-forward="false" selection-start-line="145" selection-start-column="51" selection-end-line="145" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/SplashScreen.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="46" column="0" lean-forward="true" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/Aplicacion.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="294" column="51" lean-forward="false" selection-start-line="294" selection-start-column="26" selection-end-line="294" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nipsa/rpr/ExcelHandler/ExcelWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="227">
+          <caret line="76" column="20" lean-forward="true" selection-start-line="76" selection-start-column="20" selection-end-line="76" selection-end-column="20" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

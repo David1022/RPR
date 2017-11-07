@@ -13,7 +13,6 @@ import java.util.Locale;
 
 import jxl.Workbook;
 import jxl.WorkbookSettings;
-import jxl.biff.FontRecord;
 import jxl.format.Alignment;
 import jxl.format.Colour;
 import jxl.format.UnderlineStyle;
@@ -28,10 +27,14 @@ import jxl.write.WriteException;
 
 public class ExcelWriter {
 
+    public static final String LANGUAGE = "en";
+    public static final String COUNTRY = "EN";
+    public static final String OUTPUT_PATH = "/RPR/OUTPUT/";
+
     public ExcelWriter() {
     }
 
-    public void generateExcelFile() {
+    public void generateExampleExcelFile() {
         String destPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/RPR/OUTPUT/";
         String excelFileName = "excelData.xls";
         File directory = new File(destPath);
@@ -47,7 +50,7 @@ public class ExcelWriter {
             WritableWorkbook workbook = Workbook.createWorkbook(xlsFile, workbookSettings);
             // Generate a worksheet
             WritableSheet sheet = workbook.createSheet("Hoja de equipos", 0);
-            sheet = addData(sheet);
+            sheet = addDataExample(sheet);
             workbook.write();
             workbook.close();
         } catch (NullPointerException npe) {
@@ -61,7 +64,7 @@ public class ExcelWriter {
         }
     }
 
-    private WritableSheet addData(WritableSheet sheetToFill) throws WriteException, MalformedURLException {
+    private WritableSheet addDataExample(WritableSheet sheetToFill) throws WriteException, MalformedURLException {
         WritableFont wf = new WritableFont(WritableFont.ARIAL, 10, WritableFont.BOLD, true, UnderlineStyle.SINGLE);
         URL url = new URL("http://www.google.es");
         WritableHyperlink wh = new WritableHyperlink(1, 1, url);
@@ -78,6 +81,47 @@ public class ExcelWriter {
         sheetToFill.addCell(new Label(1, 1, "33", wcf));
 
         return sheetToFill;
+    }
+
+    public void generateRevisionExcelFile(String excelFileName) {
+        String destPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + OUTPUT_PATH;
+        String firstSheetName = "Hoja de equipos";
+        String secondSheetName = "Hoja de apoyos";
+        String thirdSheetName = "Hoja de apoyos no revisables";
+
+        File directory = new File(destPath);
+        // Create the directory if not exists
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+
+        try {
+            File xlsFile = new File(directory, excelFileName);
+            // Generate a workbook in excel file
+            WorkbookSettings workbookSettings = new WorkbookSettings();
+            workbookSettings.setLocale(new Locale(LANGUAGE, COUNTRY));
+            WritableWorkbook workbook = Workbook.createWorkbook(xlsFile, workbookSettings);
+            // Generate a worksheet
+            WritableSheet firstSheet = workbook.createSheet("Hoja de equipos", 0);
+            firstSheet = addFirstSheetData(firstSheet);
+            workbook.write();
+            workbook.close();
+        } catch (NullPointerException npe) {
+            Log.e(Aplicacion.TAG, "ExcelWriter.generateExcelFile: " + npe.toString());
+        } catch (MalformedURLException mue) {
+            Log.e(Aplicacion.TAG, "ExcelWriter.generateExcelFile: " + mue.toString());
+        } catch (IOException ioe) {
+            Log.e(Aplicacion.TAG, "ExcelWriter.generateExcelFile: " + ioe.toString());
+        } catch (WriteException we) {
+            Log.e(Aplicacion.TAG, "ExcelWriter.generateExcelFile: " + we.toString());
+        }
+
+    }
+
+    private WritableSheet addFirstSheetData (WritableSheet fSheet){
+
+
+        return fSheet;
     }
 
 }
