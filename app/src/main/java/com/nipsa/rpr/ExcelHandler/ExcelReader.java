@@ -55,7 +55,7 @@ public class ExcelReader {
     private void readFirstSheet(Sheet sheet) {
         Vector<String> rowData = new Vector<>();
         int totalRows = sheet.getRows();
-        int totalCol = FIRST_SHEET_NUM_COLUMNS
+        int totalCol = FIRST_SHEET_NUM_COLUMNS;
 
         readRevisionName(sheet);
 
