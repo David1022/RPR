@@ -2,17 +2,14 @@ package com.nipsa.rpr.ExcelHandler;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.nipsa.rpr.Aplicacion;
 import com.nipsa.rpr.DBRevisiones;
-import com.nipsa.rpr.MostrarRevisiones;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Vector;
 
-import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
@@ -23,9 +20,12 @@ import jxl.read.biff.BiffException;
 
 public class ExcelReader {
 
-    public static final String MARK_FIRST_SHEET = "A9";
-    public static final String MARK_SECOND_SHEET = "A10";
-    public static final String MARK_THIRD_SHEET = "A12";
+    public static final int MARK_FIRST_SHEET_INIT_ROW = 10;
+    public static final int MARK_SECOND_SHEET_INIT_ROW = 11;
+    public static final int MARK_THIRD_SHEET_INIT_ROW = 12;
+    public static final int FIRST_SHEET_NUM_COLUMNS = 28;
+    public static final int SECOND_SHEET_NUM_COLUMNS = 17;
+    public static final int THIRD_SHEET_NUM_COLUMNS = 2;
     public static final String SPACE = " ";
 
     private File mExcelToRead;
@@ -53,17 +53,16 @@ public class ExcelReader {
     }
 
     private void readFirstSheet(Sheet sheet) {
-        Vector<String> rowData = new Vector<String>();
+        Vector<String> rowData = new Vector<>();
+        int totalRows = sheet.getRows();
+        int totalCol = FIRST_SHEET_NUM_COLUMNS
 
         readRevisionName(sheet);
 
-        int totalRows = sheet.getRows();
-        Cell cell = sheet.getCell(MARK_FIRST_SHEET);
-        int firstRow = cell.getRow() + 1;
-        for (int i = firstRow; i < totalRows; i++) { // get all the rows
+        for (int row = MARK_FIRST_SHEET_INIT_ROW; row < totalRows; row++) { // get all the rows
             rowData.clear();
-            for (int j = 0; j < sheet.getColumns(); j++) { // for each rows, get all the columns (cells)
-                rowData.add(sheet.getCell(j, i).getContents());
+            for (int col = 0; col < totalCol; col++) { // for each rows, get all the columns (cells)
+                rowData.add(sheet.getCell(col, row).getContents());
             }
             mDBRevisiones.incluirEquipo(rowData);
         }
@@ -71,16 +70,16 @@ public class ExcelReader {
     }
 
     private void readSecondSheet(Sheet sheet) {
-        Vector<String> rowData = new Vector<String>();
+        Vector<String> rowData = new Vector<>();
+        int totalRows = sheet.getRows();
+        int totalCol = SECOND_SHEET_NUM_COLUMNS;
+
         // TODO: Comprobar si lee y guarda bien los apoyos
 
-        int totalRows = sheet.getRows();
-        Cell cell = sheet.getCell(MARK_SECOND_SHEET);
-        int firstRow = cell.getRow() + 1;
-        for (int i = firstRow; i < totalRows; i++) { // get all the rows
+        for (int row = MARK_SECOND_SHEET_INIT_ROW; row < totalRows; row++) { // get all the rows
             rowData.clear();
-            for (int j = 1; j < sheet.getColumns(); j++) { // for each rows, get all the columns (cells)
-                rowData.add(sheet.getCell(j, i).getContents());
+            for (int col = 1; col < totalCol; col++) { // for each rows, get all the columns (cells)
+                rowData.add(sheet.getCell(col, row).getContents());
             }
             mDBRevisiones.incluirApoyo(rowData);
         }
@@ -88,16 +87,16 @@ public class ExcelReader {
     }
 
     private void readThirdSheet(Sheet sheet) {
-        Vector<String> rowData = new Vector<String>();
-
+        Vector<String> rowData = new Vector<>();
         int totalRows = sheet.getRows();
-        Cell cell = sheet.getCell(MARK_THIRD_SHEET);
-        int firstRow = cell.getRow() + 1;
+        int totalCol = THIRD_SHEET_NUM_COLUMNS;
 
-        for (int i = firstRow; i < totalRows; i++) { // get all the rows
+        // TODO: Comprobar si lee y guarda bien los apoyos
+
+        for (int row = MARK_THIRD_SHEET_INIT_ROW; row < totalRows; row++) { // get all the rows
             rowData.clear();
-            for (int j = 1; j < sheet.getColumns(); j++) { // for each rows, get all the columns (cells)
-                rowData.add(sheet.getCell(j, i).getContents());
+            for (int col = 0; col < totalCol; col++) { // for each rows, get all the columns (cells)
+                rowData.add(sheet.getCell(col, row).getContents());
             }
             mDBRevisiones.incluirApoyoNoRevisable(rowData);
         }

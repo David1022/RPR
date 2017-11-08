@@ -9,3 +9,4 @@ local.properties
 
 # files for the dex VM
 *.dex
+com_android_support_support_fragment_25_3_1.xml
