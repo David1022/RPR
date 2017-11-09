@@ -1,0 +1,4 @@
+.idea
+*.rawproto
+build/generated
+.gradle/3.3/taskArtifacts
