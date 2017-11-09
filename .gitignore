@@ -2,3 +2,10 @@
 *.rawproto
 build/generated
 .gradle/3.3/taskArtifacts
+gradle.properties
+local.properties
+gradlew.bat
+*.apk
+RPR.iml
+settings.gradle
+app.iml
