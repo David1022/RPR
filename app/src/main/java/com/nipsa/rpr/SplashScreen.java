@@ -13,6 +13,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.nipsa.rpr.ExcelHandler.ExcelReader;
+import com.nipsa.rpr.ExcelHandler.ExcelWriter;
+
 import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -41,6 +44,11 @@ public class SplashScreen extends AppCompatActivity {
         if (!fEntrada.exists()) {
             fEntrada.mkdirs();
         }
+
+//        new ExcelWriter().generateExcelFile();
+//
+//        String excelFileName = "excelData.xls";
+//        new ExcelReader(this, new File(fEntrada, excelFileName)).readExcelFile();
 
     }
 

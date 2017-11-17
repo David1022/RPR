@@ -1,8 +1,11 @@
 package com.nipsa.rpr;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.nipsa.rpr.ExcelHandler.ExcelReader;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -17,7 +20,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-public class HiloLeerArchivos extends AsyncTask<File, Object, Object>{
+public class HiloLeerArchivos extends AsyncTask<Object, Object, Object>{
 
     Aplicacion aplicacion = new Aplicacion();
     ProgressDialog pd;
@@ -40,24 +43,25 @@ public class HiloLeerArchivos extends AsyncTask<File, Object, Object>{
     /**
      * Se leen los archivos
      *
-     * @param archivo
+     * @param objects
      * @return
      */
     @Override
-    protected Object doInBackground(File... archivo) {
+    protected Object doInBackground(Object... objects) {
         try {
-            String nombreRevision = archivo[0].getName();
-            //nombreRevision = nombreRevision.substring(nombreRevision.lastIndexOf("/") + 1, nombreRevision.lastIndexOf("."));
-            InputSource entrada = new InputSource(
-                    new InputStreamReader(
-                            new FileInputStream(archivo[0])));
-            SAXParserFactory fabrica = SAXParserFactory.newInstance();
-            SAXParser parser = fabrica.newSAXParser();
-            XMLReader lector = parser.getXMLReader();
-            ManejadorXML manejadorXML = new ManejadorXML();
-            lector.setContentHandler(manejadorXML);
-            lector.parse(entrada);
-            leerArchivoCoord(archivo[0]);
+            Context context = (Context) objects[0];
+            File archivo = (File) objects[1];
+//            InputSource entrada = new InputSource(
+//                    new InputStreamReader(
+//                            new FileInputStream(archivo)));
+//            SAXParserFactory fabrica = SAXParserFactory.newInstance();
+//            SAXParser parser = fabrica.newSAXParser();
+//            XMLReader lector = parser.getXMLReader();
+//            ManejadorXML manejadorXML = new ManejadorXML();
+//            lector.setContentHandler(manejadorXML);
+//            lector.parse(entrada);
+            new ExcelReader(context, archivo).readExcelFile();
+            leerArchivoCoord(archivo);
         } catch (Exception e) {
             Log.e (Aplicacion.TAG, "Error al leer el archivo XML " + e.toString());
             return null;
@@ -82,18 +86,18 @@ public class HiloLeerArchivos extends AsyncTask<File, Object, Object>{
      * Método que recibe el archivo XML de referencia al cual se asociará el archivo KML. Leerá el
      * archivo KML y asociará las coordenadas recogidas al equipo correspondiente
      *
-     * @param archivoXML con extensión XML
+     * @param archivoExcel con extensión excel
      * @throws ParserConfigurationException
      * @throws SAXException
      * @throws IOException
      */
 
-    public void leerArchivoCoord (File archivoXML) {
+    public void leerArchivoCoord (File archivoExcel) {
         // Se recupera el nombre y la ruta del archivo XML para recuperar el archivo KML con el mismo nombre
-        String nombreRevision = archivoXML.getName();
+        String nombreRevision = archivoExcel.getName();
         nombreRevision = nombreRevision.substring(0, nombreRevision.lastIndexOf("."));
         String nombreKML = nombreRevision + ".kml";
-        String ruta = archivoXML.getAbsolutePath();
+        String ruta = archivoExcel.getAbsolutePath();
         ruta = ruta.substring(0, ruta.lastIndexOf("/"));
         File archivoCoord = Aplicacion.recuperarArchivo(ruta, nombreKML);
         //Si se encuentra el archivo KML con el mismo nombre que el XML se leerá

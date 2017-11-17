@@ -144,7 +144,8 @@ public class MostrarRevisiones extends AppCompatActivity implements FrgListadoRe
 
             // Se lee el archivo XML
             HiloLeerArchivos hilo = new HiloLeerArchivos();
-            hilo.execute(archivo);
+            Object[] objects = {contexto, archivo};
+            hilo.execute(objects);
 
             Aplicacion.revisionActual = nombreRevision;
 
@@ -174,9 +175,12 @@ public class MostrarRevisiones extends AppCompatActivity implements FrgListadoRe
                 //Si es fichero (no es directorio)...
                 if (file.isFile()) {
                     String nombreFichero = file.getName();
-                    if (esXML(nombreFichero)) { // Solo se listaran los ficheros si son XML
+                    if(esExcel(nombreFichero)){
                         listaArchivos.add(file);
                     }
+//                    if (esXML(nombreFichero)) { // Solo se listaran los ficheros si son XML
+//                        listaArchivos.add(file);
+//                    }
                 }
             }
         } else throw new NullPointerException();
@@ -195,6 +199,22 @@ public class MostrarRevisiones extends AppCompatActivity implements FrgListadoRe
         String extension = nombre.substring(nombre.lastIndexOf("."));
 
         if (extension.equals(".xml")){
+            esXML = true;
+        }
+
+        return esXML;
+    }
+
+    /**
+     *
+     * @param nombre
+     * @return
+     */
+    public static boolean esExcel(String nombre){
+        boolean esXML = false;
+        String extension = nombre.substring(nombre.lastIndexOf("."));
+
+        if (extension.equals(".xls")){
             esXML = true;
         }
 

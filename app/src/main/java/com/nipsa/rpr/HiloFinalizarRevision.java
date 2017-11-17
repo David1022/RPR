@@ -47,6 +47,7 @@ public class HiloFinalizarRevision extends AsyncTask<Revision, Object, Object> {
 
         Aplicacion.backupBaseDatos();
         Aplicacion.convertirCoordenadasApoyos(nombreRevision);
+        Aplicacion.generarExcel(nombreRevision);
         Aplicacion.generarXML(nombreRevision);
         Aplicacion.generarKML(nombreRevision);
         Aplicacion.generarArchivoEquiposTXT(nombreRevision);
