@@ -3,37 +3,12 @@
 
     <item
         is-multidex="true"
-        jar="/Users/david/AndroidStudioProjects/RPR/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.3"
-<<<<<<< HEAD
-        sha1="dcd822d6238764632078134378a525c5dae7968c">
-=======
-        sha1="aa4e89dd7e95aed1e7e8a3beb1f83a51cfeaf45f">
->>>>>>> Excel_gitignore
-        <dex dex="/Users/david/AndroidStudioProjects/RPR/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_7ecca4084062fc523433512a0e26674cf168bc43/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-<<<<<<< HEAD
-=======
         jar="/Users/david/AndroidStudioProjects/RPR/app/libs/jxl.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.3"
         sha1="7faf62e0697f7a88954622dfe8c8de33ed142ac7">
         <dex dex="/Users/david/AndroidStudioProjects/RPR/app/build/intermediates/transforms/dex/debug/folders/1000/2/jxl_f985d6bb961f9cbb5352d2e395d25bf9a5b02def/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
->>>>>>> Excel_gitignore
-        jar="/Users/david/AndroidStudioProjects/RPR/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.3"
-        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
-        <dex dex="/Users/david/AndroidStudioProjects/RPR/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_bcf7aa029f74c07355b024ea3ef4eee611b72050/classes.dex" />
     </item>
 
 </items>
