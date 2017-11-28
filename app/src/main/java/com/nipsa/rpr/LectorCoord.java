@@ -21,7 +21,7 @@ public class LectorCoord {
     private final String PLACEMARK_START = "<Placemark>";
     private final String DESCRIPTION_START = "<description>";
     private final String DESCRIPTION_END = "</description>";
-    private final String COLOR_START = "<color>";
+    private final String COLOR_START = "<colortab>";
     private final String PLACEMARK_END = "</Placemark>";
     private final String COORDINATES_START = "<coordinates>";
     private final String COORDINATES_END = "</coordinates>";

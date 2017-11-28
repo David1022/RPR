@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -287,7 +288,7 @@ public class Mapa extends AppCompatActivity implements OnMapReadyCallback, Googl
                 Double lng, lat;
                 int color;
                 try {
-                    color = Integer.parseInt(tramo.getColor());
+                    color = Color.parseColor(tramo.getColor());
                 } catch (Exception e) {
                     color = getResources().getColor(R.color.azul);
                 }
