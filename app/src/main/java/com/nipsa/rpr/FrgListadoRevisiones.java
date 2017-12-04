@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.ParcelFileDescriptor;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -29,6 +31,8 @@ import android.widget.Toast;
 import org.w3c.dom.Text;
 
 import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,6 +41,7 @@ import java.util.Vector;
 
 public class FrgListadoRevisiones extends Fragment {
 
+    public static final int FILEPICKER_REQUEST_CODE = 1;
     private RevisionListener listener;
     private ListView lstListado;
     private Vector<Revision> listaAMostrar;
@@ -271,11 +276,41 @@ public class FrgListadoRevisiones extends Fragment {
     }
 
     public void lanzarDialogoNuevaRevision () {
-        FragmentManager fragmentManager = getFragmentManager();
-        DialogoNuevaRevision dialogo = new DialogoNuevaRevision();
-        dialogo.show(fragmentManager, "tagDailogo");
+        openFilePicker();
+//        FragmentManager fragmentManager = getFragmentManager();
+//        DialogoNuevaRevision dialogo = new DialogoNuevaRevision();
+//        dialogo.show(fragmentManager, "tagDailogo");
     }
 
+    public void openFilePicker() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        startActivityForResult(intent, FILEPICKER_REQUEST_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Toast.makeText(getContext(), data.toString(), Toast.LENGTH_SHORT).show();
+        try {
+            Cursor cursor = getContext().getContentResolver().query(data.getData(), new String[]{"_data"}, null, null, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    StringBuffer sb = new StringBuffer();
+                    for (int i=0; i<cursor.getColumnCount(); i++) {
+                        sb.append(cursor.getColumnName(i));
+                    }
+                    sb.toString();
+                } while (cursor.moveToNext());
+            }
+            ParcelFileDescriptor pfd = getContext().getContentResolver().openFileDescriptor(data.getData(), "r");
+            FileDescriptor fd = pfd.getFileDescriptor();
+            fd.toString();
+            File f = new File(String.valueOf(data.getData()));
+            f.toString();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
     public interface RevisionListener {
         void onRevisionSeleccionada(Revision r);
