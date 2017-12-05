@@ -1,59 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/inspeccion"
+        style="@style/texto_titulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:minHeight="@dimen/alto_min_textos"
+        android:text="@string/revisiones"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageView
+        android:id="@+id/separator_list_revisiones"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/separadores"
+        android:layout_marginLeft="@dimen/dim_margin_detalle_inspeccion"
+        android:layout_marginRight="@dimen/dim_margin_detalle_inspeccion"
+        android:background="@color/separadores"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/inspeccion"/>
 
     <LinearLayout
+        android:id="@+id/linear_list_revision"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="90"
-        android:orientation="vertical" >
-
-        <TextView
-            style="@style/texto_titulo"
-            android:id="@+id/inspeccion"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="5"
-            android:text="@string/revisiones"
-            android:gravity="center" />
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dim_margin_detalle_inspeccion"
-            android:layout_marginRight="@dimen/dim_margin_detalle_inspeccion"
-            android:minHeight="@dimen/separadores"
-            android:background="@color/separadores"/>
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/separator_list_revisiones"
+        app:layout_constraintBottom_toTopOf="@+id/botonNuevaRevision">
 
         <ListView
             android:id="@+id/listadoRevisiones"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="80"/>
+            android:layout_height="match_parent"/>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10"
-        android:orientation="vertical"
-        android:layout_gravity="center">
-
-        <Button
+    <Button
             android:id="@+id/botonNuevaRevision"
             style="@style/botones"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@color/colorPrimary"
             android:drawableLeft="@android:drawable/ic_input_add"
             android:drawablePadding="@dimen/dim_padding_imagen_boton"
-            android:text="@string/boton_incluir_nueva_revision" />
+            android:minHeight="@dimen/alto_min_textos"
+            android:text="@string/boton_incluir_nueva_revision"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
-    </LinearLayout>
-
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>
