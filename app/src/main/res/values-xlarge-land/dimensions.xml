@@ -10,8 +10,6 @@
     <!-- dimensiones fragment detalle revision -->
     <dimen name="dim_texto_detalle_inspeccion">20sp</dimen>
     <dimen name="dim_margin_detalle_inspeccion">3dp</dimen>
-    <!-- dimensiones contenedores-->
-    <dimen name="dim_container_titulo">35dp</dimen>
     <!-- dimensiones botones -->
     <dimen name="dim_alto_boton_pie">40dp</dimen>
     <dimen name="dim_texto_boton">20sp</dimen>

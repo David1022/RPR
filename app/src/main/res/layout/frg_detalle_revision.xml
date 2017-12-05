@@ -1,32 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <TextView
-        style="@style/texto_titulo"
         android:id="@+id/tituloRevisionSeleccionada"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="5"
-        android:text="@string/no_se_muestran_revisiones"
+        style="@style/texto_titulo"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dim_container_titulo"
         android:layout_margin="@dimen/dim_margin_titulo"
         android:gravity="center"
-        android:textSize="@dimen/dim_titulo"/>
+        android:text="@string/no_se_muestran_revisiones"
+        android:textSize="@dimen/dim_titulo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:id="@+id/separator_det_revisiones"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/separadores"
         android:layout_marginLeft="@dimen/dim_margin_detalle_inspeccion"
         android:layout_marginRight="@dimen/dim_margin_detalle_inspeccion"
+        android:background="@color/separadores"
         android:minHeight="@dimen/separadores"
-        android:background="@color/separadores"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tituloRevisionSeleccionada"/>
 
     <ScrollView
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="80">
+        app:layout_constraintBottom_toTopOf="@+id/botonIniciarInspeccion"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/separator_det_revisiones"
+        app:layout_constraintVertical_bias="0.0">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,15 +49,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                android:orientation="horizontal">
 
                 <TextView
-                    style="@style/texto_detalle"
                     android:id="@+id/TVInspector1"
-                    android:text="@string/inspector1"
+                    style="@style/texto_detalle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="70" />
+                    android:layout_weight="70"
+                    android:text="@string/inspector1"/>
 
                 <EditText
                     android:id="@+id/ETInspector1"
@@ -58,15 +71,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                android:orientation="horizontal">
 
                 <TextView
-                    style="@style/texto_detalle"
                     android:id="@+id/TVInspector2"
-                    android:text="@string/inspector2"
+                    style="@style/texto_detalle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="70" />
+                    android:layout_weight="70"
+                    android:text="@string/inspector2"/>
 
                 <EditText
                     android:id="@+id/ETInspector2"
@@ -80,19 +93,19 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                android:orientation="horizontal">
 
                 <TextView
-                    style="@style/texto_detalle"
                     android:id="@+id/TVColegiado"
-                    android:text="@string/colegiado"
+                    style="@style/texto_detalle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="70" />
+                    android:layout_weight="70"
+                    android:text="@string/colegiado"/>
 
                 <EditText
-                    style="@style/edit_text_detalle"
                     android:id="@+id/ETColegiado"
+                    style="@style/edit_text_detalle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="30"/>
@@ -102,19 +115,19 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                android:orientation="horizontal">
 
                 <TextView
-                    style="@style/texto_detalle"
                     android:id="@+id/TVEquipos"
-                    android:text="@string/equipos_usados"
+                    style="@style/texto_detalle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="70"/>
+                    android:layout_weight="70"
+                    android:text="@string/equipos_usados"/>
 
                 <EditText
-                    style="@style/edit_text_detalle"
                     android:id="@+id/ETEquipos"
+                    style="@style/edit_text_detalle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="30"/>
@@ -124,19 +137,19 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                android:orientation="horizontal">
 
                 <TextView
-                    style="@style/texto_detalle"
                     android:id="@+id/TVMetodologia"
-                    android:text="@string/metodologia"
+                    style="@style/texto_detalle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="70" />
+                    android:layout_weight="70"
+                    android:text="@string/metodologia"/>
 
                 <EditText
-                    style="@style/edit_text_detalle"
                     android:id="@+id/ETMetodologia"
+                    style="@style/edit_text_detalle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="30"/>
@@ -146,19 +159,19 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                android:orientation="horizontal">
 
                 <TextView
-                    style="@style/texto_detalle"
                     android:id="@+id/TVCodigoNipsa"
-                    android:text="@string/codigo_contrata"
+                    style="@style/texto_detalle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="70" />
+                    android:layout_weight="70"
+                    android:text="@string/codigo_contrata"/>
 
                 <EditText
-                    style="@style/edit_text_detalle"
                     android:id="@+id/ETCodigoNipsa"
+                    style="@style/edit_text_detalle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="30"/>
@@ -168,19 +181,19 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                android:orientation="horizontal">
 
                 <TextView
-                    style="@style/texto_detalle"
                     android:id="@+id/TVTrabajo"
-                    android:text="@string/trabajo"
+                    style="@style/texto_detalle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="70" />
+                    android:layout_weight="70"
+                    android:text="@string/trabajo"/>
 
                 <EditText
-                    style="@style/edit_text_detalle"
                     android:id="@+id/ETTrabajo"
+                    style="@style/edit_text_detalle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="30"/>
@@ -190,19 +203,19 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                android:orientation="horizontal">
 
                 <TextView
-                    style="@style/texto_detalle"
                     android:id="@+id/TVCodigoInterno"
-                    android:text="@string/codigo_interno"
+                    style="@style/texto_detalle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="70" />
+                    android:layout_weight="70"
+                    android:text="@string/codigo_interno"/>
 
                 <EditText
-                    style="@style/edit_text_detalle"
                     android:id="@+id/ETCodigoInterno"
+                    style="@style/edit_text_detalle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="30"/>
@@ -213,22 +226,17 @@
 
     </ScrollView>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10"
-        android:orientation="vertical">
+    <Button
+        android:id="@+id/botonIniciarInspeccion"
+        style="@style/botones"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dim_alto_boton_pie"
+        android:layout_gravity="center"
+        android:drawableLeft="@android:drawable/ic_media_play"
+        android:drawablePadding="@dimen/dim_padding_imagen_boton"
+        android:text="@string/boton_iniciar_revision"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
-        <Button
-            android:id="@+id/botonIniciarInspeccion"
-            style="@style/botones"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:drawableLeft="@android:drawable/ic_media_play"
-            android:drawablePadding="@dimen/dim_padding_imagen_boton"
-            android:text="@string/boton_iniciar_revision" />
-
-    </LinearLayout>
-
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

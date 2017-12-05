@@ -10,8 +10,8 @@
     <TextView
         android:id="@+id/inspeccion"
         style="@style/texto_titulo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dim_container_titulo"
         android:gravity="center"
         android:minHeight="@dimen/alto_min_textos"
         android:text="@string/revisiones"
@@ -21,7 +21,7 @@
 
     <ImageView
         android:id="@+id/separator_list_revisiones"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="@dimen/separadores"
         android:layout_marginLeft="@dimen/dim_margin_detalle_inspeccion"
         android:layout_marginRight="@dimen/dim_margin_detalle_inspeccion"
@@ -32,7 +32,7 @@
 
     <LinearLayout
         android:id="@+id/linear_list_revision"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -51,7 +51,7 @@
             android:id="@+id/botonNuevaRevision"
             style="@style/botones"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/dim_alto_boton_pie"
             android:layout_gravity="center"
             android:background="@color/colorPrimary"
             android:drawableLeft="@android:drawable/ic_input_add"
