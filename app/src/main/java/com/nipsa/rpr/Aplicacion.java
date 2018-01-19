@@ -402,7 +402,9 @@ public class Aplicacion extends Application {
                             case 24:
                                 imagen = cEquipos.getString(i);
                                 //texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"Fotos\\" + imagen + "\">");
-                                texto.append("<Cell ss:StyleID=\"s102\" ss:HRef=\"" + imagen + "\">");
+//                                HIPERVINCULO("FVC432-CD-TT-20170202074328_1486017820220.jpg";"")
+                                texto.append("<Cell ss:StyleID=\"s102\" ss:Formula=HIPERVINCULO(\"" + imagen +
+                                        "\";\"" + imagen + "\")>");
                                 texto.append("<Data ss:Type=\"String\">");
                                 texto.append(imagen);
                                 break;
