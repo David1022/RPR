@@ -65,7 +65,7 @@ public class ExcelReader {
         readRevisionName(sheet);
 
         if ((totalRows - MARK_FIRST_SHEET_INIT_ROW) > 0) {
-            if ((totalCol - FIRST_SHEET_NUM_COLUMNS) < 0) {
+            if ((totalCol - FIRST_SHEET_NUM_COLUMNS) >= 0) {
                 for (int row = MARK_FIRST_SHEET_INIT_ROW; row < totalRows; row++) { // get all the rows
                     rowData.clear();
                     for (int col = 0; col < FIRST_SHEET_NUM_COLUMNS; col++) { // for each row, get all the columns (cells)
@@ -89,7 +89,7 @@ public class ExcelReader {
 
         // TODO: Hacer comprobaciones para los casos en que los excel estén mal formados
         if ((totalRows - MARK_SECOND_SHEET_INIT_ROW) > 0) {
-            if ((totalCol - SECOND_SHEET_NUM_COLUMNS) < 0) {
+            if ((totalCol - SECOND_SHEET_NUM_COLUMNS) >= 0) {
                 for (int row = MARK_SECOND_SHEET_INIT_ROW; row < totalRows; row++) { // get all the rows
                     rowData.clear();
                     for (int col = 1; col < SECOND_SHEET_NUM_COLUMNS; col++) { // for each row, get all the columns (cells)
@@ -112,7 +112,7 @@ public class ExcelReader {
 
         // TODO: Hacer comprobaciones para los casos en que los excel estén mal formados
         if ((totalRows - MARK_THIRD_SHEET_INIT_ROW) >= 0) {
-            if ((totalCol - THIRD_SHEET_NUM_COLUMNS) < 0) {
+            if ((totalCol - THIRD_SHEET_NUM_COLUMNS) >= 0) {
                 for (int row = MARK_THIRD_SHEET_INIT_ROW; row < totalRows; row++) { // get all the rows
                     rowData.clear();
                     for (int col = 0; col < THIRD_SHEET_NUM_COLUMNS; col++) { // for each row, get all the columns (cells)

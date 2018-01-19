@@ -35,7 +35,7 @@ public class ExcelWriter {
     }
 
     public void generateExampleExcelFile() {
-        String destPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/RPR/OUTPUT/";
+        String destPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + OUTPUT_PATH;
         String excelFileName = "excelData.xls";
         File directory = new File(destPath);
         // Create the directory if not exists
@@ -46,7 +46,7 @@ public class ExcelWriter {
             File xlsFile = new File(directory, excelFileName);
             // Generate a workbook for the excel file
             WorkbookSettings workbookSettings = new WorkbookSettings();
-            workbookSettings.setLocale(new Locale("en", "EN"));
+            workbookSettings.setLocale(new Locale(LANGUAGE, COUNTRY));
             WritableWorkbook workbook = Workbook.createWorkbook(xlsFile, workbookSettings);
             // Generate a worksheet
             WritableSheet sheet = workbook.createSheet("Hoja de equipos", 0);
@@ -103,8 +103,8 @@ public class ExcelWriter {
             WritableWorkbook workbook = Workbook.createWorkbook(xlsFile, workbookSettings);
             // Generate a worksheet
             WritableSheet firstSheet = workbook.createSheet("Hoja de equipos", 0);
-            firstSheet = addDataExample(firstSheet);
-//            firstSheet = addFirstSheetData(firstSheet);
+//            addDataExample(firstSheet);
+            addFirstSheetData(firstSheet);
             workbook.write();
             workbook.close();
         } catch (NullPointerException npe) {
@@ -119,9 +119,8 @@ public class ExcelWriter {
 
     }
 
-    private WritableSheet addFirstSheetData (WritableSheet fSheet){
+    private void addFirstSheetData (WritableSheet sheet){
 
-        return fSheet;
     }
 
 }
