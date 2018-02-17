@@ -14,10 +14,6 @@ import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
 
-/**
- * Created by david on 30/10/17.
- */
-
 public class ExcelReader {
 
     public static final int MARK_FIRST_SHEET_INIT_ROW = 10;
@@ -48,10 +44,13 @@ public class ExcelReader {
             readSecondSheet(workbook.getSheet(1));
             readThirdSheet(workbook.getSheet(2));
         } catch (IOException ioe) {
+            ioe.printStackTrace();
             Log.e(Aplicacion.TAG, "ExcelReader.readExcelFile: " + ioe.toString());
         } catch (BiffException be) {
+            be.printStackTrace();
             Log.e(Aplicacion.TAG, "ExcelReader.readExcelFile: " + be.toString());
         } catch (IllegalArgumentException iae) { // Exception caused by the expected excel file format
+            iae.printStackTrace();
             Log.e(Aplicacion.TAG, "Error en el formato del excel" + iae.toString());
             throw new IllegalArgumentException(iae.toString());
         }
