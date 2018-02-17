@@ -57,13 +57,19 @@ public class ExcelWriter {
     private static final String[] SECOND_SHEET_SECOND_HEADER = {"Acción", "Cód. Apoyo/Rótulo", "Observaciones", "Máx. Tens. Redes Soportado", "Oculto Combo Máx. Tens.",
             "Material", "Oculto Combo Material", "Estructura", "Oculto Combo Estructura", "Altura Apoyo", "Huso Apoyo",
             "Huso Combo", "Coordenada X utm  Apoyo", "Coordenada Y utm  Apoyo", "Tipo de Instalación", "Nombre Instalación",
-            "Código de Tramo"};
+            "Código de Tramo", "Latitud", "Longitud"};
     public static final String THIRD_SHEET_TITLE = "Carga datos de revisión desde Tablet";
     private static final String THIRD_SHEET_SUBTITLE = "DATOS REVISIÓN ";
     private static final String[] THIRD_SHEET_HEADER = {"Metodología Utilizada:", "NIF, Nombre y Apellidos de los Revisores:",
             "Nombre y apellidos del Colegiado que firmará la inspección:", "Equipos utilizados en la inspección (marca y modelo):",
             "Código de Inspección:"};
     private static final String[] THIRD_SHEET_SECOND_HEADER = {"Cód. Apoyo / CD", "Motivo por el que no se ha revisado"};
+
+    private static final int[] FIRST_SHEET_COLUMNS_WIDTH = {8, 12, 24, 10, 21, 22, 15, 8, 8, 17, 3,
+            9, 6, 8, 9, 8, 9, 10, 10, 2, 2, 8, 15, 15, 15, 9, 8, 10};
+    private static final int[] SECOND_SHEET_COLUMNS_WIDTH = {10, 21, 23, 9, 6, 18, 10, 21, 9, 8, 7,
+            5, 11, 11, 8, 10, 15, 15, 15};
+    private static final int[] THIRD_SHEET_COLUMNS_WIDTH = {32, 33, 8, 8, 8, 8, 16};
 
     private DBRevisiones dbRevisiones;
     private String revision;
@@ -160,7 +166,7 @@ public class ExcelWriter {
             addThirdSheetData(thirdSheet);
 
             setAutosizeColumns(workbook);
-            hideColumns(workbook);
+            hideWorkbookColumns(workbook);
 
             workbook.write();
             workbook.close();
@@ -180,17 +186,17 @@ public class ExcelWriter {
 
     }
 
-    private void hideColumns(WritableWorkbook workbook) {
+    private void hideWorkbookColumns(WritableWorkbook workbook) {
         CellView cellView = new CellView();
         cellView.setHidden(true);
         int[] hiddenColumnsSheet0 = {4, 9, 12, 14, 15, 16, 17, 19, 20, 26};
         int[] hiddenColumnsSheet1 = {4, 6, 8, 11};
 
-        hideColumns(cellView, hiddenColumnsSheet0, workbook.getSheet(0));
-        hideColumns(cellView, hiddenColumnsSheet1, workbook.getSheet(1));
+        hideSheetColumns(cellView, hiddenColumnsSheet0, workbook.getSheet(0));
+        hideSheetColumns(cellView, hiddenColumnsSheet1, workbook.getSheet(1));
     }
 
-    private void hideColumns(CellView cellView, int[] hiddenColumnsSheet, WritableSheet ws) {
+    private void hideSheetColumns(CellView cellView, int[] hiddenColumnsSheet, WritableSheet ws) {
         for (int i = 0; i < hiddenColumnsSheet.length; i++) {
             ws.setColumnView(hiddenColumnsSheet[i], cellView);
         }
@@ -198,14 +204,30 @@ public class ExcelWriter {
 
     private void setAutosizeColumns(WritableWorkbook workbook) {
         CellView cellView = new CellView();
-        cellView.setAutosize(true);
+//        cellView.setAutosize(true);
         int numberOfSheets = workbook.getNumberOfSheets();
 
         for (int i = 0; i < numberOfSheets; i++) {
+            int[] columnsWidth;
+            switch (i) {
+                case 0:
+                    columnsWidth = FIRST_SHEET_COLUMNS_WIDTH;
+                    break;
+                case 1:
+                    columnsWidth = SECOND_SHEET_COLUMNS_WIDTH;
+                    break;
+                case 2:
+                    columnsWidth = THIRD_SHEET_COLUMNS_WIDTH;
+                    break;
+                default:
+                    return;
+            }
+
             WritableSheet ws = workbook.getSheet(i);
-            int columns = ws.getColumns();
-            for (int col = 0; col < columns; col++) {
-                ws.setColumnView(col, cellView);
+//            int columns = ws.getColumns();
+            for (int col = 0; col < columnsWidth.length; col++) {
+//                ws.setColumnView(col, cellView);
+                ws.setColumnView(col, columnsWidth[col]);
             }
         }
     }
